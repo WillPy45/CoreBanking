@@ -1,0 +1,270 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|c:\\users\\wivel\\source\\repos\\corebankingwebapplication\\corebankingwebapplication\\middlewares\\globalexceptionhandlermiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|solutionrelative:corebankingwebapplication\\middlewares\\globalexceptionhandlermiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|c:\\users\\wivel\\source\\repos\\corebankingwebapplication\\corebankingwebapplication\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|solutionrelative:corebankingwebapplication\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|c:\\users\\wivel\\source\\repos\\corebankingwebapplication\\corebankingwebapplication\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|solutionrelative:corebankingwebapplication\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|c:\\users\\wivel\\source\\repos\\corebankingwebapplication\\corebankingwebapplication\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|solutionrelative:corebankingwebapplication\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|c:\\users\\wivel\\source\\repos\\corebankingwebapplication\\corebankingwebapplication\\models\\customeressentialdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|solutionrelative:corebankingwebapplication\\models\\customeressentialdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|c:\\users\\wivel\\source\\repos\\corebankingwebapplication\\corebankingwebapplication\\models\\customerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|solutionrelative:corebankingwebapplication\\models\\customerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|c:\\users\\wivel\\source\\repos\\corebankingwebapplication\\corebankingwebapplication\\models\\bankaccount.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|solutionrelative:corebankingwebapplication\\models\\bankaccount.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|c:\\users\\wivel\\source\\repos\\corebankingwebapplication\\corebankingwebapplication\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|solutionrelative:corebankingwebapplication\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|c:\\users\\wivel\\source\\repos\\corebankingwebapplication\\corebankingwebapplication\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|solutionrelative:corebankingwebapplication\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|c:\\users\\wivel\\source\\repos\\corebankingwebapplication\\corebankingwebapplication\\database\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|solutionrelative:corebankingwebapplication\\database\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|c:\\users\\wivel\\source\\repos\\corebankingwebapplication\\corebankingwebapplication\\corebankingwebapplication.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|solutionrelative:corebankingwebapplication\\corebankingwebapplication.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|c:\\users\\wivel\\source\\repos\\corebankingwebapplication\\corebankingwebapplication\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|solutionrelative:corebankingwebapplication\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|c:\\users\\wivel\\source\\repos\\corebankingwebapplication\\corebankingwebapplication\\corebankingwebapplication.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|solutionrelative:corebankingwebapplication\\corebankingwebapplication.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|c:\\users\\wivel\\source\\repos\\corebankingwebapplication\\corebankingwebapplication\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{807CBE2A-3ACA-46BD-980E-E2458C2BB3E7}|CoreBankingWebApplication\\CoreBankingWebApplication.csproj|solutionrelative:corebankingwebapplication\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Program.cs",
+              "RelativeDocumentMoniker": "CoreBankingWebApplication\\Program.cs",
+              "ToolTip": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Program.cs",
+              "RelativeToolTip": "CoreBankingWebApplication\\Program.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAgwDAAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-22T22:29:16.93Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GlobalExceptionHandlerMiddleware.cs",
+              "DocumentMoniker": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Middlewares\\GlobalExceptionHandlerMiddleware.cs",
+              "RelativeDocumentMoniker": "CoreBankingWebApplication\\Middlewares\\GlobalExceptionHandlerMiddleware.cs",
+              "ToolTip": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Middlewares\\GlobalExceptionHandlerMiddleware.cs",
+              "RelativeToolTip": "CoreBankingWebApplication\\Middlewares\\GlobalExceptionHandlerMiddleware.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAgwBYAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-22T23:55:28.389Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BankAccount.cs",
+              "DocumentMoniker": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Models\\BankAccount.cs",
+              "RelativeDocumentMoniker": "CoreBankingWebApplication\\Models\\BankAccount.cs",
+              "ToolTip": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Models\\BankAccount.cs",
+              "RelativeToolTip": "CoreBankingWebApplication\\Models\\BankAccount.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-22T22:54:08.514Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Customer.cs",
+              "DocumentMoniker": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Models\\Customer.cs",
+              "RelativeDocumentMoniker": "CoreBankingWebApplication\\Models\\Customer.cs",
+              "ToolTip": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Models\\Customer.cs",
+              "RelativeToolTip": "CoreBankingWebApplication\\Models\\Customer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-22T23:02:09.318Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CustomerDTO.cs",
+              "DocumentMoniker": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Models\\CustomerDTO.cs",
+              "RelativeDocumentMoniker": "CoreBankingWebApplication\\Models\\CustomerDTO.cs",
+              "ToolTip": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Models\\CustomerDTO.cs",
+              "RelativeToolTip": "CoreBankingWebApplication\\Models\\CustomerDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAQAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-22T23:12:36.973Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CustomerEssentialDTO.cs",
+              "DocumentMoniker": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Models\\CustomerEssentialDTO.cs",
+              "RelativeDocumentMoniker": "CoreBankingWebApplication\\Models\\CustomerEssentialDTO.cs",
+              "ToolTip": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Models\\CustomerEssentialDTO.cs",
+              "RelativeToolTip": "CoreBankingWebApplication\\Models\\CustomerEssentialDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-22T23:16:09.254Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CustomerController.cs",
+              "DocumentMoniker": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Controllers\\CustomerController.cs",
+              "RelativeDocumentMoniker": "CoreBankingWebApplication\\Controllers\\CustomerController.cs",
+              "ToolTip": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Controllers\\CustomerController.cs",
+              "RelativeToolTip": "CoreBankingWebApplication\\Controllers\\CustomerController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAUwBAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-22T23:14:13.382Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\appsettings.json",
+              "RelativeDocumentMoniker": "CoreBankingWebApplication\\appsettings.json",
+              "ToolTip": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\appsettings.json",
+              "RelativeToolTip": "CoreBankingWebApplication\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-06-22T22:39:27.87Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Database\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "CoreBankingWebApplication\\Database\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Database\\ApplicationDbContext.cs",
+              "RelativeToolTip": "CoreBankingWebApplication\\Database\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAA9wBMAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-22T22:26:32.518Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "CoreBankingWebApplication\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Properties\\launchSettings.json",
+              "RelativeToolTip": "CoreBankingWebApplication\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-06-23T00:23:21.55Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "CoreBankingWebApplication.http",
+              "DocumentMoniker": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\CoreBankingWebApplication.http",
+              "RelativeDocumentMoniker": "CoreBankingWebApplication\\CoreBankingWebApplication.http",
+              "ToolTip": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\CoreBankingWebApplication.http",
+              "RelativeToolTip": "CoreBankingWebApplication\\CoreBankingWebApplication.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2026-06-22T22:42:19.556Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "WeatherForecast.cs",
+              "DocumentMoniker": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\WeatherForecast.cs",
+              "RelativeDocumentMoniker": "CoreBankingWebApplication\\WeatherForecast.cs",
+              "ToolTip": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\WeatherForecast.cs",
+              "RelativeToolTip": "CoreBankingWebApplication\\WeatherForecast.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-23T00:31:37.09Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "CoreBankingWebApplication",
+              "DocumentMoniker": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\CoreBankingWebApplication.csproj",
+              "RelativeDocumentMoniker": "CoreBankingWebApplication\\CoreBankingWebApplication.csproj",
+              "ToolTip": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\CoreBankingWebApplication.csproj",
+              "RelativeToolTip": "CoreBankingWebApplication\\CoreBankingWebApplication.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-06-23T00:28:48.096Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "WeatherForecastController.cs",
+              "DocumentMoniker": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Controllers\\WeatherForecastController.cs",
+              "RelativeDocumentMoniker": "CoreBankingWebApplication\\Controllers\\WeatherForecastController.cs",
+              "ToolTip": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\Controllers\\WeatherForecastController.cs",
+              "RelativeToolTip": "CoreBankingWebApplication\\Controllers\\WeatherForecastController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-22T23:07:16.793Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
