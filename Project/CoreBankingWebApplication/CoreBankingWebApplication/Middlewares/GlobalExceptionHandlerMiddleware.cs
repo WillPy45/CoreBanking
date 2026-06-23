@@ -30,17 +30,20 @@ namespace CoreBankingWebApplication.Middlewares
                 await _next(httpContext);
             }
             catch (Exception ex) {
+                ExceptionDetails? exceptionDetailsInstance = new ExceptionDetails(ex);
+                ExceptionDetails? exceptionDetails = _webHostEnvironment.IsDevelopment() == true 
+                    ? exceptionDetailsInstance
+                    : null;
 
                 //Registramos la excepcion
-                _logger.LogCritical(ex, ex.Message);
-
+                // Al usar {@MiObjeto}, Serilog serializa las propiedades internas como JSON
+                _logger.LogCritical(ex, "CRITICAL ERROR");
 
                 httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 httpContext.Response.ContentType = "application/json";
 
 
-                ExceptionDetails? exceptionDetails = _webHostEnvironment.IsDevelopment() == true 
-                    ? new ExceptionDetails(ex) : null;
+                
 
                 GlobalExceptionResponse exceptionResponse = new GlobalExceptionResponse("Something went wrong", exceptionDetails);
 
@@ -79,13 +82,14 @@ namespace CoreBankingWebApplication.Middlewares
         public string Message { get; set; }
         public int HResult { get; set; }
         public string? StackTrace { get; set; }
+        public string? HelpLink {get; set;}
         public ExceptionDetails(Exception exception)
         {
 
             Message = exception.Message;
             HResult = exception.HResult;
             StackTrace = exception.StackTrace;
-
+            HelpLink = exception.HelpLink;
         }
     }
 

@@ -1,91 +1,27 @@
-2026-06-22 22:56:37.535 -03:00 [INF] Now listening on: http://localhost:5161
-2026-06-22 22:56:37.550 -03:00 [INF] Application started. Press Ctrl+C to shut down.
-2026-06-22 22:56:37.551 -03:00 [INF] Hosting environment: Development
-2026-06-22 22:56:37.551 -03:00 [INF] Content root path: C:\Users\wivel\source\repos\CoreBankingWebApplication\CoreBankingWebApplication
-2026-06-22 22:57:07.261 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5161/ - null null
-2026-06-22 22:57:07.396 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5161/ - 404 0 null 144.2588ms
-2026-06-22 22:57:07.525 -03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5161/, Response status code: 404
-2026-06-22 22:57:08.012 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5161/favicon.ico - null null
-2026-06-22 22:57:08.014 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5161/favicon.ico - 404 0 null 2.848ms
-2026-06-22 22:57:08.014 -03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5161/favicon.ico, Response status code: 404
-2026-06-22 22:57:29.640 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5161/weatherforecast/ - null null
-2026-06-22 22:57:29.644 -03:00 [INF] Executing endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 22:57:29.810 -03:00 [INF] Route matched with {action = "Get", controller = "WeatherForecast"}. Executing controller action with signature System.Collections.Generic.IEnumerable`1[CoreBankingWebApplication.WeatherForecast] Get() on controller CoreBankingWebApplication.Controllers.WeatherForecastController (CoreBankingWebApplication).
-2026-06-22 22:57:29.834 -03:00 [INF] Executing ObjectResult, writing value of type 'CoreBankingWebApplication.WeatherForecast[]'.
-2026-06-22 22:57:29.926 -03:00 [INF] Executed action CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication) in 110.4631ms
-2026-06-22 22:57:29.926 -03:00 [INF] Executed endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 22:57:29.926 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5161/weatherforecast/ - 200 null application/json; charset=utf-8 286.6948ms
-2026-06-22 23:01:47.488 -03:00 [INF] Application is shutting down...
-2026-06-22 23:02:45.865 -03:00 [INF] Now listening on: http://localhost:5161
-2026-06-22 23:02:45.893 -03:00 [INF] Application started. Press Ctrl+C to shut down.
-2026-06-22 23:02:45.895 -03:00 [INF] Hosting environment: Development
-2026-06-22 23:02:45.896 -03:00 [INF] Content root path: C:\Users\wivel\source\repos\CoreBankingWebApplication\CoreBankingWebApplication
-2026-06-22 23:03:23.932 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5161/weatherforecast/ - null null
-2026-06-22 23:03:28.253 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5161/weatherforecast/ - null null
-2026-06-22 23:03:32.899 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5161/weatherforecast/ - null null
-2026-06-22 23:03:33.170 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5161/weatherforecast/ - null null
-2026-06-22 23:03:33.377 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5161/weatherforecast/ - null null
-2026-06-22 23:03:33.912 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5161/weatherforecast/ - null null
-2026-06-22 23:03:34.414 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5161/weatherforecast/ - null null
-2026-06-22 23:03:42.779 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5161/weatherforecast/ - null null
-2026-06-22 23:03:59.806 -03:00 [INF] Executing endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.806 -03:00 [INF] Executing endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.806 -03:00 [INF] Executing endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.812 -03:00 [INF] Executing endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.812 -03:00 [INF] Executing endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.812 -03:00 [INF] Executing endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.812 -03:00 [INF] Executing endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.812 -03:00 [INF] Executing endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.839 -03:00 [INF] Route matched with {action = "Get", controller = "WeatherForecast"}. Executing controller action with signature System.Collections.Generic.IEnumerable`1[CoreBankingWebApplication.WeatherForecast] Get() on controller CoreBankingWebApplication.Controllers.WeatherForecastController (CoreBankingWebApplication).
-2026-06-22 23:03:59.839 -03:00 [INF] Route matched with {action = "Get", controller = "WeatherForecast"}. Executing controller action with signature System.Collections.Generic.IEnumerable`1[CoreBankingWebApplication.WeatherForecast] Get() on controller CoreBankingWebApplication.Controllers.WeatherForecastController (CoreBankingWebApplication).
-2026-06-22 23:03:59.840 -03:00 [INF] Route matched with {action = "Get", controller = "WeatherForecast"}. Executing controller action with signature System.Collections.Generic.IEnumerable`1[CoreBankingWebApplication.WeatherForecast] Get() on controller CoreBankingWebApplication.Controllers.WeatherForecastController (CoreBankingWebApplication).
-2026-06-22 23:03:59.839 -03:00 [INF] Route matched with {action = "Get", controller = "WeatherForecast"}. Executing controller action with signature System.Collections.Generic.IEnumerable`1[CoreBankingWebApplication.WeatherForecast] Get() on controller CoreBankingWebApplication.Controllers.WeatherForecastController (CoreBankingWebApplication).
-2026-06-22 23:03:59.840 -03:00 [INF] Route matched with {action = "Get", controller = "WeatherForecast"}. Executing controller action with signature System.Collections.Generic.IEnumerable`1[CoreBankingWebApplication.WeatherForecast] Get() on controller CoreBankingWebApplication.Controllers.WeatherForecastController (CoreBankingWebApplication).
-2026-06-22 23:03:59.840 -03:00 [INF] Route matched with {action = "Get", controller = "WeatherForecast"}. Executing controller action with signature System.Collections.Generic.IEnumerable`1[CoreBankingWebApplication.WeatherForecast] Get() on controller CoreBankingWebApplication.Controllers.WeatherForecastController (CoreBankingWebApplication).
-2026-06-22 23:03:59.840 -03:00 [INF] Route matched with {action = "Get", controller = "WeatherForecast"}. Executing controller action with signature System.Collections.Generic.IEnumerable`1[CoreBankingWebApplication.WeatherForecast] Get() on controller CoreBankingWebApplication.Controllers.WeatherForecastController (CoreBankingWebApplication).
-2026-06-22 23:03:59.841 -03:00 [INF] Route matched with {action = "Get", controller = "WeatherForecast"}. Executing controller action with signature System.Collections.Generic.IEnumerable`1[CoreBankingWebApplication.WeatherForecast] Get() on controller CoreBankingWebApplication.Controllers.WeatherForecastController (CoreBankingWebApplication).
-2026-06-22 23:03:59.855 -03:00 [INF] Executing ObjectResult, writing value of type 'CoreBankingWebApplication.WeatherForecast[]'.
-2026-06-22 23:03:59.856 -03:00 [INF] Executing ObjectResult, writing value of type 'CoreBankingWebApplication.WeatherForecast[]'.
-2026-06-22 23:03:59.856 -03:00 [INF] Executing ObjectResult, writing value of type 'CoreBankingWebApplication.WeatherForecast[]'.
-2026-06-22 23:03:59.856 -03:00 [INF] Executing ObjectResult, writing value of type 'CoreBankingWebApplication.WeatherForecast[]'.
-2026-06-22 23:03:59.860 -03:00 [INF] Executing ObjectResult, writing value of type 'CoreBankingWebApplication.WeatherForecast[]'.
-2026-06-22 23:03:59.863 -03:00 [INF] Executing ObjectResult, writing value of type 'CoreBankingWebApplication.WeatherForecast[]'.
-2026-06-22 23:03:59.867 -03:00 [INF] Executing ObjectResult, writing value of type 'CoreBankingWebApplication.WeatherForecast[]'.
-2026-06-22 23:03:59.871 -03:00 [INF] Executing ObjectResult, writing value of type 'CoreBankingWebApplication.WeatherForecast[]'.
-2026-06-22 23:03:59.959 -03:00 [INF] Executed action CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication) in 88.0307ms
-2026-06-22 23:03:59.959 -03:00 [INF] Executed action CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication) in 109.9107ms
-2026-06-22 23:03:59.959 -03:00 [INF] Executed action CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication) in 95.4648ms
-2026-06-22 23:03:59.959 -03:00 [INF] Executed action CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication) in 107.6977ms
-2026-06-22 23:03:59.959 -03:00 [INF] Executed action CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication) in 91.8023ms
-2026-06-22 23:03:59.959 -03:00 [INF] Executed action CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication) in 112.1839ms
-2026-06-22 23:03:59.959 -03:00 [INF] Executed action CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication) in 102.5447ms
-2026-06-22 23:03:59.959 -03:00 [INF] Executed action CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication) in 84.1322ms
-2026-06-22 23:03:59.963 -03:00 [INF] Executed endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.965 -03:00 [INF] Executed endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.968 -03:00 [INF] Executed endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.970 -03:00 [INF] Executed endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.973 -03:00 [INF] Executed endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.975 -03:00 [INF] Executed endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.977 -03:00 [INF] Executed endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.979 -03:00 [INF] Executed endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:03:59.984 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5161/weatherforecast/ - 200 null application/json; charset=utf-8 27084.5895ms
-2026-06-22 23:03:59.989 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5161/weatherforecast/ - 200 null application/json; charset=utf-8 26819.0111ms
-2026-06-22 23:03:59.996 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5161/weatherforecast/ - 200 null application/json; charset=utf-8 26619.4923ms
-2026-06-22 23:04:00.006 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5161/weatherforecast/ - 200 null application/json; charset=utf-8 31754.0654ms
-2026-06-22 23:04:00.012 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5161/weatherforecast/ - 200 null application/json; charset=utf-8 25597.782ms
-2026-06-22 23:04:00.039 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5161/weatherforecast/ - 200 null application/json; charset=utf-8 26127.5414ms
-2026-06-22 23:04:00.054 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5161/weatherforecast/ - 200 null application/json; charset=utf-8 17274.4236ms
-2026-06-22 23:04:00.057 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5161/weatherforecast/ - 200 null application/json; charset=utf-8 36128.2767ms
-2026-06-22 23:04:01.903 -03:00 [INF] Application is shutting down...
-2026-06-22 23:04:08.500 -03:00 [INF] Now listening on: http://localhost:5161
-2026-06-22 23:04:08.528 -03:00 [INF] Application started. Press Ctrl+C to shut down.
-2026-06-22 23:04:08.529 -03:00 [INF] Hosting environment: Development
-2026-06-22 23:04:08.530 -03:00 [INF] Content root path: C:\Users\wivel\source\repos\CoreBankingWebApplication\CoreBankingWebApplication
-2026-06-22 23:04:12.539 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5161/weatherforecast/ - null null
-2026-06-22 23:04:12.585 -03:00 [INF] Executing endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:04:12.616 -03:00 [INF] Route matched with {action = "Get", controller = "WeatherForecast"}. Executing controller action with signature System.Collections.Generic.IEnumerable`1[CoreBankingWebApplication.WeatherForecast] Get() on controller CoreBankingWebApplication.Controllers.WeatherForecastController (CoreBankingWebApplication).
-2026-06-22 23:04:12.629 -03:00 [INF] Executing ObjectResult, writing value of type 'CoreBankingWebApplication.WeatherForecast[]'.
-2026-06-22 23:04:12.687 -03:00 [INF] Executed action CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication) in 63.2595ms
-2026-06-22 23:04:12.689 -03:00 [INF] Executed endpoint 'CoreBankingWebApplication.Controllers.WeatherForecastController.Get (CoreBankingWebApplication)'
-2026-06-22 23:04:12.692 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5161/weatherforecast/ - 200 null application/json; charset=utf-8 155.7924ms
-2026-06-22 23:05:17.525 -03:00 [INF] Application is shutting down...
+2026-06-23 13:03:19.331 +00:00 [FTL] CRITICAL ERROR
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> MySqlConnector.MySqlException (0x80004005): Table 'CoreBankingDb.Customers' doesn't exist
+   at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 1081
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+   at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 131
+   at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 487
+   at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+   at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+   at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at CoreBankingWebApplication.Controllers.CustomerController.InsertCustomer(CustomerDTO customerDto) in /workspaces/CoreBanking/Project/CoreBankingWebApplication/CoreBankingWebApplication/Controllers/CustomerController.cs:line 45
+   at lambda_method4(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at CoreBankingWebApplication.Middlewares.GlobalExceptionHandlerMiddleware.Invoke(HttpContext httpContext) in /workspaces/CoreBanking/Project/CoreBankingWebApplication/CoreBankingWebApplication/Middlewares/GlobalExceptionHandlerMiddleware.cs:line 30

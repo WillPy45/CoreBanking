@@ -15,8 +15,9 @@ namespace CoreBankingWebApplication.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = "Server=localhost;Database=CoreBankingDB;Trusted_Connection=True;TrustServerCertificate=True;";
-            optionsBuilder.UseSqlServer(connectionString);
+            string connectionString = "server=127.0.0.1;uid=EFUser;pwd=EF123;database=CoreBankingDb";
+            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+
             
         }
 

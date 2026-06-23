@@ -52,7 +52,7 @@ namespace CoreBankingWebApplication.Controllers
             CustomerEssentialDTO customerEssentialDTO =
                 new CustomerEssentialDTO()
                 {
-                    CustomerID = customer.CustomerID,
+                    CustomerId = customer.CustomerId,
                     FirstName = customer.FirstName,
                     LastName = customer.LastName,
                     Address = customer.Address

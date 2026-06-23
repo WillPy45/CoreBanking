@@ -17,6 +17,8 @@ namespace CoreBankingWebApplication
 
             // Add services to the container.
 
+            
+
             builder.Services.AddDbContext<ApplicationDbContext>();
 
             /*
@@ -30,18 +32,20 @@ namespace CoreBankingWebApplication
             builder.Services.AddSerilog((context, loggerConfiguration) =>
             {
                 loggerConfiguration
-                .WriteTo
-                .File(builder.Configuration["LogPath:DefaultPath"])
-                .WriteTo
-                .Console();
+                .MinimumLevel.Information() // Nivel mínimo global para capturar datos en consola
+                .WriteTo.Console()          // La consola registrará todo desde 'Information' hacia arriba
+                .WriteTo.File(
+                    path: builder.Configuration["LogPath:DefaultPath"] ?? "logs/critical.txt",
+                    restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Fatal); //Eventos criticospara captura en fichero
             });
+
 
             builder.Services.AddControllers();
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-
+            
            
             app.UseAuthorization();
             app.UseMiddleware<GlobalExceptionHandlerMiddleware>();

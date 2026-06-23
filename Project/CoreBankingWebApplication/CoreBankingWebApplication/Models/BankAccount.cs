@@ -5,7 +5,7 @@
     public class BankAccount
     {
         public int BankAccountId { get; set; }
-        public string CustomerId { get; set; } //references to a CustomerID
+        public int CustomerId { get; set; } //references to a CustomerID
         public Customer Customer { get; set; } // Navigation property
 
         public decimal Balance { get; set; } //At the moment we just manage PY currency

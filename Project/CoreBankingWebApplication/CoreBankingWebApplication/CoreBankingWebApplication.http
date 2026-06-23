@@ -4,3 +4,11 @@ GET {{CoreBankingWebApplication_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+POST {{CoreBankingWebApplication_HostAddress}}/api/customer
+Content-Type: application/json
+
+{
+    "FirstName": "Abel1",
+    "LastName": "Velazquez1",
+    "Address": "Calle falsa 1123"
+}
