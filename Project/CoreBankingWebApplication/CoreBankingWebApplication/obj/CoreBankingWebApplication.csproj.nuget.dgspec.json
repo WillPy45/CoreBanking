@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\CoreBankingWebApplication.csproj": {}
+    "/workspaces/CoreBanking/Project/CoreBankingWebApplication/CoreBankingWebApplication/CoreBankingWebApplication.csproj": {}
   },
   "projects": {
-    "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\CoreBankingWebApplication.csproj": {
+    "/workspaces/CoreBanking/Project/CoreBankingWebApplication/CoreBankingWebApplication/CoreBankingWebApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\CoreBankingWebApplication.csproj",
+        "projectUniqueName": "/workspaces/CoreBanking/Project/CoreBankingWebApplication/CoreBankingWebApplication/CoreBankingWebApplication.csproj",
         "projectName": "CoreBankingWebApplication",
-        "projectPath": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\CoreBankingWebApplication.csproj",
-        "packagesPath": "C:\\Users\\wivel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\wivel\\source\\repos\\CoreBankingWebApplication\\CoreBankingWebApplication\\obj\\",
+        "projectPath": "/workspaces/CoreBanking/Project/CoreBankingWebApplication/CoreBankingWebApplication/CoreBankingWebApplication.csproj",
+        "packagesPath": "/home/codespace/.nuget/packages/",
+        "outputPath": "/workspaces/CoreBanking/Project/CoreBankingWebApplication/CoreBankingWebApplication/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\wivel\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -64,6 +58,10 @@
               "target": "Package",
               "version": "[10.0.9, )"
             },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
             "Serilog": {
               "target": "Package",
               "version": "[4.3.1, )"
@@ -100,7 +98,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.200/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

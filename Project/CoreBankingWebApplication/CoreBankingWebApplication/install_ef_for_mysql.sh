@@ -4,21 +4,27 @@
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
+RED='\033[0;31m'
 NC='\033[0m' # Sin color
 
 echo -e "${BLUE}=== Configurando Entity Framework Core para MySQL/MariaDB ===${NC}"
 
-# 1. Verificar si existe un archivo de proyecto (.csproj)
+# 1. Verificar si existe un único archivo de proyecto (.csproj)
 CSPROJ_COUNT=$(ls *.csproj 2>/dev/null | wc -l)
 
 if [ "$CSPROJ_COUNT" -eq 0 ]; then
-    echo -e "${YELLOW}[!] No se encontró ningún proyecto .csproj en este directorio.${NC}"
-    echo -e "${BLUE}[>] Creando una Web API de ASP.NET Core por defecto...${NC}"
-    dotnet new webapi
+    echo -e "${RED}[X] Error: No se encontró ningún proyecto .csproj en este directorio.${NC}"
+    echo -e "${YELLOW}[!] Por favor, ejecúta este script dentro de la carpeta de un proyecto existente.${NC}"
+    exit 1
 elif [ "$CSPROJ_COUNT" -gt 1 ]; then
-    echo -e "${YELLOW}[!] Se encontraron múltiples proyectos .csproj. Por favor, ejecuta el comando dotnet add package manualmente en el proyecto correcto.${NC}"
+    echo -e "${YELLOW}[!] Se encontraron múltiples proyectos .csproj.${NC}"
+    echo -e "${YELLOW}[>] Por favor, ejecuta los comandos 'dotnet add package' manualmente en el proyecto correcto.${NC}"
     exit 1
 fi
+
+# Obtener el nombre del proyecto encontrado para mostrarlo
+PROJECT_NAME=$(ls *.csproj)
+echo -e "${GREEN}[✓] Proyecto detectado: ${PROJECT_NAME}${NC}"
 
 # 2. Instalar los paquetes NuGet necesarios
 echo -e "\n${BLUE}[1/3] Instalando paquetes NuGet...${NC}"
@@ -42,11 +48,11 @@ fi
 # 4. Verificar instalación
 echo -e "\n${BLUE}[3/3] Verificando instalación de herramientas...${NC}"
 if command -v dotnet-ef &> /dev/null; then
-    echo -e "${GREEN}[✓] ¡Todo listo! dotnet-ef versión:$(dotnet-ef --version | head -n 1)${NC}"
+    echo -e "${GREEN}[✓] ¡Todo listo! dotnet-ef versión: $(dotnet-ef --version | head -n 1)${NC}"
 else
     echo -e "${YELLOW}[!] dotnet-ef se instaló pero la ruta no está en tu PATH.${NC}"
     echo -e "${YELLOW}[!] Si estás en Linux/Codespaces, ejecuta: export PATH=\"\$PATH:\$HOME/.dotnet/tools\"${NC}"
 fi
 
 echo -e "\n${GREEN}=== Configuración completada con éxito ===${NC}"
-echo -e "Ya puedes usar: ${BLUE}dotnet ef migrations add NombreMigracion${NC} para tus modelos."
+echo -e "Ya puedes usar: ${BLUE}dotnet ef migrations add NombreMigracion${NC} en este proyecto."
