@@ -22,13 +22,7 @@ namespace CoreBankingWebApplication.Controllers
         public async Task<CustomerEssentialDTO> InsertCustomer(CustomerDTO customerDto) 
         {
             //Mapear DTO a Entidad
-            Customer customer = new Customer()
-            {
-                FirstName = customerDto.FirstName,
-                LastName = customerDto.LastName,
-                Address = customerDto.Address,
-            };
-
+            Customer customer = customerDto.ToEntity();
 
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
@@ -45,20 +39,8 @@ namespace CoreBankingWebApplication.Controllers
                 throw exception;
             }
            
-
-
-
             // Mapear Entidad a DTO de salida
-            CustomerEssentialDTO customerEssentialDTO =
-                new CustomerEssentialDTO()
-                {
-                    CustomerId = customer.CustomerId,
-                    FirstName = customer.FirstName,
-                    LastName = customer.LastName,
-                    Address = customer.Address
-                };
-
-            return customerEssentialDTO; 
+            return CustomerEssentialDTO.FromEntity(customer);
         }
     }
 }

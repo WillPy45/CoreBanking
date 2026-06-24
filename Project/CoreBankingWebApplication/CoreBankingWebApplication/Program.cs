@@ -1,6 +1,7 @@
 
 using CoreBankingWebApplication.Database;
 using CoreBankingWebApplication.Middlewares;
+using CoreBankingWebApplication.Services;
 using Serilog;
 using Serilog.Sinks.File;
 using Serilog.Sinks.SystemConsole;
@@ -20,7 +21,7 @@ namespace CoreBankingWebApplication
             
 
             builder.Services.AddDbContext<ApplicationDbContext>();
-
+            
             /*
             var loggerConfiguration = new LoggerConfiguration()
                 .WriteTo.File(
@@ -32,15 +33,20 @@ namespace CoreBankingWebApplication
             builder.Services.AddSerilog((context, loggerConfiguration) =>
             {
                 loggerConfiguration
-                .MinimumLevel.Information() // Nivel mínimo global para capturar datos en consola
+                .MinimumLevel.Warning() // Nivel mínimo global para capturar datos en consola
+                .MinimumLevel.Override("Microsoft.Hosting.Lifetime", Serilog.Events.LogEventLevel.Information) //Admitimos el lifetime
+                .MinimumLevel.Override("CoreBanking", Serilog.Events.LogEventLevel.Warning)
                 .WriteTo.Console()          // La consola registrará todo desde 'Information' hacia arriba
                 .WriteTo.File(
                     path: builder.Configuration["LogPath:DefaultPath"] ?? "logs/critical.txt",
                     restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Fatal); //Eventos criticospara captura en fichero
             });
-
+            
+            
 
             builder.Services.AddControllers();
+
+            builder.Services.AddScoped<TransferBalanceBetweenAccountService>();
 
             var app = builder.Build();
 

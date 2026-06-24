@@ -10,5 +10,9 @@
 
         //Bank accounts (A customer can have 0, 1, N bank accounts, a bank account is just for a customer
         public ICollection<BankAccount> BankAccounts { get; set; } // Reverse navigation property
+
+        //Navigation property for transaction that this costumer is involved
+        public ICollection<BalanceTransaction> BalanceTransactions { get; set; }
+
     }
 }
