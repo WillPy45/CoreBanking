@@ -10,10 +10,10 @@
 
         public bool IsFailure {get; } 
     
-        public string Error {get; }
+        public Error? Error {get; }
 
 
-        public Result(T? value, bool isSuccess, bool isFailure, string error)
+        public Result(T? value, bool isSuccess, bool isFailure, Error? error)
         {
             Value = value;
             IsSuccess = isSuccess;
@@ -24,13 +24,13 @@
         // Methods to generate common results
 
         // Returns a failure Result object
-        public static Result<T> Fail(string errorDescription)
+        public static Result<T> Fail(Error? error)
         {
             return new Result<T>(
                 value: default,
                 isSuccess: false,
                 isFailure: true,
-                error: errorDescription
+                error: error
             );
                
         }
@@ -42,7 +42,7 @@
                 value: value,
                 isSuccess: true,
                 isFailure: false,
-                error: string.Empty
+                error: null
             );
         }
     }

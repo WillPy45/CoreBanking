@@ -29,4 +29,6 @@ namespace CoreBankingWebApplication.Controllers
             return serviceResult;    
         }
     } 
+
+    
 }
