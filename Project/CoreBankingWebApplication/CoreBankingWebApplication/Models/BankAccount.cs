@@ -9,6 +9,10 @@
         public int CustomerId { get; set; } //references to a CustomerID
         public Customer Customer { get; set; } // Navigation property
 
+        
+        public int CurrencyId { get; set; }
+        public Currency Currency { get; set; }
+        
         public decimal Balance { get; set; } //At the moment we just manage PY currency
         
         /* reverse navigation property for transaction that this BankAccount is involved

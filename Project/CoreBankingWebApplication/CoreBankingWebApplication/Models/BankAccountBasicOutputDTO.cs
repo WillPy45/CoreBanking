@@ -4,7 +4,10 @@ namespace CoreBankingWebApplication.Models
     {
         public int BankAccountId { get; set; }
         public int CustomerId { get; set; } //references to a CustomerID
-        public decimal Balance { get; set; } //At the moment we just manage PY currency
+
+        public int CurrencyId { get; set; }
+
+        public decimal Balance { get; set; } 
         
         public BankAccountBasicOutputDTO(){}
 

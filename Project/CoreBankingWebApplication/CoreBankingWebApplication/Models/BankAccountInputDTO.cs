@@ -3,12 +3,16 @@ namespace CoreBankingWebApplication.Models
     public class BankAccountInputDTO
     {
         public int CustomerId { get; set; } //references to a CustomerID
+       
+        public int CurrencyId {get; set;} //Fk to determinate currency
         public decimal Balance { get; set; } //At the moment we just manage PY currency
 
         public BankAccountInputDTO(BankAccount entity)
         {
             this.CustomerId = entity.CustomerId;
+            this.CurrencyId = entity.CurrencyId;
             this.Balance = entity.Balance;
+            
         }
 
         public BankAccountInputDTO(){}
@@ -22,7 +26,8 @@ namespace CoreBankingWebApplication.Models
             return new BankAccount
             {
               CustomerId = dto.CustomerId,
-              Balance = dto.Balance  
+              Balance = dto.Balance,
+              CurrencyId = dto.CurrencyId  
             };
         }
 
@@ -30,6 +35,7 @@ namespace CoreBankingWebApplication.Models
         {
             entity.Balance = dto.Balance;
             entity.CustomerId = dto.CustomerId;
+            entity.CurrencyId = dto.CurrencyId;
         }
     }
 }
