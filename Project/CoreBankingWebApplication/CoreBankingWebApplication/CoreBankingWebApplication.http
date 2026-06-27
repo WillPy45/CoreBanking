@@ -213,5 +213,14 @@ Content-Type: application/json
     "Balance": 15000
 }
 
-###
-POST {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+### Status: Handled
+### This operations if not handled may generates as result ghost money
+### for example, from PYG 150 to an USD account results in 150 MAGIC USD
+POST {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
+Content-Type: application/json
+
+{
+    "SenderBankAccountId": 3,
+    "ReceiverBankAccountId": 4,
+    "Amount": 500
+}

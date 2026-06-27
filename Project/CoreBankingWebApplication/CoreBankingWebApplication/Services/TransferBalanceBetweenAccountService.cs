@@ -26,6 +26,7 @@ namespace CoreBankingWebApplication.Services
         /// 1. Validate sender and receiver are distinct to prevent inconsistencies.
         /// 2. Validate that sender sends positive balance
         /// 2. Retrieve both accounts in a single query and ensure existence.
+        /// 4. Ensures that currency type are same in both side (Sender and Receiver)
         /// 3. Verify sufficient funds in the sender account.
         /// 4. Update balances and write audit log.
         /// </remarks>
@@ -72,6 +73,14 @@ namespace CoreBankingWebApplication.Services
                 {
                     return Result<string>.Fail(
                         new Error("Account.ReceiverAccountNotFound", "Receiver account not found"));
+                }
+
+                // Ensures that both are same currency type (USD to USD, PYG to PYG, NOT USD to PYG)
+                if(senderAccount.CurrencyId != receiverAccount.CurrencyId)
+                {
+                    return Result<string>.Fail(
+                        new Error("Transfer.CurrencyMustBeEqual", "Sender and receiver differs in currency type")
+                    );
                 }
 
                 // Ensures that sender has enough balance
