@@ -20,7 +20,6 @@ namespace CoreBankingWebApplication.Models
     
       public static class BankAccountInputDTOExtensions
     {
-        // Cambiado a 'ToEntity' o 'MapTo' para que sea más claro lo que hace
         public static BankAccount ToEntity(this BankAccountInputDTO dto)
         {
             return new BankAccount

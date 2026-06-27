@@ -6,6 +6,7 @@ using CoreBankingWebApplication.Models;
 using CoreBankingWebApplication.Services;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 
 
 namespace CoreBankingWebApplication.Controllers
@@ -32,6 +33,21 @@ namespace CoreBankingWebApplication.Controllers
             }
 
             return result.Value;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(CurrencyDto dto)
+        {
+            var currencyCrudServiceResult = await _currencyCrudService.CreateAsync(dto);
+
+            if (currencyCrudServiceResult.IsFailure)
+            {   
+                if (currencyCrudServiceResult.Error.Code == "Currency.AlreadyExists")
+                {
+                    return BadRequest(currencyCrudServiceResult.Error);
+                }
+            }
+            return Created();
         }
     }
 

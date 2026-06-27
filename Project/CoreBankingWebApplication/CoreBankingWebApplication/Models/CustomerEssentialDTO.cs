@@ -7,7 +7,6 @@
         public string LastName { get; set; }
         public string Address { get; set; }
 
-        //Crear a partir de una Entidad
         public static CustomerEssentialDTO? FromEntity(Customer? customer)
         {
             if (customer is null) return null;

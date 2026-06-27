@@ -46,6 +46,7 @@ Content-Type: application/json
 
 {
     "CustomerId": 10,
+    "CurrencyId": 2,
     "Balance": 1000
 }
 
@@ -55,6 +56,7 @@ Content-Type: application/json
 
 {
     "CustomerId": 11,
+    "CurrencyId": 2,
     "Balance": 1400
 }
 
@@ -140,5 +142,76 @@ Content-Type: application/json
 }
 
 
+### Currency
+GET {{CoreBankingWebApplication_HostAddress}}/api/Currency
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/Currency
+Content-Type: application/json
+
+{
+    "Code" : "CAN"
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/Currency
+Content-Type: application/json
+
+{
+    "Code" : "CHY"
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/Currency
+Content-Type: application/json
+
+{
+    "Code" : "CNY"
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/Currency
+Content-Type: application/json
+
+{
+    "Code" : "AUD"
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/Currency
+Content-Type: application/json
+
+{
+    "Code" : "COL"
+}
 
 
+### NEW TESTS
+GET  {{CoreBankingWebApplication_HostAddress}}/api/Customer
+
+### 
+POST {{CoreBankingWebApplication_HostAddress}}/api/Customer
+Content-Type: application/json
+
+{
+    "FirstName" : "Steve",
+    "LastName": "Wozniak",
+    "Address": "Calle Falsa 1235"
+}
+
+###
+GET {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+Content-Type: application/json
+
+{
+    "CustomerId" : 4,
+    "CurrencyId": 2,
+    "Balance": 15000
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/BankAccount

@@ -19,6 +19,7 @@ namespace CoreBankingWebApplication.Models
             {
                 BankAccountId = entity.BankAccountId,
                 CustomerId = entity.CustomerId,
+                CurrencyId = entity.CurrencyId,
                 Balance = entity.Balance
             };
         }

@@ -22,6 +22,7 @@ namespace CoreBankingWebApplication.Services
             try
             {
                 await _dbContext.Currencies.AddAsync(dto.ToEntity());
+                await _dbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
 
             }catch (DbUpdateException ex)
