@@ -24,13 +24,7 @@ namespace CoreBankingWebApplication.Controllers
         [HttpPost]
         public async Task<Result<string>> Post(BalanceTransactionDTO balanceTransactionDTO)
         {
-            int senderID = balanceTransactionDTO.SenderBankAccountId;
-            int receiverID = balanceTransactionDTO.ReceiverBankAccountId;
-            decimal amount = balanceTransactionDTO.Amount;
-
             var serviceResult = await _transferService.TransferAsync(balanceTransactionDTO);
-
-
 
             return serviceResult;    
         }

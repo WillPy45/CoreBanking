@@ -24,6 +24,7 @@ namespace CoreBankingWebApplication.Services
         /// <remarks>
         /// STEPS:
         /// 1. Validate sender and receiver are distinct to prevent inconsistencies.
+        /// 2. Validate that sender sends positive balance
         /// 2. Retrieve both accounts in a single query and ensure existence.
         /// 3. Verify sufficient funds in the sender account.
         /// 4. Update balances and write audit log.
@@ -38,11 +39,19 @@ namespace CoreBankingWebApplication.Services
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
             try
             {
-                // Business Rule: Prevent self-transfers
+                // Prevent self-transfers
                 if (senderAccountId == receiverAccountId)
                 {
-                    return Result<string>.Fail("Accounts cannot be transferred to yourself");
+                    return Result<string>.Fail(
+                        new Error("Transfer.TransferItSelf", "Accounts cannot be transferred to yourself"));
                 }    
+
+                // Validate that ammount balance is positive
+                if (transferAmount < 0.0m)
+                {
+                    return Result<string>.Fail(
+                        new Error("Transfer.NegativeAmount", "Ammount must be positive number"));
+                }
 
                 // Fetch both accounts tracked by EF in a single roundtrip to optimize database performance
                 var recordsRetrieved = await _dbContext.BankAccounts
@@ -55,18 +64,21 @@ namespace CoreBankingWebApplication.Services
                 //Ensures that accounts exists
                 if (senderAccount is null)
                 {
-                    return Result<string>.Fail("Sender account not found");
+                    return Result<string>.Fail(
+                        new Error("Account.SenderAccountNotFound", "Sender account not found"));
                 }
 
                 if (receiverAccount is null)
                 {
-                    return Result<string>.Fail("Receiver account not found");
+                    return Result<string>.Fail(
+                        new Error("Account.ReceiverAccountNotFound", "Receiver account not found"));
                 }
 
                 // Ensures that sender has enough balance
                 if (senderAccount.Balance < transferAmount)
                 {
-                    return Result<string>.Fail("Sender balance is not enough for this transaction");
+                    return Result<string>.Fail(
+                        new Error("Transfer.NotEnoughBalance", "Sender balance is not enough for this transaction"));
                 }
 
                 // Balance transaction
@@ -95,5 +107,7 @@ namespace CoreBankingWebApplication.Services
 
             return Result<string>.Success("Transaction completed successfully");
         }
+
     }
+
 }

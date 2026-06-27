@@ -58,6 +58,24 @@ Content-Type: application/json
     "Balance": 1400
 }
 
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+Content-Type: application/json
+
+{
+    "CustomerId": 11,
+    "Balance": 15000
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+Content-Type: application/json
+
+{
+    "CustomerId": 1,
+    "Balance": 60000
+}
+
 // BALANCE TRANSACTIONS
 ###
 POST {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
@@ -75,9 +93,21 @@ Content-Type: application/json
 
 {
     "SenderBankAccountId": 1,
+    "ReceiverBankAccountId": 4,
+    "Amount": 1000
+}
+
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
+Content-Type: application/json
+
+{
+    "SenderBankAccountId": 1,
     "ReceiverBankAccountId": 2,
     "Amount": 50.0
 }
+
 
 ### What happens if sender sends negative amount
 ### Sender generates ghost money and debited to receiver, and maybe
@@ -91,6 +121,24 @@ Content-Type: application/json
     "ReceiverBankAccountId": 2,
     "Amount": -40000000.0
 }
+
+### Test 2
+### Fixed, returns
+###{
+###  "value": null,
+###  "isSuccess": false,
+##  "isFailure": true,
+###  "error": "Ammount must be positive number"
+### }
+POST {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
+Content-Type: application/json
+
+{
+    "SenderBankAccountId": 4,
+    "ReceiverBankAccountId": 5,
+    "Amount": -10000.0
+}
+
 
 
 
