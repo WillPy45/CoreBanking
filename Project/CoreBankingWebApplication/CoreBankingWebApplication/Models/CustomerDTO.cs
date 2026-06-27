@@ -11,7 +11,6 @@
 
     public static class CustomerDTOExtensions
     {
-        // Cambiado a 'ToEntity' o 'MapTo' para que sea más claro lo que hace
         public static Customer ToEntity(this CustomerDTO dto)
         {
             return new Customer

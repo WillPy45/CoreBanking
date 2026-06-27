@@ -33,6 +33,7 @@ namespace CoreBankingWebApplication.Services
             catch (Exception exception)
             {
                 await transaction.RollbackAsync();
+                throw;
             }            
             
         }

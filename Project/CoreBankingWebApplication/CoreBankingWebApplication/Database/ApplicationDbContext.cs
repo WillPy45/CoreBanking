@@ -8,6 +8,7 @@ namespace CoreBankingWebApplication.Database
         public DbSet<BankAccount> BankAccounts { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<BalanceTransaction> BalanceTransactions { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
 
         // Pass the configuration directly from the constructor instead overriding OnConfiguring method
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
@@ -42,14 +43,25 @@ namespace CoreBankingWebApplication.Database
 
             // ========================================================================================
 
+            // ==== Currency Entity ====
+            modelBuilder.Entity<Currency>()
+                .HasIndex((entity) => entity.Code)
+                .IsUnique();
+                
+
             // ==== BankAccount Entity ==== 
             modelBuilder.Entity<BankAccount>()
                 .HasOne((entity) => entity.Customer)
                 .WithMany((referredEntity) => referredEntity.BankAccounts)
                 .HasForeignKey((entity) => entity.CustomerId);
 
+            modelBuilder.Entity<BankAccount>()
+                .HasOne((entity) => entity.Currency)
+                .WithMany((referredEntity) => referredEntity.BankAccounts)
+                .HasForeignKey((entity) => entity.CurrencyId);
             // ==== Customer Entity ====
             // It´s maybe well induced by EF
+
 
         }
         
