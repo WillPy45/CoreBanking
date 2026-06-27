@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 using CoreBankingWebApplication.Database;
 using CoreBankingWebApplication.Models;
+using CoreBankingWebApplication.Common;
+using System.Data.Common;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoreBankingWebApplication.Controllers
 {
@@ -18,8 +21,16 @@ namespace CoreBankingWebApplication.Controllers
             _dbContext = dbContext;
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<CustomerEssentialDTO>> GetCustomerAsync()
+        {
+            return await _dbContext.Customers
+                .Select((customer) => CustomerEssentialDTO.FromEntity(customer))
+                .ToListAsync();
+        }
+
         [HttpPost]
-        public async Task<CustomerEssentialDTO> InsertCustomer(CustomerDTO customerDto) 
+        public async Task<CustomerEssentialDTO> InsertCustomerAsync(CustomerDTO customerDto) 
         {
             //Mapear DTO a Entidad
             Customer customer = customerDto.ToEntity();

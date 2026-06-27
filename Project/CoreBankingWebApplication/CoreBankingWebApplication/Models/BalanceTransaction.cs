@@ -18,7 +18,7 @@ namespace CoreBankingWebApplication.Models
        public int ReceiverBankAccountId { get; set; } // Account that has been acredited
        public BankAccount ReceiverBankAccount { get; set; } // Navigation property
        
-       public decimal Ammount {get; set; }
+       public decimal Amount {get; set; }
 
        public DateTime CreatedAt { get; set; }
     }

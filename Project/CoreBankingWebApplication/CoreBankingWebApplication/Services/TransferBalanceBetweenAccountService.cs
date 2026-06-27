@@ -28,8 +28,13 @@ namespace CoreBankingWebApplication.Services
         /// 3. Verify sufficient funds in the sender account.
         /// 4. Update balances and write audit log.
         /// </remarks>
-        public async Task<Result<string>> TransferAsync(int senderAccountId, int receiverAccountId, decimal transferAmount)
+        public async Task<Result<string>> TransferAsync(BalanceTransactionDTO transferDto)
         {
+
+            int senderAccountId = transferDto.SenderBankAccountId;
+            int receiverAccountId = transferDto.ReceiverBankAccountId;
+            decimal transferAmount = transferDto.Amount;
+
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
             try
             {
@@ -89,11 +94,6 @@ namespace CoreBankingWebApplication.Services
             }
 
             return Result<string>.Success("Transaction completed successfully");
-        }
-
-        public void TestInjection()
-        {
-            Console.WriteLine(_dbContext.Database.GetDbConnection().ConnectionString);
         }
     }
 }

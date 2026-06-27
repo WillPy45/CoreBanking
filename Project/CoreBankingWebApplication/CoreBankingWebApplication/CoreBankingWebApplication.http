@@ -12,3 +12,85 @@ Content-Type: application/json
     "LastName": "Velazquez1",
     "Address": "Calle falsa 1123"
 }
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/customer
+Content-Type: application/json
+
+{
+    "FirstName": "F1",
+    "LastName": "F1",
+    "Address": "Calle falsa 1"
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/customer
+Content-Type: application/json
+
+{
+    "FirstName": "F2",
+    "LastName": "F2",
+    "Address": "Calle falsa 2"
+}
+
+### 
+GET {{CoreBankingWebApplication_HostAddress}}/api/customer
+
+//CREATE BANK ACCOUNT
+###
+GET {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+Content-Type: application/json
+
+{
+    "CustomerId": 10,
+    "Balance": 1000
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+Content-Type: application/json
+
+{
+    "CustomerId": 11,
+    "Balance": 1400
+}
+
+// BALANCE TRANSACTIONS
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
+Content-Type: application/json
+
+{
+    "SenderBankAccountId": 1,
+    "ReceiverBankAccountId": 4,
+    "Amount": 100.0
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
+Content-Type: application/json
+
+{
+    "SenderBankAccountId": 1,
+    "ReceiverBankAccountId": 2,
+    "Amount": 50.0
+}
+
+### What happens if sender sends negative amount
+### Sender generates ghost money and debited to receiver, and maybe
+### MILLONS of negative balance for the receiver and MILLONS for sender
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
+Content-Type: application/json
+
+{
+    "SenderBankAccountId": 1,
+    "ReceiverBankAccountId": 2,
+    "Amount": -40000000.0
+}
+
+
+

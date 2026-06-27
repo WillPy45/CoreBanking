@@ -42,8 +42,7 @@ namespace CoreBankingWebApplication
                     restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Fatal); //Eventos criticospara captura en fichero
             });
             
-            
-
+                        
             builder.Services.AddControllers();
 
             builder.Services.AddScoped<TransferBalanceBetweenAccountService>();

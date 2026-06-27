@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using CoreBankingWebApplication.Database;
 using CoreBankingWebApplication.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoreBankingWebApplication.Controllers
 {
@@ -18,12 +19,20 @@ namespace CoreBankingWebApplication.Controllers
             _dbContext = dbContext;
         }
 
+        [HttpGet]
+        public async Task<ICollection<BankAccountBasicOutputDTO>> GetBankAccounts()
+        {
+            return await _dbContext.BankAccounts
+                .Select((account) => BankAccountBasicOutputDTO.FromEntity(account))
+                .ToListAsync();
+        }
+
         [HttpPost]
         public async Task<BankAccountBasicOutputDTO> Post(BankAccountInputDTO bankAccountInputDTO)
         {
             BankAccount entity = bankAccountInputDTO.ToEntity();
 
-            var transaction = await _dbContext.Database.BeginTransactionAsync();
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
             try
             {
@@ -34,8 +43,13 @@ namespace CoreBankingWebApplication.Controllers
             } catch (Exception exception)
             {
                 await transaction.RollbackAsync();
+                throw;
             }
+
+            return BankAccountBasicOutputDTO.FromEntity(entity);
         }
+
+        
     }
 
 
