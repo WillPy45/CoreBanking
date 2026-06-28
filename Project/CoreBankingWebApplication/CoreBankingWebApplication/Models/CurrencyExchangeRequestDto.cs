@@ -1,6 +1,7 @@
 namespace CoreBankingWebApplication.Models
 {
 
+    // Is just a Data Transfer Object to define some parameters for
     public class CurrencyExchangeRequestDto
     {
 

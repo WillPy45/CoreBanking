@@ -39,7 +39,7 @@ namespace CoreBankingWebApplication
                 .WriteTo.Console()          // La consola registrará todo desde 'Information' hacia arriba
                 .WriteTo.File(
                     path: builder.Configuration["LogPath:DefaultPath"] ?? "logs/critical.txt",
-                    restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Fatal); //Eventos criticospara captura en fichero
+                    restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Fatal); //Eventos criticos para captura en fichero
             });
             
                         
