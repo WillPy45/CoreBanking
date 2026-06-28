@@ -36,9 +36,6 @@ namespace CoreBankingWebApplication.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ReceiverBankAccountId")
                         .HasColumnType("int");
 
@@ -46,8 +43,6 @@ namespace CoreBankingWebApplication.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("BalanceTransactionId");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("ReceiverBankAccountId");
 
@@ -102,6 +97,28 @@ namespace CoreBankingWebApplication.Migrations
                     b.ToTable("Currencies");
                 });
 
+            modelBuilder.Entity("CoreBankingWebApplication.Models.CurrencyExchangeReserve", b =>
+                {
+                    b.Property<int>("CurrencyExchangeReserveId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CurrencyExchangeReserveId"));
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CurrencyExchangeReserveId");
+
+                    b.HasIndex("CurrencyId")
+                        .IsUnique();
+
+                    b.ToTable("CurrencyExchangeReserves");
+                });
+
             modelBuilder.Entity("CoreBankingWebApplication.Models.Customer", b =>
                 {
                     b.Property<int>("CustomerId")
@@ -129,10 +146,6 @@ namespace CoreBankingWebApplication.Migrations
 
             modelBuilder.Entity("CoreBankingWebApplication.Models.BalanceTransaction", b =>
                 {
-                    b.HasOne("CoreBankingWebApplication.Models.Customer", null)
-                        .WithMany("BalanceTransactions")
-                        .HasForeignKey("CustomerId");
-
                     b.HasOne("CoreBankingWebApplication.Models.BankAccount", "ReceiverBankAccount")
                         .WithMany("ReceivedTransactions")
                         .HasForeignKey("ReceiverBankAccountId")
@@ -169,6 +182,17 @@ namespace CoreBankingWebApplication.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("CoreBankingWebApplication.Models.CurrencyExchangeReserve", b =>
+                {
+                    b.HasOne("CoreBankingWebApplication.Models.Currency", "Currency")
+                        .WithOne("ExchangeReserve")
+                        .HasForeignKey("CoreBankingWebApplication.Models.CurrencyExchangeReserve", "CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+                });
+
             modelBuilder.Entity("CoreBankingWebApplication.Models.BankAccount", b =>
                 {
                     b.Navigation("ReceivedTransactions");
@@ -179,12 +203,12 @@ namespace CoreBankingWebApplication.Migrations
             modelBuilder.Entity("CoreBankingWebApplication.Models.Currency", b =>
                 {
                     b.Navigation("BankAccounts");
+
+                    b.Navigation("ExchangeReserve");
                 });
 
             modelBuilder.Entity("CoreBankingWebApplication.Models.Customer", b =>
                 {
-                    b.Navigation("BalanceTransactions");
-
                     b.Navigation("BankAccounts");
                 });
 #pragma warning restore 612, 618

@@ -10,6 +10,8 @@ namespace CoreBankingWebApplication.Database
         public DbSet<BalanceTransaction> BalanceTransactions { get; set; }
         public DbSet<Currency> Currencies { get; set; }
 
+        public DbSet<CurrencyExchangeReserve> CurrencyExchangeReserves { get; set; }
+
         // Pass the configuration directly from the constructor instead overriding OnConfiguring method
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
@@ -62,7 +64,11 @@ namespace CoreBankingWebApplication.Database
             // ==== Customer Entity ====
             // It´s maybe well induced by EF
 
-
+            // CurrencyExchangeReserve
+            modelBuilder.Entity<CurrencyExchangeReserve>()
+                .HasOne((entity) => entity.Currency)
+                .WithOne((referredEntity) => referredEntity.ExchangeReserve)
+                .HasForeignKey<CurrencyExchangeReserve>((e) => e.CurrencyId);
         }
         
     }
