@@ -34,7 +34,7 @@ namespace CoreBankingWebApplication.Models
         // Spread for using the service
         public decimal BankRateInPercentage {get; set;}
         // Bank discount
-        public decimal BankRateAmount {get; set;}
+        public decimal BankDiscount {get; set;}
 
         // Net amount
         public decimal NetAmount {get; set; }
