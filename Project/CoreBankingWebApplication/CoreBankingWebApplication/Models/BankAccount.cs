@@ -22,6 +22,10 @@
         public ICollection<BalanceTransaction> SentTransactions { get; set; }
         public ICollection<BalanceTransaction> ReceivedTransactions { get; set; }
 
+        // Exchange operations (rnp)
+        public ICollection<CurrencyExchange> SentCurrencyExchanges { get; set; }
+        public ICollection<CurrencyExchange> ReceivedCurrencyExchanges { get; set; }
+
     }
 
     
