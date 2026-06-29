@@ -75,11 +75,23 @@ namespace CoreBankingWebApplication.Database
             // ==== CurrencyExchange Entity ====
             // Relation with Sender
             modelBuilder.Entity<CurrencyExchange>()
+                .HasOne((entity) => entity.SenderBankAccount)
+                .WithMany((referredEntity) => referredEntity.SentCurrencyExchanges)
+                .HasForeignKey((entity) => entity.SenderBankAccountId);
                 
-
             // Relation with Receiver
+            modelBuilder.Entity<CurrencyExchange>()
+                .HasOne(entity => entity.ReceiverBankAccount)
+                .WithMany(referredEntity => referredEntity.ReceivedCurrencyExchanges)
+                .HasForeignKey(entity => entity.ReceiverBankAccountId);
 
             // Relation with CurrencyExchangeReserve
+            modelBuilder.Entity<CurrencyExchange>()
+                .HasOne(entity => entity.CurrencyExchangeReserve)
+                .WithMany(referredEntity => referredEntity.ExchangedCurrency)
+                .HasForeignKey(entity => entity.CurrencyExchangeReserveId);
+
+                
 
         }
         

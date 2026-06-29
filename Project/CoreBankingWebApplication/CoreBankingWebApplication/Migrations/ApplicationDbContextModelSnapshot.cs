@@ -143,7 +143,7 @@ namespace CoreBankingWebApplication.Migrations
 
                     b.HasIndex("SenderBankAccountId");
 
-                    b.ToTable("CurrencyExchange");
+                    b.ToTable("CurrencyExchanges");
                 });
 
             modelBuilder.Entity("CoreBankingWebApplication.Models.CurrencyExchangeReserve", b =>
@@ -240,13 +240,13 @@ namespace CoreBankingWebApplication.Migrations
                         .IsRequired();
 
                     b.HasOne("CoreBankingWebApplication.Models.BankAccount", "ReceiverBankAccount")
-                        .WithMany()
+                        .WithMany("ReceivedCurrencyExchanges")
                         .HasForeignKey("ReceiverBankAccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CoreBankingWebApplication.Models.BankAccount", "SenderBankAccount")
-                        .WithMany()
+                        .WithMany("SentCurrencyExchanges")
                         .HasForeignKey("SenderBankAccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -271,7 +271,11 @@ namespace CoreBankingWebApplication.Migrations
 
             modelBuilder.Entity("CoreBankingWebApplication.Models.BankAccount", b =>
                 {
+                    b.Navigation("ReceivedCurrencyExchanges");
+
                     b.Navigation("ReceivedTransactions");
+
+                    b.Navigation("SentCurrencyExchanges");
 
                     b.Navigation("SentTransactions");
                 });

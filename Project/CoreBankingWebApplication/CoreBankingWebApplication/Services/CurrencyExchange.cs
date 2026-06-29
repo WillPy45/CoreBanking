@@ -17,7 +17,7 @@ namespace CoreBankingWebApplication.Services
 
         public async Task<Result<CurrencyExchangeDetailsResponseDto>> Exchange(CurrencyExchangeRequestDto requestDto)
         {
-            
+            throw new NotImplementedException("Not implemented yet");
         }
        
         
