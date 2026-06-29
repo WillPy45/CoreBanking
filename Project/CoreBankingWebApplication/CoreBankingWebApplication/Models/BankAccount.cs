@@ -1,7 +1,5 @@
 ﻿namespace CoreBankingWebApplication.Models
 {
-
-    //Its just a bank, so, BankId is not necessary because operations are internals
     public class BankAccount
     {
         public int BankAccountId { get; set; }
