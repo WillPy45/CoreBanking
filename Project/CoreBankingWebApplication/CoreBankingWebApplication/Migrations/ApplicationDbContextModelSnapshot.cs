@@ -97,6 +97,55 @@ namespace CoreBankingWebApplication.Migrations
                     b.ToTable("Currencies");
                 });
 
+            modelBuilder.Entity("CoreBankingWebApplication.Models.CurrencyExchange", b =>
+                {
+                    b.Property<int>("CurrencyExchangeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CurrencyExchangeId"));
+
+                    b.Property<decimal>("BankDiscount")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("BankRateInPercentage")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("CurrencyExchangeReserveId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("GrossAmount")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("NetAmount")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("ReceiverBankAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SenderBankAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SourceAmount")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("CurrencyExchangeId");
+
+                    b.HasIndex("CurrencyExchangeReserveId");
+
+                    b.HasIndex("ReceiverBankAccountId");
+
+                    b.HasIndex("SenderBankAccountId");
+
+                    b.ToTable("CurrencyExchange");
+                });
+
             modelBuilder.Entity("CoreBankingWebApplication.Models.CurrencyExchangeReserve", b =>
                 {
                     b.Property<int>("CurrencyExchangeReserveId")
@@ -182,6 +231,33 @@ namespace CoreBankingWebApplication.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("CoreBankingWebApplication.Models.CurrencyExchange", b =>
+                {
+                    b.HasOne("CoreBankingWebApplication.Models.CurrencyExchangeReserve", "CurrencyExchangeReserve")
+                        .WithMany("ExchangedCurrency")
+                        .HasForeignKey("CurrencyExchangeReserveId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoreBankingWebApplication.Models.BankAccount", "ReceiverBankAccount")
+                        .WithMany()
+                        .HasForeignKey("ReceiverBankAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoreBankingWebApplication.Models.BankAccount", "SenderBankAccount")
+                        .WithMany()
+                        .HasForeignKey("SenderBankAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CurrencyExchangeReserve");
+
+                    b.Navigation("ReceiverBankAccount");
+
+                    b.Navigation("SenderBankAccount");
+                });
+
             modelBuilder.Entity("CoreBankingWebApplication.Models.CurrencyExchangeReserve", b =>
                 {
                     b.HasOne("CoreBankingWebApplication.Models.Currency", "Currency")
@@ -205,6 +281,11 @@ namespace CoreBankingWebApplication.Migrations
                     b.Navigation("BankAccounts");
 
                     b.Navigation("ExchangeReserve");
+                });
+
+            modelBuilder.Entity("CoreBankingWebApplication.Models.CurrencyExchangeReserve", b =>
+                {
+                    b.Navigation("ExchangedCurrency");
                 });
 
             modelBuilder.Entity("CoreBankingWebApplication.Models.Customer", b =>
