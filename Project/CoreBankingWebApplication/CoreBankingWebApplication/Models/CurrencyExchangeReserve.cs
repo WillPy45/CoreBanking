@@ -9,7 +9,8 @@ namespace CoreBankingWebApplication.Models
         public Currency Currency { get; set; }
         public decimal Balance { get; set; }
 
-        public ICollection<CurrencyExchange> ExchangedCurrency {get; set;}
+        public ICollection<CurrencyExchange> DebitedExchangeCurrencies {get; set;}
+        public ICollection<CurrencyExchange> AccreditedExchangeCurrencies {get; set;}
 
     }
 }

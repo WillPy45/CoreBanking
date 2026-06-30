@@ -87,9 +87,14 @@ namespace CoreBankingWebApplication.Database
 
             // Relation with CurrencyExchangeReserve
             modelBuilder.Entity<CurrencyExchange>()
-                .HasOne(entity => entity.CurrencyExchangeReserve)
-                .WithMany(referredEntity => referredEntity.ExchangedCurrency)
-                .HasForeignKey(entity => entity.CurrencyExchangeReserveId);
+                .HasOne(entity => entity.AccreditedExchangeReserve)
+                .WithMany(referredEntity => referredEntity.AccreditedExchangeCurrencies)
+                .HasForeignKey(entity => entity.AccreditedExchangeReserve);
+
+             modelBuilder.Entity<CurrencyExchange>()
+                .HasOne(entity => entity.DebitedExchangeReserve)
+                .WithMany(referredEntity => referredEntity.DebitedExchangeCurrencies)
+                .HasForeignKey(entity => entity.DebitedExchangeReserveId);
 
                 
 

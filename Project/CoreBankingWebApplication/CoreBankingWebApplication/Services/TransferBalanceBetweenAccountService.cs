@@ -51,7 +51,7 @@ namespace CoreBankingWebApplication.Services
                 if (transferAmount < 0.0m)
                 {
                     return Result<string>.Fail(
-                        new Error("Transfer.NegativeAmount", "Ammount must be positive number"));
+                        new Error("Transfer.NegativeOrZeroAmount", "Amount must be positive number"));
                 }
 
                 // Fetch both accounts tracked by EF in a single roundtrip to optimize database performance
@@ -66,13 +66,13 @@ namespace CoreBankingWebApplication.Services
                 if (senderAccount is null)
                 {
                     return Result<string>.Fail(
-                        new Error("Account.SenderAccountNotFound", "Sender account not found"));
+                        new Error("BankAccount.SenderAccountNotFound", "Sender account not found"));
                 }
 
                 if (receiverAccount is null)
                 {
                     return Result<string>.Fail(
-                        new Error("Account.ReceiverAccountNotFound", "Receiver account not found"));
+                        new Error("BankAccount.ReceiverAccountNotFound", "Receiver account not found"));
                 }
 
                 // Ensures that both are same currency type (USD to USD, PYG to PYG, NOT USD to PYG)

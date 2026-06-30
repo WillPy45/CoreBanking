@@ -108,7 +108,10 @@ namespace CoreBankingWebApplication.Migrations
                     b.Property<decimal>("BankDiscount")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<decimal>("BankRateInPercentage")
+                    b.Property<decimal>("BankDiscountInPercentage")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("BankUnitPrice")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<DateTime>("CreateAt")
@@ -130,9 +133,6 @@ namespace CoreBankingWebApplication.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("SourceAmount")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(65,30)");
 
                     b.HasKey("CurrencyExchangeId");
