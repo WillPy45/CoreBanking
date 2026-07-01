@@ -11,7 +11,11 @@
         public int CurrencyId { get; set; }
         public Currency Currency { get; set; }
         
-        public decimal Balance { get; set; } //At the moment we just manage PY currency
+        public decimal Balance { get; set; } 
+
+        public DateTime CreateAt {get; set;}
+
+
         
         /* reverse navigation property for transaction that this BankAccount is involved
         BECAUSE is referred in RECEIVE and SENDER role, a BankAccount may was a sender or receiver, or both

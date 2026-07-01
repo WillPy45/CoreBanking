@@ -8,8 +8,10 @@
 
         public string Address { get; set; }
 
+        public DateTime CreateAt {get; set;}
+
         //Bank accounts (A customer can have 0, 1, N bank accounts, a bank account is just for a customer
-        public ICollection<BankAccount> BankAccounts { get; set; } // Reverse navigation property
+        public ICollection<BankAccount>? BankAccounts { get; set; } // Reverse navigation property
 
         
 
