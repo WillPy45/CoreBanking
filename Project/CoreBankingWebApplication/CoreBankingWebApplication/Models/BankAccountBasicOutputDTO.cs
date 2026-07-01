@@ -11,10 +11,8 @@ namespace CoreBankingWebApplication.Models
         
         public BankAccountBasicOutputDTO(){}
 
-        public static BankAccountBasicOutputDTO? FromEntity(BankAccount? entity)
+        public static BankAccountBasicOutputDTO FromEntity(BankAccount entity)
         {
-            if (entity is null) return null;
-
             return new BankAccountBasicOutputDTO()
             {
                 BankAccountId = entity.BankAccountId,
