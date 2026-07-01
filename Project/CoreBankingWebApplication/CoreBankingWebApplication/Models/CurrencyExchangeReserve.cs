@@ -6,11 +6,11 @@ namespace CoreBankingWebApplication.Models
     {
         public int CurrencyExchangeReserveId { get; set; }
         public int CurrencyId { get; set; }
-        public Currency Currency { get; set; }
+        public Currency? Currency { get; set; }
         public decimal Balance { get; set; }
 
-        public ICollection<CurrencyExchange> DebitedExchangeCurrencies {get; set;}
-        public ICollection<CurrencyExchange> AccreditedExchangeCurrencies {get; set;}
+        public ICollection<CurrencyExchange>? DebitedExchangeCurrencies {get; set;}
+        public ICollection<CurrencyExchange>? AccreditedExchangeCurrencies {get; set;}
 
     }
 }
