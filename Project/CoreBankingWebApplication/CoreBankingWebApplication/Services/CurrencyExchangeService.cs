@@ -104,6 +104,10 @@ namespace CoreBankingWebApplication.Services
 
                 if (accreditedReserve is null)
                 {
+                    if (senderBankAccount.Currency is null)
+                    {
+                        throw new Exception("navigation property is null, implementation error"); 
+                    }
                     return Result<CurrencyExchangeDetailsResponseDto>
                         .Fail(new Error("BankCurrencyReserve.HasNotReserveForAcceptTheCurrencies",
                          $"Bank reserves cannot accept {senderBankAccount.Currency.Code}"));
@@ -111,6 +115,10 @@ namespace CoreBankingWebApplication.Services
 
                 if (debitedReserve is null)
                 {
+                    if (receiverBankAccount.Currency is null)
+                    {
+                        throw new Exception("navigation property is null, implementation error"); 
+                    }
                     return Result<CurrencyExchangeDetailsResponseDto>
                         .Fail(new Error("BankCurrencyReserve.HasNotReserveForDepositTheCurrencies",
                         $"Bank reserves cannot deposit {receiverBankAccount.Currency.Code}"));
@@ -118,6 +126,10 @@ namespace CoreBankingWebApplication.Services
 
 
                 // Ensures that rate convertion service has rate conversion for defined currency
+
+                if (accreditedReserve.Currency is null) throw new Exception("navigation property is null, implementation error"); 
+                if (debitedReserve.Currency is null) throw new Exception("navigation property is null, implementation error"); 
+
                 string fromCurrencyCode = accreditedReserve.Currency.Code;
                 string toCurrencyCode = debitedReserve.Currency.Code;
 

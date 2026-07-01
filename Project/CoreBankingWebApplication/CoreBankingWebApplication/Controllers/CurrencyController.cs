@@ -42,11 +42,11 @@ namespace CoreBankingWebApplication.Controllers
 
             if (currencyCrudServiceResult.IsFailure)
             {   
-                if (currencyCrudServiceResult.Error is null)
+                /*if (currencyCrudServiceResult.Error is null)
                 {
                     throw new Exception("Error code must not be null, service is buggy");
-                }
-                
+                }*/
+
                 if (currencyCrudServiceResult.Error.Code == "Currency.AlreadyExists")
                 {
                     return BadRequest(currencyCrudServiceResult.Error);
