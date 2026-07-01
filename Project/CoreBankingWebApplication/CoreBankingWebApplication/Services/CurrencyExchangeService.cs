@@ -209,7 +209,7 @@ namespace CoreBankingWebApplication.Services
                 await transaction.CommitAsync();
 
 
-            }catch(Exception ex)
+            }catch(Exception)
             {
                 await transaction.RollbackAsync();
                 throw;

@@ -24,7 +24,7 @@
         // Methods to generate common results
 
         // Returns a failure Result object
-        public static Result<T> Fail(Error? error)
+        public static Result<T> Fail(Error error)
         {
             return new Result<T>(
                 value: default,
@@ -36,7 +36,7 @@
         }
 
         // Returns a sucessfull Result object
-        public static Result<T> Success(T? value)
+        public static Result<T> Success(T value)
         {
             return new Result<T>(
                 value: value,

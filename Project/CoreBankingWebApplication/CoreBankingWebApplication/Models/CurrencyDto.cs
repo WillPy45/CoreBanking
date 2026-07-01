@@ -2,7 +2,7 @@ namespace CoreBankingWebApplication.Models
 {
     public class CurrencyDto
     {
-        public string Code {get; set; }
+        public required string Code {get; set; }
 
 
     }

@@ -12,20 +12,20 @@
             // so is unnecesary to specific the currency
             // I want to sell some USD from my bank account (SenderAccount) ...
             public int SenderBankAccountId { get; set; } 
-            public BankAccount SenderBankAccount { get; set; } // nav. prop.
+            public BankAccount? SenderBankAccount { get; set; } // nav. prop.
             
             // for buy from this reserve ...
             public int DebitedExchangeReserveId {get; set; } // The currency type is here
-            public CurrencyExchangeReserve DebitedExchangeReserve { get; set; }
+            public CurrencyExchangeReserve? DebitedExchangeReserve { get; set; }
 
             public int AccreditedReserveId { get; set; }
-            public CurrencyExchangeReserve AccreditedExchangeReserve { get; set; }
+            public CurrencyExchangeReserve? AccreditedExchangeReserve { get; set; }
 
 
             // ... and receive in this account
 
             public int ReceiverBankAccountId { get; set; } 
-            public BankAccount ReceiverBankAccount { get; set; } // nav. prop.
+            public BankAccount? ReceiverBankAccount { get; set; } // nav. prop.
 
             // Original amount (before exchange)
             public decimal SourceAmount { get; set; }

@@ -33,14 +33,14 @@ namespace CoreBankingWebApplication.Middlewares
 
 
 
-                ExceptionDetails? exceptionDetailsInstance = new ExceptionDetails(ex);
+                ExceptionDetails exceptionDetailsInstance = new ExceptionDetails(ex);
                 ExceptionDetails? exceptionDetails = _webHostEnvironment.IsDevelopment() == true 
                     ? exceptionDetailsInstance
                     : null;
 
                 //Registramos la excepcion
                 _logger.LogCritical(ex, "CRITICAL ERROR");
-                _logger.LogWarning($"ExceptionMessage: {exceptionDetails.Message} | HResult: {exceptionDetails.HResult}");
+                _logger.LogWarning($"ExceptionMessage: {exceptionDetailsInstance.Message} | HResult: {exceptionDetailsInstance.HResult}");
 
                 httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 httpContext.Response.ContentType = "application/json";

@@ -25,11 +25,11 @@ namespace CoreBankingWebApplication.Services
                 await _dbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
 
-            }catch (DbUpdateException ex)
+            }catch (DbUpdateException)
             {
                 await transaction.RollbackAsync();
                 return Result<string>.Fail(new Error("Currency.AlreadyExists", "Already existing currency"));
-            }catch (Exception ex)
+            }catch (Exception)
             {
                 await transaction.RollbackAsync();
                 throw;

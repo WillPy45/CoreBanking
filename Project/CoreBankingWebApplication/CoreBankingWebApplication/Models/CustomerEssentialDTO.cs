@@ -7,10 +7,8 @@
         public string? LastName { get; set; }
         public string? Address { get; set; }
 
-        public static CustomerEssentialDTO? FromEntity(Customer? customer)
+        public static CustomerEssentialDTO FromEntity(Customer customer)
         {
-            if (customer is null) return null;
-
             return new CustomerEssentialDTO()
             {
                 CustomerId = customer.CustomerId,

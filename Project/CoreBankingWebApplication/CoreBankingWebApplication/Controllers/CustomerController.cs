@@ -44,10 +44,10 @@ namespace CoreBankingWebApplication.Controllers
                 await _dbContext.SaveChangesAsync();
 
                 await transaction.CommitAsync();
-            }catch (Exception exception)
+            }catch (Exception)
             {
                 await transaction.RollbackAsync();
-                throw exception;
+                throw;
             }
            
             // entity to output dto
