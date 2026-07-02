@@ -1,10 +1,11 @@
 namespace CoreBankingWebApplication.Common
 {
-    public interface IResult<T>
+    public interface IResult<TValue, TErrorEnum>
+    where TErrorEnum : Enum
     {
-        T? Value { get; }           // The actual data if the operation was successful
+        TValue? Value { get; }           // The actual data if the operation was successful
         bool IsSuccess { get; }     // Did everything go well?
         bool IsFailure { get; }     // Was there a business logic error?
-        Error? Error { get; }       // The error code and message explaining the failure reason
+        Error<TErrorEnum>? Error { get; }       // The error code and message explaining the failure reason
     }
 }

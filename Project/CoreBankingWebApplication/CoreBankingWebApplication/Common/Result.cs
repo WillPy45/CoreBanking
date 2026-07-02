@@ -3,10 +3,11 @@ using System.Diagnostics.CodeAnalysis;
 namespace CoreBankingWebApplication.Common
   {
 
-    public class Result<T> : IResult<T>
+    public class Result<TValue, TErrorEnum> : IResult<TValue, TErrorEnum>
+
     {
         
-        public T? Value {get;}
+        public TValue? Value {get;}
 
         [MemberNotNullWhen(true, nameof(Value))]
         public bool IsSuccess {get;}
@@ -14,10 +15,10 @@ namespace CoreBankingWebApplication.Common
         [MemberNotNullWhen(true, nameof(Error))]
         public bool IsFailure => !IsSuccess;
     
-        public Error? Error {get; }
+        public Error<TErrorEnum>? Error {get; }
 
         // If sucess !!
-        public Result(T value)
+        public Result(TValue value)
         {
             Value = value ?? throw new ArgumentNullException(nameof(value));
             IsSuccess = true;
@@ -25,7 +26,7 @@ namespace CoreBankingWebApplication.Common
         }
 
         // If failure
-        public Result(Error error)
+        public Result(Error<TErrorEnum> error)
         {
             Value = default;
             IsSuccess = false;
@@ -34,11 +35,11 @@ namespace CoreBankingWebApplication.Common
         // Methods to generate common results
 
         // Returns a failure Result object
-        public static Result<T> Fail(Error error) => new Result<T>(error);
+        public static Result<TValue, TErrorEnum> Fail(Error<TErrorEnum> error) => new Result<TValue, TErrorEnum>(error);
 
 
         // Returns a sucessfull Result object
-        public static Result<T> Success(T value) => new Result<T>(value);
+        public static Result<TValue, TErrorEnum> Success(TValue value) => new Result<TValue, TErrorEnum>(value);
     
     }
 }
