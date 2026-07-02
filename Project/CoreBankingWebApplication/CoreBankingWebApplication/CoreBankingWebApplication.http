@@ -146,6 +146,9 @@ Content-Type: application/json
 GET {{CoreBankingWebApplication_HostAddress}}/api/Currency
 
 ###
+GET {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+
+###
 POST {{CoreBankingWebApplication_HostAddress}}/api/Currency
 Content-Type: application/json
 
@@ -223,4 +226,86 @@ Content-Type: application/json
     "SenderBankAccountId": 3,
     "ReceiverBankAccountId": 4,
     "Amount": 500
+}
+
+### 02/07/2026 tests
+
+GET {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+
+###
+GET {{CoreBankingWebApplication_HostAddress}}/api/Currency
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/Currency
+Content-Type: application/json
+
+{
+    "Code": "PYG"
+}
+### USD: 1, PYG: 37
+
+### bankAccountId: 6
+POST {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+Content-Type: application/json
+
+{
+    "CustomerId" : 1,
+    "CurrencyId": 1,
+    "Balance": 10000
+}
+
+### bankAccountId: 7
+POST {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+Content-Type: application/json
+
+{
+    "CustomerId" : 1,
+    "CurrencyId": 37,
+    "Balance": 10000
+}
+
+### bankAccountId: 8
+POST {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+Content-Type: application/json
+
+{
+    "CustomerId" : 1,
+    "CurrencyId": 37,
+    "Balance": 10000
+}
+
+### Failure - ErrorCode: Transfer.CurrencyMustBeEqual
+POST {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
+Content-Type: application/json
+
+{
+    "SenderBankAccountId": 6,
+    "ReceiverBankAccountId": 7,
+    "Amount": 1000
+}
+
+###
+// Previous data
+// {
+//    "bankAccountId": 7,
+//    "customerId": 1,
+//    "currencyId": 37,
+//    "balance": 10000.000000000000000000000000
+//  },
+//  {
+//    "bankAccountId": 8,
+//    "customerId": 1,
+//   "currencyId": 37,
+//    "balance": 10000.000000000000000000000000
+//  }
+
+// Result
+
+POST {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
+Content-Type: application/json
+
+{
+    "SenderBankAccountId": 7,
+    "ReceiverBankAccountId": 8,
+    "Amount": 1000
 }
