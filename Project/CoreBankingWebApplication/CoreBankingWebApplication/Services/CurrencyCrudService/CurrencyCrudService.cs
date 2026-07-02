@@ -16,7 +16,7 @@ namespace CoreBankingWebApplication.Services
             _dbContext = dbContext;
         }
 
-        public async Task<Result<string>> CreateAsync(CurrencyDto dto)
+        public async Task<Result<string, CurrencyCrudCreateServiceError>> CreateAsync(CurrencyDto dto)
         {
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
@@ -30,19 +30,19 @@ namespace CoreBankingWebApplication.Services
             }catch (DbUpdateException)
             {
                 await transaction.RollbackAsync();
-                return Result<string>.Fail(new Error("Currency.AlreadyExists", "Already existing currency"));
+                return Result<string, CurrencyCrudCreateServiceError>.Fail(CurrencyCrudCreateServiceError.AlreadyExists, "Already existing currency");
             }catch (Exception)
             {
                 await transaction.RollbackAsync();
                 throw;
             }
 
-            return Result<string>.Success("Currency created succesfully");
+            return Result<string, CurrencyCrudCreateServiceError>.Success("Currency created succesfully");
         }
 
-        public async Task<Result<ICollection<CurrencyBasicOutputDto>>> GetCurrencies()
+        public async Task<Result<ICollection<CurrencyBasicOutputDto>, CurrencyCrudGetAllServiceError>> GetCurrencies()
         {
-           return Result<ICollection<CurrencyBasicOutputDto>>.Success( 
+           return Result<ICollection<CurrencyBasicOutputDto>, CurrencyCrudGetAllServiceError>.Success( 
                 await _dbContext.Currencies.Select((e) => CurrencyBasicOutputDto.FromEntity(e))
                 .ToListAsync()
             );

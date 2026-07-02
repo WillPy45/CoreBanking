@@ -15,22 +15,22 @@ namespace CoreBankingWebApplication.Services
             _dbContext = dbContext;
         }
 
-        public async Task<Result<CurrencyExchangeReserveCreateResponseDto>> CreateAsync(CurrencyExchangeReserveCreateRequestDto requestDto)
+        public async Task<Result<CurrencyExchangeReserveCreateResponseDto, CurrencyExchangeReserveCrudCreateServiceError>> CreateAsync(CurrencyExchangeReserveCreateRequestDto requestDto)
         {
             CurrencyExchangeReserveCreateResponseDto responseDto;
 
             // Balance must be positive
             if (requestDto.Balance < 0)
             {
-                return Result<CurrencyExchangeReserveCreateResponseDto>
-                    .Fail(new Error("BadRequest.BalanceMustBePositiveOrZero", "Balance must be positive or zero"));
+                return Result<CurrencyExchangeReserveCreateResponseDto, CurrencyExchangeReserveCrudCreateServiceError>
+                    .Fail(CurrencyExchangeReserveCrudCreateServiceError.NegativeBalance, "Balance must be positive or zero");
             }
 
             // FKs just admits positive values
             if (requestDto.CurrencyId < 0)
             {
-                return Result<CurrencyExchangeReserveCreateResponseDto>
-                    .Fail(new Error("BadRequest.CurrencyIdMustBePositiveOrZero", "CurrencyId must be positive or zero"));
+                return Result<CurrencyExchangeReserveCreateResponseDto, CurrencyExchangeReserveCrudCreateServiceError>
+                .Fail(CurrencyExchangeReserveCrudCreateServiceError.NagativeCurrencyId, "CurrencyId must be positive or zero");
             }
 
 
@@ -41,8 +41,8 @@ namespace CoreBankingWebApplication.Services
                 
                 if (currencyAlreadyExists)
                 {
-                    return Result<CurrencyExchangeReserveCreateResponseDto>
-                        .Fail(new Error("Reserve.CurrencyAlreadyExistsInReserve", "Currency already exists in reserve"));
+                    return Result<CurrencyExchangeReserveCreateResponseDto, CurrencyExchangeReserveCrudCreateServiceError>
+                        .Fail(CurrencyExchangeReserveCrudCreateServiceError.CurrencyAlreadyExistsInReserve, "Currency already exists in reserve");
                 }
 
                 CurrencyExchangeReserve exchangeReserve = new()
@@ -50,8 +50,6 @@ namespace CoreBankingWebApplication.Services
                     CurrencyId = requestDto.CurrencyId,
                     Balance = requestDto.Balance
                 };
-
-                
 
                 await _dbContext.CurrencyExchangeReserves.AddAsync(exchangeReserve);
                 await _dbContext.SaveChangesAsync();
@@ -69,10 +67,10 @@ namespace CoreBankingWebApplication.Services
                 throw;
             }
 
-            return Result<CurrencyExchangeReserveCreateResponseDto>.Success(responseDto);
+            return Result<CurrencyExchangeReserveCreateResponseDto, CurrencyExchangeReserveCrudCreateServiceError>.Success(responseDto);
         }       
 
-        public async Task<Result<ICollection<CurrencyExchangeReserveGetResponseDto>>> GetAllAsync()
+        public async Task<Result<ICollection<CurrencyExchangeReserveGetResponseDto>, CurrencyExchangeReserveCrudGetAllServiceError>> GetAllAsync()
         {
             var result = await _dbContext.CurrencyExchangeReserves.Select(e => new CurrencyExchangeReserveGetResponseDto()
             {
@@ -81,7 +79,7 @@ namespace CoreBankingWebApplication.Services
                 Balance = e.Balance
             }).ToListAsync();
 
-            return Result<ICollection<CurrencyExchangeReserveGetResponseDto>>.Success(result);
+            return Result<ICollection<CurrencyExchangeReserveGetResponseDto>, CurrencyExchangeReserveCrudGetAllServiceError>.Success(result);
         }
 
     }

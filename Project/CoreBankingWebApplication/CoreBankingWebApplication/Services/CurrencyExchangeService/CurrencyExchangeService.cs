@@ -4,7 +4,7 @@ using CoreBankingWebApplication.Models.Entities;
 using CoreBankingWebApplication.Models.DTOs;
 using CoreBankingWebApplication.Common;
 using Microsoft.EntityFrameworkCore;
-using CoreBankingWebApplication.Migrations;
+//using CoreBankingWebApplication.Migrations;
 
 namespace CoreBankingWebApplication.Services
 {
@@ -33,7 +33,7 @@ namespace CoreBankingWebApplication.Services
             8. Generates response dto
         */
 
-        public async Task<Result<CurrencyExchangeDetailsResponseDto>> Exchange(CurrencyExchangeRequestDto requestDto)
+        public async Task<Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>> Exchange(CurrencyExchangeRequestDto requestDto)
         {
             CurrencyExchangeDetailsResponseDto responseDto;
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
@@ -43,15 +43,15 @@ namespace CoreBankingWebApplication.Services
                 // Ensures that are different accounts
                 if (requestDto.ReceiverBankAccountId == requestDto.SenderBankAccountId)
                 {
-                    return Result<CurrencyExchangeDetailsResponseDto>
-                        .Fail(new Error("BankAccount.SameBankAccounts", "Is not posible to operates between same bank accounts"));
+                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>
+                        .Fail(CurrencyExchangeServiceError.SameBankAccounts, "Is not posible to operates between same bank accounts");
                 }
 
                 // Ensures that uses positive amount
                 if (requestDto.Amount <= 0)
                 {
-                    return Result<CurrencyExchangeDetailsResponseDto>
-                        .Fail(new Error("BankAccount.NegativeOrZeroAmount", "Amount must be positive number"));  
+                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>
+                        .Fail(CurrencyExchangeServiceError.NegativeOrZeroAmount, "Amount must be positive number");  
                 }
 
                 // Ensures that sender and receiver exists
@@ -69,21 +69,21 @@ namespace CoreBankingWebApplication.Services
 
                 if (senderBankAccount is null)
                 {
-                    return Result<CurrencyExchangeDetailsResponseDto>.Fail(
-                        new Error("BankAccount.SenderAccountNotFound", "Sender bank account not found"));
+                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>.Fail(
+                        CurrencyExchangeServiceError.SenderBankAccountNotFound, "Sender bank account not found");
                 }
 
                 if (receiverBankAccount is null)
                 {
-                    return Result<CurrencyExchangeDetailsResponseDto>.Fail(
-                        new Error("BankAccount.ReceiverAccountNotFound", "Receiver bank account not found"));
+                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>.Fail(
+                        CurrencyExchangeServiceError.receiverBankAccountNotFound, "Receiver bank account not found");
                 }
 
                 // Ensures that sender has enough money for the transaction
                 if (senderBankAccount.Balance < requestDto.Amount)
                 {
-                    return Result<CurrencyExchangeDetailsResponseDto>.Fail(
-                        new Error("Transfer.NotEnoughBalance", "Sender balance is not enough for this transaction"));
+                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>.Fail(
+                        CurrencyExchangeServiceError.NotEnoughBalance, "Sender balance is not enough for this transaction");
                 }
 
                 // Ensures that currency exchange reserve exists in the database
@@ -110,9 +110,9 @@ namespace CoreBankingWebApplication.Services
                     {
                         throw new Exception("navigation property is null, implementation error"); 
                     }
-                    return Result<CurrencyExchangeDetailsResponseDto>
-                        .Fail(new Error("BankCurrencyReserve.HasNotReserveForAcceptTheCurrencies",
-                         $"Bank reserves cannot accept {senderBankAccount.Currency.Code}"));
+                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>
+                        .Fail(CurrencyExchangeServiceError.HasNotReserveForAcceptTheCurrencies,
+                         $"Bank reserves cannot accept {senderBankAccount.Currency.Code}");
                 }
 
                 if (debitedReserve is null)
@@ -121,9 +121,9 @@ namespace CoreBankingWebApplication.Services
                     {
                         throw new Exception("navigation property is null, implementation error"); 
                     }
-                    return Result<CurrencyExchangeDetailsResponseDto>
-                        .Fail(new Error("BankCurrencyReserve.HasNotReserveForDepositTheCurrencies",
-                        $"Bank reserves cannot deposit {receiverBankAccount.Currency.Code}"));
+                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>
+                        .Fail(CurrencyExchangeServiceError.HasNotReserveForDepositTheCurrencies,
+                        $"Bank reserves cannot deposit {receiverBankAccount.Currency.Code}");
                 }
 
 
@@ -135,16 +135,15 @@ namespace CoreBankingWebApplication.Services
                 string fromCurrencyCode = accreditedReserve.Currency.Code;
                 string toCurrencyCode = debitedReserve.Currency.Code;
 
-                Result<decimal> currencyRateServiceResult = await _currencyRateService.GetConversionRateAsync(
+                var currencyRateServiceResult = await _currencyRateService.GetConversionRateAsync(
                     fromCurrencyCode: fromCurrencyCode,
                     toCurrencyCode: toCurrencyCode
                 );
 
                 if (currencyRateServiceResult.IsFailure)
                 {
-                    return Result<CurrencyExchangeDetailsResponseDto>.
-                        Fail(new Error("InternalError.ConversionFailed",
-                        "Internal implementation for conversion failed"));
+                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>.
+                        Fail(CurrencyExchangeServiceError.ConversionFailed, "Internal implementation for conversion failed");
                 }
 
 
@@ -160,9 +159,9 @@ namespace CoreBankingWebApplication.Services
 
                 if (debitedReserve.Balance < grossAmount)
                 {
-                    return Result<CurrencyExchangeDetailsResponseDto>
-                        .Fail(new Error("BankCurrencyReserve.HasNotEnoughBalance",
-                        $"Bank reserve has not enough balance to deposit in receiver account"));
+                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>
+                        .Fail(CurrencyExchangeServiceError.HasNotEnoughBalanceInCurrencyReserve,
+                        $"Bank reserve has not enough balance to deposit in receiver account");
                 }
 
 
@@ -183,7 +182,7 @@ namespace CoreBankingWebApplication.Services
 
                 // Generates audit table for exchange transactions
 
-                var auditTable = new Models.CurrencyExchange()
+                var auditTable = new CurrencyExchange()
                 {
                     SenderBankAccountId = senderId,
                     ReceiverBankAccountId = receiverId,
@@ -229,7 +228,7 @@ namespace CoreBankingWebApplication.Services
                 throw;
             }
 
-            return Result<CurrencyExchangeDetailsResponseDto>.Success(responseDto);
+            return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>.Success(responseDto);
         }
        
         
