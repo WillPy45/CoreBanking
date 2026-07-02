@@ -13,7 +13,7 @@ namespace CoreBankingWebApplication.Services
             _dbContext = dbContext;
         }
 
-        public async Task<Result<CurrencyExchangeReserveCreateResponseDto>> CreateCurrencyReserveAsync(CurrencyExchangeReserveCreateRequestDto requestDto)
+        public async Task<Result<CurrencyExchangeReserveCreateResponseDto>> CreateAsync(CurrencyExchangeReserveCreateRequestDto requestDto)
         {
             CurrencyExchangeReserveCreateResponseDto responseDto;
 
@@ -69,5 +69,18 @@ namespace CoreBankingWebApplication.Services
 
             return Result<CurrencyExchangeReserveCreateResponseDto>.Success(responseDto);
         }       
+
+        public async Task<Result<ICollection<CurrencyExchangeReserveGetResponseDto>>> GetAllAsync()
+        {
+            var result = await _dbContext.CurrencyExchangeReserves.Select(e => new CurrencyExchangeReserveGetResponseDto()
+            {
+                CurrencyExchangeReserveId = e.CurrencyExchangeReserveId,
+                CurrencyId = e.CurrencyId,
+                Balance = e.Balance
+            }).ToListAsync();
+
+            return Result<ICollection<CurrencyExchangeReserveGetResponseDto>>.Success(result);
+        }
+
     }
 }

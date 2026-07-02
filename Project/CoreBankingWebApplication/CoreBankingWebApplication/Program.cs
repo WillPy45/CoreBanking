@@ -47,6 +47,7 @@ namespace CoreBankingWebApplication
 
             builder.Services.AddScoped<TransferBalanceBetweenAccountService>();
             builder.Services.AddScoped<CurrencyCrudService>();
+            builder.Services.AddScoped<CurrencyExchangeReserveCrudService>();
 
             var app = builder.Build();
 
