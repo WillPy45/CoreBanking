@@ -2,6 +2,7 @@ TODO:
 1) Obtain a free API for getting exchange rates (Not initialized)
 2) Implemente currency exchange service (Finished but no tested, and uses trash fixed change rates values)
 3) Test currency exchange service (Pending)
-4) Implement a system that recover the services status if the server is shutdown, and retry all pendings operations.
-For example, a balance transaction is not cancelled and recover their previous balance status, that must be recover. (Not initialized)
-5) Test recover services status system (Not initialized, 4 is required)
+4) Implement a system that ensures if services are in Processing and Finished. If are logically finished, f.e: entities tables and audit tables has been commited BUT <br>
+The controller didnt send the HTTP response with Ok, Created, or similar codes, instead of that, client assumes that is eternal pending and possible FAIL, assuming that <br>
+changes is not implemented (that´s false, in BD transactions is well commited) (Require a big refactor for that, at the moment others pendings task are more important, transactions ensures <br>
+that data is not corrupted at least)	
