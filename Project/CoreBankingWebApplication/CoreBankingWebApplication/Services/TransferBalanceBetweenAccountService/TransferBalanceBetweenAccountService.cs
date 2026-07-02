@@ -32,8 +32,9 @@ namespace CoreBankingWebApplication.Services
         /// 3. Verify sufficient funds in the sender account.
         /// 4. Update balances and write audit log.
         /// </remarks>
-        public async Task<Result<string>> TransferAsync(BalanceTransactionDTO transferDto)
+        public async Task<Result<string, TransferBalanceBetweenAccountError>> TransferAsync(BalanceTransactionDTO transferDto)
         {
+            Result<string, TransferBalanceBetweenAccountError> result;
 
             int senderAccountId = transferDto.SenderBankAccountId;
             int receiverAccountId = transferDto.ReceiverBankAccountId;
@@ -45,15 +46,15 @@ namespace CoreBankingWebApplication.Services
                 // Prevent self-transfers
                 if (senderAccountId == receiverAccountId)
                 {
-                    return Result<string>.Fail(
-                        new Error("Transfer.TransferItSelf", "Accounts cannot be transferred to yourself"));
+                    return Result<string, TransferBalanceBetweenAccountError>
+                        .Fail(TransferBalanceBetweenAccountError.SameBankAccount, "Accounts cannot be transferred to yourself");
                 }    
 
                 // Validate that ammount balance is positive
                 if (transferAmount < 0.0m)
                 {
-                    return Result<string>.Fail(
-                        new Error("Transfer.NegativeOrZeroAmount", "Amount must be positive number"));
+                    return Result<string, TransferBalanceBetweenAccountError>
+                        .Fail(TransferBalanceBetweenAccountError.NegativeOrZeroAmount, "Amount must be positive number");
                 }
 
                 // Fetch both accounts tracked by EF in a single roundtrip to optimize database performance
@@ -67,29 +68,28 @@ namespace CoreBankingWebApplication.Services
                 //Ensures that accounts exists
                 if (senderAccount is null)
                 {
-                    return Result<string>.Fail(
-                        new Error("BankAccount.SenderAccountNotFound", "Sender account not found"));
+                    return Result<string, TransferBalanceBetweenAccountError>.Fail(
+                        TransferBalanceBetweenAccountError.SenderBankAccountNotFound, "Sender bank account not found");
                 }
 
                 if (receiverAccount is null)
                 {
-                    return Result<string>.Fail(
-                        new Error("BankAccount.ReceiverAccountNotFound", "Receiver account not found"));
+                    return Result<string, TransferBalanceBetweenAccountError>.Fail(
+                        TransferBalanceBetweenAccountError.ReceiverBankccountNotFound, "Receiver bank account not found");
                 }
 
                 // Ensures that both are same currency type (USD to USD, PYG to PYG, NOT USD to PYG)
                 if(senderAccount.CurrencyId != receiverAccount.CurrencyId)
                 {
-                    return Result<string>.Fail(
-                        new Error("Transfer.CurrencyMustBeEqual", "Sender and receiver differs in currency type")
-                    );
+                    return Result<string, TransferBalanceBetweenAccountError>.Fail(
+                        TransferBalanceBetweenAccountError.CurrencyDiffers, "Sender and receiver differs in currency type");
                 }
 
                 // Ensures that sender has enough balance
                 if (senderAccount.Balance < transferAmount)
                 {
-                    return Result<string>.Fail(
-                        new Error("Transfer.NotEnoughBalance", "Sender balance is not enough for this transaction"));
+                    return Result<string, TransferBalanceBetweenAccountError>.Fail(
+                        TransferBalanceBetweenAccountError.NotEnoughBalance, "Sender balance is not enough for this transaction");
                 }
 
                 // Balance transaction
@@ -116,7 +116,7 @@ namespace CoreBankingWebApplication.Services
                 throw;
             }
 
-            return Result<string>.Success("Transaction completed successfully");
+            return Result<string, TransferBalanceBetweenAccountError>.Success("Transaction completed successfully");
         }
 
     }

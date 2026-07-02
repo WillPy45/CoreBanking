@@ -5,6 +5,7 @@ using CoreBankingWebApplication.Models.Entities;
 using CoreBankingWebApplication.Models.DTOs;
 using CoreBankingWebApplication.Services;
 
+
 using Microsoft.EntityFrameworkCore;
 using CoreBankingWebApplication.Common;
 
@@ -23,7 +24,7 @@ namespace CoreBankingWebApplication.Controllers
         }
 
         [HttpPost]
-        public async Task<Result<string>> Post(BalanceTransactionDTO balanceTransactionDTO)
+        public async Task<Result<string, TransferBalanceBetweenAccountError>> Post(BalanceTransactionDTO balanceTransactionDTO)
         {
             var serviceResult = await _transferService.TransferAsync(balanceTransactionDTO);
 

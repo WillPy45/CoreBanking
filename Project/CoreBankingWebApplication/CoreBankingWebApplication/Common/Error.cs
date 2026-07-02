@@ -1,6 +1,6 @@
 namespace CoreBankingWebApplication.Common
 {
-    public class Error<TErrorEnum>
+    public class Error<TErrorEnum> where TErrorEnum : Enum
     {
         public TErrorEnum Code { get; }
         public string Message { get; }

@@ -4,7 +4,7 @@ namespace CoreBankingWebApplication.Common
   {
 
     public class Result<TValue, TErrorEnum> : IResult<TValue, TErrorEnum>
-
+    where TErrorEnum : Enum
     {
         
         public TValue? Value {get;}
@@ -26,16 +26,16 @@ namespace CoreBankingWebApplication.Common
         }
 
         // If failure
-        public Result(Error<TErrorEnum> error)
+        public Result(TErrorEnum code, string message)
         {
             Value = default;
             IsSuccess = false;
-            Error = error ?? throw new ArgumentNullException(nameof(error));
+            Error = new Error<TErrorEnum>(code, message);
         }
         // Methods to generate common results
 
         // Returns a failure Result object
-        public static Result<TValue, TErrorEnum> Fail(Error<TErrorEnum> error) => new Result<TValue, TErrorEnum>(error);
+        public static Result<TValue, TErrorEnum> Fail(TErrorEnum code, string message) => new Result<TValue, TErrorEnum>(code, message);
 
 
         // Returns a sucessfull Result object
