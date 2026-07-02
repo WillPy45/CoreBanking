@@ -18,7 +18,7 @@
             public int DebitedExchangeReserveId {get; set; } // The currency type is here
             public CurrencyExchangeReserve? DebitedExchangeReserve { get; set; }
 
-            public int AccreditedReserveId { get; set; }
+            public int AccreditedExchangeReserveId { get; set; }
             public CurrencyExchangeReserve? AccreditedExchangeReserve { get; set; }
 
 

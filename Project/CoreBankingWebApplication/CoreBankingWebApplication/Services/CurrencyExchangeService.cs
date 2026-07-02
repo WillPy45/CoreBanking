@@ -186,7 +186,7 @@ namespace CoreBankingWebApplication.Services
                     SenderBankAccountId = senderId,
                     ReceiverBankAccountId = receiverId,
                     DebitedExchangeReserveId = debitedReserve.CurrencyExchangeReserveId,
-                    AccreditedReserveId = accreditedReserve.CurrencyExchangeReserveId,
+                    AccreditedExchangeReserveId = accreditedReserve.CurrencyExchangeReserveId,
                     SourceAmount = amount,
                     BankUnitPrice = unitPrice,
                     GrossAmount = grossAmount,
