@@ -5,7 +5,7 @@ namespace CoreBankingWebApplication.Models
         public int CustomerId { get; set; } //references to a CustomerID
        
         public int CurrencyId {get; set;} //Fk to determinate currency
-        public decimal Balance { get; set; } //At the moment we just manage PY currency
+        public decimal Balance { get; set; }
 
         public BankAccountInputDTO(BankAccount entity)
         {
