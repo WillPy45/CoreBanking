@@ -13,7 +13,7 @@ namespace CoreBankingWebApplication.Services
             _dbContext = dbContext;
         }
 
-        public async Task<Result<CurrencyExchangeReserveCreateResponseDto>> CreateCurrencyReserve(CurrencyExchangeReserveCreateRequestDto requestDto)
+        public async Task<Result<CurrencyExchangeReserveCreateResponseDto>> CreateCurrencyReserveAsync(CurrencyExchangeReserveCreateRequestDto requestDto)
         {
             CurrencyExchangeReserveCreateResponseDto responseDto;
 
