@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using CoreBankingWebApplication.Models; 
+using CoreBankingWebApplication.Models.Entities;
 
 namespace CoreBankingWebApplication.Database
 {

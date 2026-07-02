@@ -1,4 +1,4 @@
-    namespace CoreBankingWebApplication.Models
+namespace CoreBankingWebApplication.Models.Entities
     {
         // Entity
         // This entity represents an audit table for Currency Exchange operations

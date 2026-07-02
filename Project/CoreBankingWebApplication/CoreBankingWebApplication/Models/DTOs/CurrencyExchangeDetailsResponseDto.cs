@@ -1,4 +1,7 @@
-namespace CoreBankingWebApplication.Models
+using CoreBankingWebApplication.Models.Entities;
+
+
+namespace CoreBankingWebApplication.Models.DTOs
 {
     // Data transfer object for represents the final result of an exchange operation
     // This DTO will to project data and returns by a service

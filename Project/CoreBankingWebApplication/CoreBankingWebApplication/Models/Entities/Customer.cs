@@ -1,4 +1,4 @@
-﻿namespace CoreBankingWebApplication.Models
+﻿namespace CoreBankingWebApplication.Models.Entities
 {
     public class Customer
     {

@@ -1,4 +1,7 @@
-namespace CoreBankingWebApplication.Models
+using CoreBankingWebApplication.Models.Entities;
+
+
+namespace CoreBankingWebApplication.Models.DTOs
 {
     public class CurrencyBasicOutputDto
     {

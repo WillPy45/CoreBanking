@@ -299,7 +299,6 @@ Content-Type: application/json
 //    "balance": 10000.000000000000000000000000
 //  }
 
-// Result
 
 POST {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
 Content-Type: application/json
@@ -307,5 +306,44 @@ Content-Type: application/json
 {
     "SenderBankAccountId": 7,
     "ReceiverBankAccountId": 8,
-    "Amount": 1000
+    "Amount": 100000
 }
+
+// Result
+ //{
+ //   "bankAccountId": 7,
+ //   "customerId": 1,
+ //   "currencyId": 37,
+ //   "balance": 9000.000000000000000000000000
+ // },
+ // {
+ //   "bankAccountId": 8,
+ //   "customerId": 1,
+ //   "currencyId": 37,
+ //   "balance": 11000.000000000000000000000000
+ // }
+
+### CURRENCY EXCHANGE
+
+//[
+//  {
+//    "bankAccountId": 6,
+//    "customerId": 1,
+//    "currencyId": 1,
+//    "balance": 10000.000000000000000000000000
+//  },
+//  {
+//    "bankAccountId": 7,
+//    "customerId": 1,
+//    "currencyId": 37,
+//    "balance": 9000.000000000000000000000000
+//  },
+//  {
+//    "bankAccountId": 8,
+//    "customerId": 1,
+//    "currencyId": 37,
+//    "balance": 11000.000000000000000000000000
+//  }
+//]
+
+POST {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
