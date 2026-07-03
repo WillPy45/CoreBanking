@@ -7,6 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoreBankingWebApplication.Services
 {
+    using GetAllTransactionsResult = Result<ICollection<BalanceTransactionGetResponse>, GetAllTransactionsError>;
+    using TransferBetweenAccountsResult = Result<string, TransferBalanceBetweenAccountError>;
+
+
     /// <summary>
     /// Service handles transactional balance transfers between two distinct bank accounts,
     /// ensuring business rules validation and strict audit logging.
@@ -32,7 +36,7 @@ namespace CoreBankingWebApplication.Services
         /// 3. Verify sufficient funds in the sender account.
         /// 4. Update balances and write audit log.
         /// </remarks>
-        public async Task<Result<string, TransferBalanceBetweenAccountError>> TransferAsync(BalanceTransactionDTO transferDto)
+        public async Task<TransferBetweenAccountsResult> TransferAsync(BalanceTransactionDTO transferDto)
         {
 
             int senderAccountId = transferDto.SenderBankAccountId;
@@ -45,14 +49,14 @@ namespace CoreBankingWebApplication.Services
                 // Prevent self-transfers
                 if (senderAccountId == receiverAccountId)
                 {
-                    return Result<string, TransferBalanceBetweenAccountError>
+                    return TransferBetweenAccountsResult
                         .Fail(TransferBalanceBetweenAccountError.SameBankAccount, "Accounts cannot be transferred to yourself");
                 }    
 
                 // Validate that ammount balance is positive
                 if (transferAmount < 0.0m)
                 {
-                    return Result<string, TransferBalanceBetweenAccountError>
+                    return TransferBetweenAccountsResult
                         .Fail(TransferBalanceBetweenAccountError.NegativeOrZeroAmount, "Amount must be positive number");
                 }
 
@@ -67,27 +71,27 @@ namespace CoreBankingWebApplication.Services
                 //Ensures that accounts exists
                 if (senderAccount is null)
                 {
-                    return Result<string, TransferBalanceBetweenAccountError>.Fail(
+                    return TransferBetweenAccountsResult.Fail(
                         TransferBalanceBetweenAccountError.SenderBankAccountNotFound, "Sender bank account not found");
                 }
 
                 if (receiverAccount is null)
                 {
-                    return Result<string, TransferBalanceBetweenAccountError>.Fail(
+                    return TransferBetweenAccountsResult.Fail(
                         TransferBalanceBetweenAccountError.ReceiverBankccountNotFound, "Receiver bank account not found");
                 }
 
                 // Ensures that both are same currency type (USD to USD, PYG to PYG, NOT USD to PYG)
                 if(senderAccount.CurrencyId != receiverAccount.CurrencyId)
                 {
-                    return Result<string, TransferBalanceBetweenAccountError>.Fail(
+                    return TransferBetweenAccountsResult.Fail(
                         TransferBalanceBetweenAccountError.CurrencyDiffers, "Sender and receiver differs in currency type");
                 }
 
                 // Ensures that sender has enough balance
                 if (senderAccount.Balance < transferAmount)
                 {
-                    return Result<string, TransferBalanceBetweenAccountError>.Fail(
+                    return TransferBetweenAccountsResult.Fail(
                         TransferBalanceBetweenAccountError.NotEnoughBalance, "Sender balance is not enough for this transaction");
                 }
 
@@ -115,7 +119,20 @@ namespace CoreBankingWebApplication.Services
                 throw;
             }
 
-            return Result<string, TransferBalanceBetweenAccountError>.Success("Transaction completed successfully");
+            return TransferBetweenAccountsResult.Success("Transaction completed successfully");
+        }
+
+        public async Task<GetAllTransactionsResult> GetAllTransactionAsync()
+        {
+            var responseDto = await _dbContext.BalanceTransactions.Select(e => new BalanceTransactionGetResponse()
+            {
+                BalanceTransactionId = e.BalanceTransactionId,
+                ReceiverBankAccountId = e.ReceiverBankAccountId,
+                SenderBankAccountId = e.SenderBankAccountId,
+                Amount = e.Amount
+            }).ToListAsync();
+
+            return GetAllTransactionsResult.Success(responseDto);
         }
 
     }

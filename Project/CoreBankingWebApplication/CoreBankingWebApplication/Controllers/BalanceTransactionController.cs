@@ -33,21 +33,34 @@ namespace CoreBankingWebApplication.Controllers
                 switch (serviceResult.Error.Code)
                 {
                     case TransferBalanceBetweenAccountError.CurrencyDiffers:
+                    case TransferBalanceBetweenAccountError.NotEnoughBalance:
                         return Conflict(serviceResult.Error.Message);
 
                     case TransferBalanceBetweenAccountError.NegativeOrZeroAmount:
                     case TransferBalanceBetweenAccountError.SameBankAccount:
-                        return BadRequest(serviceResult.Error.Code);
+                        return BadRequest(serviceResult.Error.Message);
 
                     case TransferBalanceBetweenAccountError.ReceiverBankccountNotFound:
                     case TransferBalanceBetweenAccountError.SenderBankAccountNotFound:
-                        return NotFound(serviceResult.Error.Code);
+                        return NotFound(serviceResult.Error.Message);
 
                     default:
-                        return StatusCode(StatusCodes.Status500InternalServerError, serviceResult.Error.Code);   
+                        return StatusCode(StatusCodes.Status500InternalServerError, serviceResult.Error.Message);   
                 }
             }
             return Ok(serviceResult.Value);    
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var serviceResult = await _transferService.GetAllTransactionAsync();
+            if (serviceResult.IsFailure)
+            {
+                
+            }
+
+            return StatusCode(StatusCodes.Status200OK, serviceResult.Value);
         }
     } 
 

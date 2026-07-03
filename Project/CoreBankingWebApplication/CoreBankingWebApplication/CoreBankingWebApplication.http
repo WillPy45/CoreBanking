@@ -120,8 +120,8 @@ Content-Type: application/json
 
 {
     "SenderBankAccountId": 1,
-    "ReceiverBankAccountId": 2,
-    "Amount": -40000000.0
+    "ReceiverBankAccountId": 1,
+    "Amount": 400.0
 }
 
 ### Test 2
@@ -138,7 +138,7 @@ Content-Type: application/json
 {
     "SenderBankAccountId": 4,
     "ReceiverBankAccountId": 5,
-    "Amount": -10000.0
+    "Amount": 9999.0
 }
 
 
@@ -305,8 +305,8 @@ Content-Type: application/json
 
 {
     "SenderBankAccountId": 7,
-    "ReceiverBankAccountId": 8,
-    "Amount": 100000
+    "ReceiverBankAccountId": 7,
+    "Amount": 1
 }
 
 // Result
@@ -347,3 +347,6 @@ Content-Type: application/json
 //]
 
 POST {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
+
+###
+GET  {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
