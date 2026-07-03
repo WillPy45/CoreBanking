@@ -50,7 +50,7 @@ namespace CoreBankingWebApplication.Controllers
                     throw new Exception("Error code must not be null, service is buggy");
                 }*/
 
-                if (currencyCrudServiceResult.Error.Code == "Currency.AlreadyExists")
+                if (currencyCrudServiceResult.Error.Code == CurrencyCrudCreateServiceError.AlreadyExists)
                 {
                     return BadRequest(currencyCrudServiceResult.Error);
                 }

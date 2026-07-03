@@ -8,6 +8,7 @@ using CoreBankingWebApplication.Services;
 
 using Microsoft.EntityFrameworkCore;
 using CoreBankingWebApplication.Common;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace CoreBankingWebApplication.Controllers
 {
@@ -24,11 +25,29 @@ namespace CoreBankingWebApplication.Controllers
         }
 
         [HttpPost]
-        public async Task<Result<string, TransferBalanceBetweenAccountError>> Post(BalanceTransactionDTO balanceTransactionDTO)
+        public async Task<IActionResult> Post(BalanceTransactionDTO balanceTransactionDTO)
         {
             var serviceResult = await _transferService.TransferAsync(balanceTransactionDTO);
+            if (serviceResult.IsFailure)
+            {
+                switch (serviceResult.Error.Code)
+                {
+                    case TransferBalanceBetweenAccountError.CurrencyDiffers:
+                        return Conflict(serviceResult.Error.Message);
 
-            return serviceResult;    
+                    case TransferBalanceBetweenAccountError.NegativeOrZeroAmount:
+                    case TransferBalanceBetweenAccountError.SameBankAccount:
+                        return BadRequest(serviceResult.Error.Code);
+
+                    case TransferBalanceBetweenAccountError.ReceiverBankccountNotFound:
+                    case TransferBalanceBetweenAccountError.SenderBankAccountNotFound:
+                        return NotFound(serviceResult.Error.Code);
+
+                    default:
+                        return StatusCode(StatusCodes.Status500InternalServerError, serviceResult.Error.Code);   
+                }
+            }
+            return Ok(serviceResult.Value);    
         }
     } 
 

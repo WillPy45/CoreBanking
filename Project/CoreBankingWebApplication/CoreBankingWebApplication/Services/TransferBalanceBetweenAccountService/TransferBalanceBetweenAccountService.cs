@@ -34,7 +34,6 @@ namespace CoreBankingWebApplication.Services
         /// </remarks>
         public async Task<Result<string, TransferBalanceBetweenAccountError>> TransferAsync(BalanceTransactionDTO transferDto)
         {
-            Result<string, TransferBalanceBetweenAccountError> result;
 
             int senderAccountId = transferDto.SenderBankAccountId;
             int receiverAccountId = transferDto.ReceiverBankAccountId;
