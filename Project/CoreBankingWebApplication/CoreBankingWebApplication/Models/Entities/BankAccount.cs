@@ -5,11 +5,11 @@
         public int BankAccountId { get; set; }
 
         public int CustomerId { get; set; } //references to a CustomerID
-        public Customer? Customer { get; set; } // Navigation property
+        public Customer Customer { get; set; } = null!; // Navigation property
 
         
         public int CurrencyId { get; set; }
-        public Currency? Currency { get; set; }
+        public Currency Currency { get; set; } = null!;
         
         public decimal Balance { get; set; } 
 

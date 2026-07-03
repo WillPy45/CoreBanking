@@ -12,20 +12,20 @@ namespace CoreBankingWebApplication.Models.Entities
             // so is unnecesary to specific the currency
             // I want to sell some USD from my bank account (SenderAccount) ...
             public int SenderBankAccountId { get; set; } 
-            public BankAccount? SenderBankAccount { get; set; } // nav. prop.
+            public BankAccount SenderBankAccount { get; set; } = null!; // nav. prop.
             
             // for buy from this reserve ...
             public int DebitedExchangeReserveId {get; set; } // The currency type is here
-            public CurrencyExchangeReserve? DebitedExchangeReserve { get; set; }
+            public CurrencyExchangeReserve DebitedExchangeReserve { get; set; } = null!;
 
             public int AccreditedExchangeReserveId { get; set; }
-            public CurrencyExchangeReserve? AccreditedExchangeReserve { get; set; }
+            public CurrencyExchangeReserve AccreditedExchangeReserve { get; set; } = null!;
 
 
             // ... and receive in this account
 
             public int ReceiverBankAccountId { get; set; } 
-            public BankAccount? ReceiverBankAccount { get; set; } // nav. prop.
+            public BankAccount ReceiverBankAccount { get; set; } = null!; // nav. prop.
 
             // Original amount (before exchange)
             public decimal SourceAmount { get; set; }

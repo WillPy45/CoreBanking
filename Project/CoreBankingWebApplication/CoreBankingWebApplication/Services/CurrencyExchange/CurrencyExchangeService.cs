@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 //using CoreBankingWebApplication.Migrations;
 
 namespace CoreBankingWebApplication.Services
-{
+{   
+    using CurrencyExchangeResult = Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>;
     public class CurrencyExchangeService
     {
         private readonly ApplicationDbContext _dbContext;
@@ -33,7 +34,7 @@ namespace CoreBankingWebApplication.Services
             8. Generates response dto
         */
 
-        public async Task<Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>> Exchange(CurrencyExchangeRequestDto requestDto)
+        public async Task<CurrencyExchangeResult> Exchange(CurrencyExchangeRequestDto requestDto)
         {
             CurrencyExchangeDetailsResponseDto responseDto;
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
@@ -43,14 +44,14 @@ namespace CoreBankingWebApplication.Services
                 // Ensures that are different accounts
                 if (requestDto.ReceiverBankAccountId == requestDto.SenderBankAccountId)
                 {
-                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>
+                    return CurrencyExchangeResult
                         .Fail(CurrencyExchangeServiceError.SameBankAccounts, "Is not posible to operates between same bank accounts");
                 }
 
                 // Ensures that uses positive amount
                 if (requestDto.Amount <= 0)
                 {
-                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>
+                    return CurrencyExchangeResult
                         .Fail(CurrencyExchangeServiceError.NegativeOrZeroAmount, "Amount must be positive number");  
                 }
 
@@ -61,7 +62,7 @@ namespace CoreBankingWebApplication.Services
 
                 var bankAccountsRecords = await _dbContext.BankAccounts
                     .Include(e => e.Currency)
-                    .Where(e => (e.BankAccountId == senderId || e.BankAccountId == receiverId))
+                    .Where(e => e.BankAccountId == senderId || e.BankAccountId == receiverId)
                     .ToListAsync();
                 
                 var senderBankAccount = bankAccountsRecords.Find(e => e.BankAccountId == senderId);
@@ -69,20 +70,20 @@ namespace CoreBankingWebApplication.Services
 
                 if (senderBankAccount is null)
                 {
-                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>.Fail(
+                    return CurrencyExchangeResult.Fail(
                         CurrencyExchangeServiceError.SenderBankAccountNotFound, "Sender bank account not found");
                 }
 
                 if (receiverBankAccount is null)
                 {
-                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>.Fail(
+                    return CurrencyExchangeResult.Fail(
                         CurrencyExchangeServiceError.receiverBankAccountNotFound, "Receiver bank account not found");
                 }
 
                 // Ensures that sender has enough money for the transaction
                 if (senderBankAccount.Balance < requestDto.Amount)
                 {
-                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>.Fail(
+                    return CurrencyExchangeResult.Fail(
                         CurrencyExchangeServiceError.NotEnoughBalance, "Sender balance is not enough for this transaction");
                 }
 
@@ -110,19 +111,17 @@ namespace CoreBankingWebApplication.Services
                     {
                         throw new Exception("navigation property is null, implementation error"); 
                     }
-                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>
-                        .Fail(CurrencyExchangeServiceError.HasNotReserveForAcceptTheCurrencies,
+                    return CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotReserveForAcceptTheCurrencies,
                          $"Bank reserves cannot accept {senderBankAccount.Currency.Code}");
                 }
 
                 if (debitedReserve is null)
                 {
-                    if (receiverBankAccount.Currency is null)
+                    /*if (receiverBankAccount.Currency is null)
                     {
                         throw new Exception("navigation property is null, implementation error"); 
-                    }
-                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>
-                        .Fail(CurrencyExchangeServiceError.HasNotReserveForDepositTheCurrencies,
+                    }*/ 
+                    return CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotReserveForDepositTheCurrencies,
                         $"Bank reserves cannot deposit {receiverBankAccount.Currency.Code}");
                 }
 

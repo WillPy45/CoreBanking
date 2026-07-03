@@ -13,10 +13,10 @@ namespace CoreBankingWebApplication.Models.Entities
        public int BalanceTransactionId { get; set; } 
 
        public int SenderBankAccountId { get; set; } // Account that has been debited
-       public BankAccount? SenderBankAccount { get; set; } // Navigation property
+       public BankAccount SenderBankAccount { get; set; } = null!;   // Navigation property
 
        public int ReceiverBankAccountId { get; set; } // Account that has been acredited
-       public BankAccount? ReceiverBankAccount { get; set; } // Navigation property
+       public BankAccount ReceiverBankAccount { get; set; } = null!; // Navigation property
        
        public decimal Amount {get; set; }
 

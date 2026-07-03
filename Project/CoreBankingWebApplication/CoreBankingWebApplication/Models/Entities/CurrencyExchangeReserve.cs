@@ -6,7 +6,7 @@ namespace CoreBankingWebApplication.Models.Entities
     {
         public int CurrencyExchangeReserveId { get; set; }
         public int CurrencyId { get; set; }
-        public Currency? Currency { get; set; }
+        public Currency Currency { get; set; } = null!;
         public decimal Balance { get; set; }
 
         public ICollection<CurrencyExchange>? DebitedExchangeCurrencies {get; set;}

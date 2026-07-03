@@ -7,6 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoreBankingWebApplication.Services
 {
+    //Aliases
+    using CurrencyCreateResult = Result<string, CurrencyCrudCreateServiceError>;
+    using CurrencyGetAllResult = Result<ICollection<CurrencyBasicOutputDto>, CurrencyCrudGetAllServiceError>;
+    
     public class CurrencyCrudService
     {
         private readonly ApplicationDbContext _dbContext;
@@ -16,8 +20,9 @@ namespace CoreBankingWebApplication.Services
             _dbContext = dbContext;
         }
 
-        public async Task<Result<string, CurrencyCrudCreateServiceError>> CreateAsync(CurrencyDto dto)
+        public async Task<CurrencyCreateResult> CreateAsync(CurrencyDto dto)
         {
+            
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
 
@@ -30,19 +35,19 @@ namespace CoreBankingWebApplication.Services
             }catch (DbUpdateException)
             {
                 await transaction.RollbackAsync();
-                return Result<string, CurrencyCrudCreateServiceError>.Fail(CurrencyCrudCreateServiceError.AlreadyExists, "Already existing currency");
+                return CurrencyCreateResult.Fail(CurrencyCrudCreateServiceError.AlreadyExists, "Already existing currency");
             }catch (Exception)
             {
                 await transaction.RollbackAsync();
                 throw;
             }
 
-            return Result<string, CurrencyCrudCreateServiceError>.Success("Currency created succesfully");
+            return CurrencyCreateResult.Success("Currency created succesfully");
         }
 
-        public async Task<Result<ICollection<CurrencyBasicOutputDto>, CurrencyCrudGetAllServiceError>> GetCurrencies()
+        public async Task<CurrencyGetAllResult> GetCurrencies()
         {
-           return Result<ICollection<CurrencyBasicOutputDto>, CurrencyCrudGetAllServiceError>.Success( 
+           return CurrencyGetAllResult.Success( 
                 await _dbContext.Currencies.Select((e) => CurrencyBasicOutputDto.FromEntity(e))
                 .ToListAsync()
             );

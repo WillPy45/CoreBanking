@@ -13,10 +13,10 @@ namespace CoreBankingWebApplication.Models.DTOs
 
         public int ReceiverBankAccountId {get; set; } 
 
-        public string? FromCurrencyCode { get; set; } // f.e: PYG 
+        public required string FromCurrencyCode { get; set; } // f.e: PYG 
         public decimal SourceAmount {get; set; } // f.e: PYG 200000
 
-        public string? ToCurrencyCode {get; set;} // f.e: USD
+        public required string ToCurrencyCode {get; set;} // f.e: USD
         public decimal BankUnitPrice { get; set; } 
 
         public decimal GrossAmount { get; set; } // Before discounts
