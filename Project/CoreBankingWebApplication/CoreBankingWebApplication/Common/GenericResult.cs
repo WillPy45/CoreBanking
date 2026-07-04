@@ -10,9 +10,11 @@ namespace CoreBankingWebApplication.Common
         public TValue? Value {get;}
 
         [MemberNotNullWhen(true, nameof(Value))]
+        [MemberNotNullWhen(false, nameof(Error))]
         public bool IsSuccess {get;}
 
         [MemberNotNullWhen(true, nameof(Error))]
+        [MemberNotNullWhen(false, nameof(Value))]
         public bool IsFailure => !IsSuccess;
     
         public Error<TErrorEnum>? Error {get; }
