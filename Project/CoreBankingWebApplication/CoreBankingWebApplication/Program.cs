@@ -1,6 +1,7 @@
 
 using CoreBankingWebApplication.Database;
 using CoreBankingWebApplication.Middlewares;
+using CoreBankingWebApplication.Migrations;
 using CoreBankingWebApplication.Services;
 using Serilog;
 using Serilog.Sinks.File;
@@ -48,6 +49,8 @@ namespace CoreBankingWebApplication
             builder.Services.AddScoped<TransferBalanceBetweenAccountService>();
             builder.Services.AddScoped<CurrencyCrudService>();
             builder.Services.AddScoped<CurrencyExchangeReserveCrudService>();
+            builder.Services.AddScoped<ICurrencyRateService, CurrencyRateService>();
+            builder.Services.AddScoped<CurrencyExchangeService>();
 
             var app = builder.Build();
 

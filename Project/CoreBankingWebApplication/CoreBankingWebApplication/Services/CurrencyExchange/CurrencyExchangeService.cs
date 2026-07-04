@@ -25,16 +25,17 @@ namespace CoreBankingWebApplication.Services
             1. Ensures that are different accounts
             2. Ensures that uses positive amount
             3. Ensures that sender and receiver exists
-            3. Ensures that sender has enough money for the transaction
-            3. Ensures that currency exchange reserves exists in the database
-            4. Ensures that debited currency exchange reserve has enough balance for the operation
-            5. Ensures that rate convertion service has rate conversion for defined currency
-            6. Transactions operations occurs 
-            7. Generates audit table for exchange transactions
-            8. Generates response dto
+            4. Ensures that sender and receiver accounts are differents currencies
+            5. Ensures that sender has enough money for the transaction
+            6. Ensures that currency exchange reserves exists in the database
+            7. Ensures that debited currency exchange reserve has enough balance for the operation
+            8. Ensures that rate convertion service has rate conversion for defined currency
+            9. Transactions operations occurs 
+            10. Generates audit table for exchange transactions
+            11. Generates response dto
         */
 
-        public async Task<CurrencyExchangeResult> Exchange(CurrencyExchangeRequestDto requestDto)
+        public async Task<CurrencyExchangeResult> ExchangeAsync(CurrencyExchangeRequestDto requestDto)
         {
             CurrencyExchangeDetailsResponseDto responseDto;
             using var transaction = await _dbContext.Database.BeginTransactionAsync();
@@ -77,7 +78,12 @@ namespace CoreBankingWebApplication.Services
                 if (receiverBankAccount is null)
                 {
                     return CurrencyExchangeResult.Fail(
-                        CurrencyExchangeServiceError.receiverBankAccountNotFound, "Receiver bank account not found");
+                        CurrencyExchangeServiceError.ReceiverBankAccountNotFound, "Receiver bank account not found");
+                }
+
+                //Ensures that both are using differents currencies
+                if (receiverBankAccount.Currency.Code == senderBankAccount.Currency.Code){
+                    return CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.SameCurrencyType, "Currency type must be different");
                 }
 
                 // Ensures that sender has enough money for the transaction
@@ -141,7 +147,7 @@ namespace CoreBankingWebApplication.Services
 
                 if (currencyRateServiceResult.IsFailure)
                 {
-                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>.
+                    return CurrencyExchangeResult.
                         Fail(CurrencyExchangeServiceError.ConversionFailed, "Internal implementation for conversion failed");
                 }
 
@@ -158,64 +164,40 @@ namespace CoreBankingWebApplication.Services
 
                 if (debitedReserve.Balance < grossAmount)
                 {
-                    return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>
+                    return CurrencyExchangeResult
                         .Fail(CurrencyExchangeServiceError.HasNotEnoughBalanceInCurrencyReserve,
                         $"Bank reserve has not enough balance to deposit in receiver account");
                 }
 
 
                 // Transactions operations occurs 
-                // Acredites to reserve and debited from bank account
-                accreditedReserve.Balance += amount;
-                senderBankAccount.Balance -= amount;
-              
-                // Debites from receiver account and acredites to reserve
-              
-                debitedReserve.Balance -= grossAmount;
-                receiverBankAccount.Balance += grossAmount;
 
                 // Some administrative discounts (if applies)
                 decimal bankDiscountInPercentage = 0.0m;
                 decimal bankDiscount = grossAmount * bankDiscountInPercentage;
                 decimal netAmount = grossAmount - bankDiscount;
 
-                // Generates audit table for exchange transactions
+                // Acredites to reserve and debited from bank account
+                accreditedReserve.Balance += amount;
+                senderBankAccount.Balance -= amount;
+              
+                // Debites from receiver account and acredites to reserve
+              
+                debitedReserve.Balance -= netAmount;
+                receiverBankAccount.Balance += netAmount;
 
-                var auditTable = new CurrencyExchange()
-                {
-                    SenderBankAccountId = senderId,
-                    ReceiverBankAccountId = receiverId,
-                    DebitedExchangeReserveId = debitedReserve.CurrencyExchangeReserveId,
-                    AccreditedExchangeReserveId = accreditedReserve.CurrencyExchangeReserveId,
-                    SourceAmount = amount,
-                    BankUnitPrice = unitPrice,
-                    GrossAmount = grossAmount,
-                    BankDiscountInPercentage = bankDiscountInPercentage,
-                    BankDiscount = bankDiscount,
-                    NetAmount = netAmount,
-                    CreateAt = DateTime.UtcNow                    
-                };
+        
+
+                // Generates audit table for exchange transactions
+                var auditTable = CreateAuditRecord(senderBankAccount, receiverBankAccount, debitedReserve, accreditedReserve, amount, grossAmount, unitPrice, bankDiscountInPercentage, bankDiscount, netAmount);
+
 
                 await _dbContext.CurrencyExchanges.AddAsync(auditTable);
 
                 await _dbContext.SaveChangesAsync();
 
                 // Prepares te response dto
-                responseDto = new()
-                {
-                    CurrencyExchangeId = auditTable.CurrencyExchangeId,
-                    SenderBankAccountId = auditTable.SenderBankAccountId,
-                    ReceiverBankAccountId = auditTable.ReceiverBankAccountId,
-                    FromCurrencyCode = fromCurrencyCode,
-                    ToCurrencyCode = toCurrencyCode,
-                    SourceAmount = auditTable.SourceAmount,
-                    BankUnitPrice = auditTable.BankUnitPrice,
-                    GrossAmount = auditTable.GrossAmount,
-                    BankDiscountInPercentage = auditTable.BankDiscountInPercentage,
-                    BankDiscount = auditTable.BankDiscount,
-                    NetAmount = auditTable.NetAmount,
-                    CreateAt = auditTable.CreateAt     
-                };
+                responseDto = MapToResponseDto(auditTable);
 
                 
                 await transaction.CommitAsync();
@@ -227,9 +209,65 @@ namespace CoreBankingWebApplication.Services
                 throw;
             }
 
-            return Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>.Success(responseDto);
+            return CurrencyExchangeResult.Success(responseDto);
+        }
+
+        public CurrencyExchangeDetailsResponseDto MapToResponseDto(CurrencyExchange entity)
+        {
+            return new()
+            {
+                CurrencyExchangeId = entity.CurrencyExchangeId,
+                SenderBankAccountId = entity.SenderBankAccountId,
+                ReceiverBankAccountId = entity.ReceiverBankAccountId,
+                FromCurrencyCode = entity.SenderBankAccount.Currency.Code,
+                ToCurrencyCode = entity.ReceiverBankAccount.Currency.Code,
+                SourceAmount = entity.SourceAmount,
+                BankUnitPrice = entity.BankUnitPrice,
+                GrossAmount = entity.GrossAmount,
+                BankDiscountInPercentage = entity.BankDiscountInPercentage,
+                BankDiscount = entity.BankDiscount,
+                NetAmount = entity.NetAmount,
+                CreateAt = entity.CreateAt     
+            };
+        }
+
+        /// <summary>
+        /// Creates an object that represents a audit table for Currency Exchange
+        /// </summary>
+        /// <param name="senderBankAccount"></param>
+        /// <param name="receiverBankAccount"></param>
+        /// <param name="debitedReserve"></param>
+        /// <param name="accreditedReserve"></param>
+        /// <param name="sourceAmount"></param>
+        /// <param name="grossAmount"></param>
+        /// <param name="unitPrice"></param>
+        /// <param name="bankDiscountInPercentage"></param>
+        /// <param name="bankDiscount"></param>
+        /// <param name="netAmount"></param>
+        /// <returns>CurrencyExchange</returns>
+        private CurrencyExchange CreateAuditRecord(
+            BankAccount senderBankAccount, BankAccount receiverBankAccount,
+            CurrencyExchangeReserve debitedReserve, CurrencyExchangeReserve accreditedReserve,
+            decimal sourceAmount, decimal grossAmount, decimal unitPrice, decimal bankDiscountInPercentage,
+            decimal bankDiscount, decimal netAmount)
+        {
+            return new CurrencyExchange()
+            {
+                SenderBankAccountId = senderBankAccount.BankAccountId,
+                ReceiverBankAccountId = receiverBankAccount.BankAccountId,
+                DebitedExchangeReserveId = debitedReserve.CurrencyExchangeReserveId,
+                AccreditedExchangeReserveId = accreditedReserve.CurrencyExchangeReserveId,
+                SourceAmount = sourceAmount,
+                BankUnitPrice = unitPrice,
+                GrossAmount = grossAmount,
+                BankDiscountInPercentage = bankDiscountInPercentage,
+                BankDiscount = bankDiscount,
+                NetAmount = netAmount,
+                CreateAt = DateTime.UtcNow                    
+            };
         }
        
-        
+       
+       
     }
 }

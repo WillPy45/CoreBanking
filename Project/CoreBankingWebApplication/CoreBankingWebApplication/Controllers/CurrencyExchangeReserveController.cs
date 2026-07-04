@@ -27,8 +27,29 @@ namespace CoreBankingWebApplication.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
+            var serviceResult = await _currencyExchangeCrudService.GetAllAsync();
+            return StatusCode(StatusCodes.Status200OK, serviceResult.Value);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync(CurrencyExchangeReserveCreateRequestDto requestDto)
+        {
+            var serviceResult = await _currencyExchangeCrudService.CreateAsync(requestDto);
             
-            return StatusCode(StatusCodes.Status200OK, await _currencyExchangeCrudService.GetAllAsync());
+            if (serviceResult.IsFailure)
+            {
+                switch (serviceResult.Error.Code)
+                {
+                    case CurrencyExchangeReserveCrudCreateServiceError.CurrencyAlreadyExistsInReserve:
+                        return Conflict(serviceResult.Error.Message);
+
+                    case CurrencyExchangeReserveCrudCreateServiceError.NagativeCurrencyId:
+                    case CurrencyExchangeReserveCrudCreateServiceError.NegativeBalance:
+                        return BadRequest(serviceResult.Error.Message);
+                }
+            }
+
+            return Ok(serviceResult.Value);
         }
     }
 }

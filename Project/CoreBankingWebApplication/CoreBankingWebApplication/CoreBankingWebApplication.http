@@ -261,7 +261,7 @@ Content-Type: application/json
 {
     "CustomerId" : 1,
     "CurrencyId": 37,
-    "Balance": 10000
+    "Balance": 10000000000
 }
 
 ### bankAccountId: 8
@@ -350,3 +350,94 @@ POST {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
 
 ###
 GET  {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
+
+###
+GET {{CoreBankingWebApplication_HostAddress}}/api/Currency
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/CurrencyExchangeReserve
+Content-Type: application/json
+
+{
+    "CurrencyId": 37,
+    "Balance": "500000000.0"
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/CurrencyExchangeReserve
+Content-Type: application/json
+
+{
+    "CurrencyId": 1,
+    "Balance": "500000000.0"
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/CurrencyExchangeReserve
+Content-Type: application/json
+
+{
+    "CurrencyId": 4,
+    "Balance": "500000000.0"
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/CurrencyExchangeReserve
+Content-Type: application/json
+
+{
+    "CurrencyId": 500,
+    "Balance": 500000000.0
+}
+
+### 
+GET {{CoreBankingWebApplication_HostAddress}}/api/CurrencyExchangeReserve
+
+###
+GET {{CoreBankingWebApplication_HostAddress}}/api/CurrencyExchange
+
+###
+GET {{CoreBankingWebApplication_HostAddress}}/api/Currency
+### 
+GET {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/CurrencyExchange
+Content-Type: application/json
+
+{
+    "SenderBankAccountId": 6,
+    "ReceiverBankAccountId": 7,
+    "Amount": 10000
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+Content-Type: application/json
+
+{
+    "CustomerId": 1,
+    "CurrencyId": 1,
+    "Balance": 250000
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/CurrencyExchange
+Content-Type: application/json
+
+{
+    "SenderBankAccountId": 12,
+    "ReceiverBankAccountId": 7,
+    "Amount": 10
+}
+
+###
+POST {{CoreBankingWebApplication_HostAddress}}/api/CurrencyExchange
+Content-Type: application/json
+
+{
+    "SenderBankAccountId": 7,
+    "ReceiverBankAccountId": 6,
+    "Amount": 100000
+}
+
+
