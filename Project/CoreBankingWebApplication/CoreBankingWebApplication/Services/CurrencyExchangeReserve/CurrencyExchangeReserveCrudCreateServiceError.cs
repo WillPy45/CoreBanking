@@ -1,11 +1,10 @@
-namespace CoreBankingWebApplication.Services
+namespace CoreBankingWebApplication.Services;
+
+public enum CurrencyExchangeReserveCrudCreateServiceError
 {
-    public enum CurrencyExchangeReserveCrudCreateServiceError
-    {
-        NegativeBalance,
-        NagativeCurrencyId,
-        CurrencyAlreadyExistsInReserve
+    NegativeBalance,
+    NagativeCurrencyId,
+    CurrencyAlreadyExistsInReserve
 
 
-    }
 }

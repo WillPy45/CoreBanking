@@ -5,40 +5,40 @@ using CoreBankingWebApplication.Models.DTOs;
 using CoreBankingWebApplication.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreBankingWebApplication.Services
+namespace CoreBankingWebApplication.Services;
+
+public class CostumerAccountServices
 {
-    public class CostumerAccountServices
+
+    private readonly ApplicationDbContext _dbContext;
+
+    public CostumerAccountServices(ApplicationDbContext dbContext)
     {
-        private readonly ApplicationDbContext _dbContext;
+        _dbContext = dbContext;
+    }
 
-        public CostumerAccountServices(ApplicationDbContext dbContext)
+    public async Task CreateAsync(CustomerDTO dto)
+    {
+        using var transaction = await _dbContext.Database.BeginTransactionAsync();
+        try
         {
-            _dbContext = dbContext;
-        } 
 
-        public async Task CreateAsync(CustomerDTO dto)
+            Customer entity = dto.ToEntity();
+
+            await _dbContext.Customers.AddAsync(entity);
+
+            await _dbContext.SaveChangesAsync();
+
+            await transaction.CommitAsync();
+
+        }
+
+        catch (Exception)
         {
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
-            try
-            {
-                
-                Customer entity = dto.ToEntity();
-                
-                await _dbContext.Customers.AddAsync(entity);
-
-                await _dbContext.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-        
-            } 
-
-            catch (Exception)
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }            
-            
+            await transaction.RollbackAsync();
+            throw;
         }
 
     }
+
 }

@@ -1,7 +1,7 @@
-namespace CoreBankingWebApplication.Services
+namespace CoreBankingWebApplication.Services;
+
+public enum CurrencyRateServiceError
 {
-    public enum CurrencyRateServiceError
-    {
-        ConversionFailed,
-    }
+    ConversionFailed,
 }
+

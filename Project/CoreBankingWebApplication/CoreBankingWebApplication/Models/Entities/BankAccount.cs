@@ -1,34 +1,34 @@
-﻿namespace CoreBankingWebApplication.Models.Entities
+﻿namespace CoreBankingWebApplication.Models.Entities;
+
+public class BankAccount
 {
-    public class BankAccount
-    {
-        public int BankAccountId { get; set; }
+    public int BankAccountId { get; set; }
 
-        public int CustomerId { get; set; } //references to a CustomerID
-        public Customer Customer { get; set; } = null!; // Navigation property
-
-        
-        public int CurrencyId { get; set; }
-        public Currency Currency { get; set; } = null!;
-        
-        public decimal Balance { get; set; } 
-
-        public DateTime CreateAt {get; set;}
+    public int CustomerId { get; set; } //references to a CustomerID
+    public Customer Customer { get; set; } = null!; // Navigation property
 
 
-        
-        /* reverse navigation property for transaction that this BankAccount is involved
-        BECAUSE is referred in RECEIVE and SENDER role, a BankAccount may was a sender or receiver, or both
-        
-        */
-        public ICollection<BalanceTransaction>? SentTransactions { get; set; }
-        public ICollection<BalanceTransaction>? ReceivedTransactions { get; set; }
+    public int CurrencyId { get; set; }
+    public Currency Currency { get; set; } = null!;
 
-        // Exchange operations (rnp)
-        public ICollection<CurrencyExchange>? SentCurrencyExchanges { get; set; }
-        public ICollection<CurrencyExchange>? ReceivedCurrencyExchanges { get; set; }
+    public decimal Balance { get; set; }
 
-    }
+    public DateTime CreateAt { get; set; }
 
-    
+
+
+    /* reverse navigation property for transaction that this BankAccount is involved
+    BECAUSE is referred in RECEIVE and SENDER role, a BankAccount may was a sender or receiver, or both
+
+    */
+    public ICollection<BalanceTransaction>? SentTransactions { get; set; }
+    public ICollection<BalanceTransaction>? ReceivedTransactions { get; set; }
+
+    // Exchange operations (rnp)
+    public ICollection<CurrencyExchange>? SentCurrencyExchanges { get; set; }
+    public ICollection<CurrencyExchange>? ReceivedCurrencyExchanges { get; set; }
+
 }
+
+
+

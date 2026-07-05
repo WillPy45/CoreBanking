@@ -5,12 +5,11 @@ using CoreBankingWebApplication.Models.DTOs;
 using CoreBankingWebApplication.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreBankingWebApplication.Services
+namespace CoreBankingWebApplication.Services;
+
+public interface ICurrencyRateService
 {
-    public interface ICurrencyRateService
-    {
-        Task<Result<decimal, CurrencyRateServiceError>> GetConversionRateAsync(string fromCurrencyCode, string toCurrencyCode);
-        
-    }
+    Task<Result<decimal, CurrencyRateServiceError>> GetConversionRateAsync(string fromCurrencyCode, string toCurrencyCode);
 
 }
+

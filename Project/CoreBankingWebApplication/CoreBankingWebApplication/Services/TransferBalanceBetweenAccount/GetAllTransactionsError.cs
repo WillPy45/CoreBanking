@@ -1,7 +1,6 @@
-namespace CoreBankingWebApplication.Services
-{
-    public enum GetAllTransactionsError
-    {
+namespace CoreBankingWebApplication.Services;
 
-    }
+public enum GetAllTransactionsError
+{
+
 }

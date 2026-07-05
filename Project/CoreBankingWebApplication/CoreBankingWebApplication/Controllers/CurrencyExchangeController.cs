@@ -14,8 +14,8 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using CoreBankingWebApplication.Common;
 
 
-namespace CoreBankingWebApplication.Controllers
-{
+namespace CoreBankingWebApplication.Controllers;
+
     [Route("api/[controller]")]
     [ApiController]
     public class CurrencyExchangeController : ControllerBase
@@ -59,4 +59,3 @@ namespace CoreBankingWebApplication.Controllers
 
         }
     }
-}

@@ -1,32 +1,28 @@
-using CoreBankingWebApplication.Models.Entities;
+namespace CoreBankingWebApplication.Models.DTOs;
 
-
-namespace CoreBankingWebApplication.Models.DTOs
+// Data transfer object for represents the final result of an exchange operation
+// This DTO will to project data and returns by a service
+public class CurrencyExchangeDetailsResponseDto
 {
-    // Data transfer object for represents the final result of an exchange operation
-    // This DTO will to project data and returns by a service
-    public class CurrencyExchangeDetailsResponseDto
-    {
-        public int CurrencyExchangeId { get; set; } // The record pk
+    public int CurrencyExchangeId { get; set; } // The record pk
 
-        public int SenderBankAccountId { get; set; } 
+    public int SenderBankAccountId { get; set; }
 
-        public int ReceiverBankAccountId {get; set; } 
+    public int ReceiverBankAccountId { get; set; }
 
-        public required string FromCurrencyCode { get; set; } // f.e: PYG 
-        public decimal SourceAmount {get; set; } // f.e: PYG 200000
+    public required string FromCurrencyCode { get; set; } // f.e: PYG 
+    public decimal SourceAmount { get; set; } // f.e: PYG 200000
 
-        public required string ToCurrencyCode {get; set;} // f.e: USD
-        public decimal BankUnitPrice { get; set; } 
+    public required string ToCurrencyCode { get; set; } // f.e: USD
+    public decimal BankUnitPrice { get; set; }
 
-        public decimal GrossAmount { get; set; } // Before discounts
-        public decimal BankDiscountInPercentage { get; set; }
-        public decimal BankDiscount {get; set;}
-        public decimal NetAmount {get; set; } // After discounts
+    public decimal GrossAmount { get; set; } // Before discounts
+    public decimal BankDiscountInPercentage { get; set; }
+    public decimal BankDiscount { get; set; }
+    public decimal NetAmount { get; set; } // After discounts
 
-        public decimal Amount { get; set; }
+    public decimal Amount { get; set; }
 
-        public DateTime CreateAt { get; set; }
+    public DateTime CreateAt { get; set; }
 
-    }
 }

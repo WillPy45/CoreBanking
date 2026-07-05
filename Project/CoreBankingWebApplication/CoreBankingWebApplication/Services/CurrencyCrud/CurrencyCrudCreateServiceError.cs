@@ -1,9 +1,8 @@
-namespace CoreBankingWebApplication.Services
+namespace CoreBankingWebApplication.Services;
+
+public enum CurrencyCrudCreateServiceError
 {
-    public enum CurrencyCrudCreateServiceError
-    {
-        AlreadyExists
+    AlreadyExists
 
 
-    }
 }

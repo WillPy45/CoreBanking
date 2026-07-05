@@ -1,49 +1,48 @@
-namespace CoreBankingWebApplication.Models.Entities
-    {
-        // Entity
-        // This entity represents an audit table for Currency Exchange operations
+namespace CoreBankingWebApplication.Models.Entities;
 
-        public class CurrencyExchange
-        {
-            public int CurrencyExchangeId { get; set; }
+// Entity
+// This entity represents an audit table for Currency Exchange operations
 
-
-            // Changes rates is automatically managed by others services,
-            // so is unnecesary to specific the currency
-            // I want to sell some USD from my bank account (SenderAccount) ...
-            public int SenderBankAccountId { get; set; } 
-            public BankAccount SenderBankAccount { get; set; } = null!; // nav. prop.
-            
-            // for buy from this reserve ...
-            public int DebitedExchangeReserveId {get; set; } // The currency type is here
-            public CurrencyExchangeReserve DebitedExchangeReserve { get; set; } = null!;
-
-            public int AccreditedExchangeReserveId { get; set; }
-            public CurrencyExchangeReserve AccreditedExchangeReserve { get; set; } = null!;
+public class CurrencyExchange
+{
+    public int CurrencyExchangeId { get; set; }
 
 
-            // ... and receive in this account
+    // Changes rates is automatically managed by others services,
+    // so is unnecesary to specific the currency
+    // I want to sell some USD from my bank account (SenderAccount) ...
+    public int SenderBankAccountId { get; set; }
+    public BankAccount SenderBankAccount { get; set; } = null!; // nav. prop.
 
-            public int ReceiverBankAccountId { get; set; } 
-            public BankAccount ReceiverBankAccount { get; set; } = null!; // nav. prop.
+    // for buy from this reserve ...
+    public int DebitedExchangeReserveId { get; set; } // The currency type is here
+    public CurrencyExchangeReserve DebitedExchangeReserve { get; set; } = null!;
 
-            // Original amount (before exchange)
-            public decimal SourceAmount { get; set; }
+    public int AccreditedExchangeReserveId { get; set; }
+    public CurrencyExchangeReserve AccreditedExchangeReserve { get; set; } = null!;
 
-            // Price of each bought unit, f.e 1 USD = 6500 PYG
-            public decimal BankUnitPrice { get; set; }
-            // Amount received as bought currency
-            public decimal GrossAmount { get; set; }
 
-            // Spread for using the service
-            public decimal BankDiscountInPercentage {get; set;}
-            // Bank discount
-            public decimal BankDiscount {get; set;}
+    // ... and receive in this account
 
-            // Net amount
-            public decimal NetAmount {get; set; }
+    public int ReceiverBankAccountId { get; set; }
+    public BankAccount ReceiverBankAccount { get; set; } = null!; // nav. prop.
 
-            public DateTime CreateAt { get; set; }
+    // Original amount (before exchange)
+    public decimal SourceAmount { get; set; }
 
-        }
-    }
+    // Price of each bought unit, f.e 1 USD = 6500 PYG
+    public decimal BankUnitPrice { get; set; }
+    // Amount received as bought currency
+    public decimal GrossAmount { get; set; }
+
+    // Spread for using the service
+    public decimal BankDiscountInPercentage { get; set; }
+    // Bank discount
+    public decimal BankDiscount { get; set; }
+
+    // Net amount
+    public decimal NetAmount { get; set; }
+
+    public DateTime CreateAt { get; set; }
+
+}

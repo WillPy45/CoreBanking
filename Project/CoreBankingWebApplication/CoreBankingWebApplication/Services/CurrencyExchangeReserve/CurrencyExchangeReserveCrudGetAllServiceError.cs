@@ -1,7 +1,6 @@
-namespace CoreBankingWebApplication.Services
+namespace CoreBankingWebApplication.Services;
+
+public enum CurrencyExchangeReserveCrudGetAllServiceError
 {
-    public enum CurrencyExchangeReserveCrudGetAllServiceError
-    {
-        
-    }
+
 }

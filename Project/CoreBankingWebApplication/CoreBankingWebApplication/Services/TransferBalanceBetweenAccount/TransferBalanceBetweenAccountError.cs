@@ -1,14 +1,14 @@
-namespace CoreBankingWebApplication.Services
+namespace CoreBankingWebApplication.Services;
+
+public enum TransferBalanceBetweenAccountError
 {
-    public enum TransferBalanceBetweenAccountError
-    {
-        SameBankAccount,
-        NegativeOrZeroAmount,
-        SenderBankAccountNotFound,
-        ReceiverBankccountNotFound,
-        CurrencyDiffers,
-        NotEnoughBalance
+    SameBankAccount,
+    NegativeOrZeroAmount,
+    SenderBankAccountNotFound,
+    ReceiverBankccountNotFound,
+    CurrencyDiffers,
+    NotEnoughBalance
 
 
-    }
 }
+
