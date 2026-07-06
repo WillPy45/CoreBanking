@@ -1,3 +1,4 @@
+using CoreBankingWebApplication.Models.Domain;
 namespace CoreBankingWebApplication.Services;
 
 public enum CurrencyExchangeServiceError

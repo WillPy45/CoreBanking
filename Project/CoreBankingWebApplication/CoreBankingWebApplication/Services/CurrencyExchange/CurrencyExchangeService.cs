@@ -36,7 +36,7 @@ public class CurrencyExchangeService
         11. Generates response dto
     */
 
-    public async Task<CurrencyExchangeResult> ExchangeAsync(CurrencyExchangeRequestDto requestDto)
+    public async Task<CurrencyExchangeResult> ExchangeAsync(CurrencyExchangeRequestDto requestDto) // 39
     {
         CurrencyExchangeDetailsResponseDto responseDto;
 
@@ -191,8 +191,7 @@ public class CurrencyExchangeService
         }
 
         return CurrencyExchangeResult.Success(responseDto);
-    }
-
+    } // 194
 
 
 
@@ -251,7 +250,7 @@ public class CurrencyExchangeService
             CreateAt = DateTime.UtcNow
         };
     }
-
+    // For BankTransactionContextError
     private CurrencyExchangeResult MapToExchangeServiceResultError(Error<AccountBilateralTransactionContextError> error)
     {
         return error.Code switch
@@ -274,5 +273,27 @@ public class CurrencyExchangeService
             _ => throw new InvalidOperationException($"Unmapped error code: {error.Code}")
         };
     }
+
+    // For BilateraExchangeReserveContextError
+    private CurrencyExchangeResult MapToExchangeServiceResultError(Error<BilateraExchangeReserveContextError> error)
+    {
+        return error.Code switch
+        {
+            BilateraExchangeReserveContextError.AccreditedReserveDoesntExist =>
+                CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotReserveForAcceptTheCurrencies, "Has not reserve for accept the currencies"),
+            
+            BilateraExchangeReserveContextError.DebitedReserveDoesntExist =>
+                CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotReserveForDepositTheCurrencies, "Has not reserve for accept the currencies"),
+            
+            BilateraExchangeReserveContextError.HasNotEnoughBalanceInCurrencyReserve =>
+                CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotEnoughBalanceInCurrencyReserve, error.Message),
+            
+            BilateraExchangeReserveContextError.NegativeOrZeroAmount =>
+                CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.NegativeOrZeroAmount, error.Message),
+
+            _ => throw new InvalidOperationException($"Unmapped error code: {error.Code}")
+        };
+    }
+
 
 }

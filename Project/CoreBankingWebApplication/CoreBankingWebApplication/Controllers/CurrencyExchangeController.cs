@@ -30,6 +30,7 @@ namespace CoreBankingWebApplication.Controllers;
         public async Task<IActionResult> Post(CurrencyExchangeRequestDto requestDto)
         {
             var serviceResult = await _currencyExchangeService.ExchangeAsync(requestDto);
+            
 
             if (serviceResult.IsFailure)
             {
