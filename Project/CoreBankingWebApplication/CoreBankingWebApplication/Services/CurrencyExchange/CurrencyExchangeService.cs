@@ -196,7 +196,7 @@ public class CurrencyExchangeService
 
 
 
-    public CurrencyExchangeDetailsResponseDto MapToResponseDto(CurrencyExchange entity)
+    private CurrencyExchangeDetailsResponseDto MapToResponseDto(CurrencyExchange entity)
     {
         return new()
         {
@@ -252,7 +252,7 @@ public class CurrencyExchangeService
         };
     }
 
-    public CurrencyExchangeResult MapToExchangeServiceResultError(Error<AccountBilateralTransactionContextError> error)
+    private CurrencyExchangeResult MapToExchangeServiceResultError(Error<AccountBilateralTransactionContextError> error)
     {
         return error.Code switch
         {
