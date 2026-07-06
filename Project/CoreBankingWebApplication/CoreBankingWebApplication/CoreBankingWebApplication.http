@@ -437,7 +437,7 @@ Content-Type: application/json
 {
     "SenderBankAccountId": 7,
     "ReceiverBankAccountId": 6,
-    "Amount": 100000
+    "Amount": 6100
 }
 
 
