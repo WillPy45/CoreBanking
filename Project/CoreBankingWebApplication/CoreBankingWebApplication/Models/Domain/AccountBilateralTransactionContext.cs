@@ -5,11 +5,27 @@ namespace CoreBankingWebApplication.Models.Domain;
 
 
 using CreatePairResult = Result<AccountBilateralTransactionContext, AccountBilateralTransactionContextError>;
-// This class is used when exists a transactionr relationship between two accounts and needs both for the operation
+
+
+/// <summary>
+/// Represents a bilateral transaction context between two bank accounts.
+/// Applies intrinsic validation rules to ensure accounts exist, are distinct,
+/// have sufficient balance, and the amount is positive.
+/// Note: The <paramref name="DebitedAmount"/> refers only to the amount 
+/// debited from the sender account. The receiver may obtain a diferent amount calculated by
+/// other services, helpers, etc
+/// </summary>
 public record AccountBilateralTransactionContext(BankAccount Sender, BankAccount Receiver, decimal DebitedAmount)
 {
 
-    //  Intrisic pair transactions rules must be applied here
+    /// <summary>
+    /// Creates a bilateral transaction context, if all intrinsic rules are satisfied
+    /// </summary>
+    /// <param name="sender">The bank account that sends the balance</param>
+    /// <param name="receiver">The bank account that receives the balance</param>
+    /// <param name="debitedAmount">The amount to be debited from the sender</param>
+    /// <returns>A result object indicating success with a valid <see cref="AccountBilateralTransactionContext"/>
+    /// or failure with <see cref="AccountBilateralTransactionContextError"/> that indicates the reason</returns>
     public static Result<AccountBilateralTransactionContext, AccountBilateralTransactionContextError> CreateValidContext(BankAccount? sender, BankAccount? receiver, decimal debitedAmount)
     {
         if (sender is null)
@@ -37,6 +53,9 @@ public record AccountBilateralTransactionContext(BankAccount Sender, BankAccount
     }
 }
 
+/// <summary>
+/// Enum that represents possibles invalid states for the transaction between accounts
+/// </summary>
 public enum AccountBilateralTransactionContextError
 {
     ReceiverBankAccountNotFound,

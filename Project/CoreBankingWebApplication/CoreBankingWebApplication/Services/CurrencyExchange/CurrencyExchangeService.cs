@@ -14,28 +14,25 @@ public class CurrencyExchangeService
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly ICurrencyRateService _currencyRateService;
-
     public CurrencyExchangeService(ApplicationDbContext dbContext, ICurrencyRateService currencyRateService)
     {
         _dbContext = dbContext;
         _currencyRateService = currencyRateService;
+     
     }
 
-    // Rules:
-    /*
-        1. Ensures that are different accounts
-        2. Ensures that uses positive amount
-        3. Ensures that sender and receiver exists
-        4. Ensures that sender and receiver accounts are differents currencies
-        5. Ensures that sender has enough money for the transaction
-        6. Ensures that currency exchange reserves exists in the database
-        7. Ensures that debited currency exchange reserve has enough balance for the operation
-        8. Ensures that rate convertion service has rate conversion for defined currency
-        9. Transactions operations occurs 
-        10. Generates audit table for exchange transactions
-        11. Generates response dto
-    */
+  
 
+
+    /// <summary>
+    /// Service dedicated for exchange currency operation between two bank accounts and two reserves
+    /// Validates the following rules:
+    /// 1. Intrinsic domain rules:
+    ///     - <see cref="Models.Domain.AccountBilateralTransactionContext"/> for transaction rules
+    ///     - <see cref="Models.Domain.BilateralExchangeReserveContext"/>
+    /// </summary>
+    /// <param name="requestDto"></param>
+    /// <returns></returns>
     public async Task<CurrencyExchangeResult> ExchangeAsync(CurrencyExchangeRequestDto requestDto) // 39
     {
         CurrencyExchangeDetailsResponseDto responseDto;
@@ -185,19 +182,12 @@ public class CurrencyExchangeService
     }
 
     /// <summary>
-    /// Creates an object that represents a audit table for Currency Exchange
+    /// Creates an object that represents an audit table for Currency Exchange :n
     /// </summary>
-    /// <param name="senderBankAccount"></param>
-    /// <param name="receiverBankAccount"></param>
-    /// <param name="debitedReserve"></param>
-    /// <param name="accreditedReserve"></param>
-    /// <param name="sourceAmount"></param>
-    /// <param name="grossAmount"></param>
-    /// <param name="unitPrice"></param>
-    /// <param name="bankDiscountInPercentage"></param>
-    /// <param name="bankDiscount"></param>
-    /// <param name="netAmount"></param>
-    /// <returns>CurrencyExchange</returns>
+    /// <param name="banksTransactionContext">A valid bilateral bank transaction context</param>
+    /// <param name="reserveExchangeContext">A valid reserve exchange context</param>
+    /// <param name="exchangeAAAmounts">Exchange amount details</param>
+    /// <returns>A CurrencyExchange object that represents the details of the exchange operation</returns>
     private CurrencyExchange CreateAuditRecord(
         AccountBilateralTransactionContext banksTransactionContext,
         BilateralExchangeReserveContext reserveExchangeContext,

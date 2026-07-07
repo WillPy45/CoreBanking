@@ -2,7 +2,7 @@ using CoreBankingWebApplication.Models.Entities;
 using CoreBankingWebApplication.Common;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace CoreBankingWebApplication.Services;
+namespace CoreBankingWebApplication.Models.Domain;
 
 using CreateValidContextResult = Result<BilateralExchangeReserveContext, BilateraExchangeReserveContextError>;
 
