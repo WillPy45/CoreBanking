@@ -13,7 +13,9 @@ public class ExchangeAmountDetails
     public decimal BankDiscount { get; }
     public decimal NetAmount { get; } // After discounts
 
-    public ExchangeAmountDetails(string fromCurrencyCode, decimal sourceAmount, string toCurrencyCode, decimal rate, decimal bankDiscountInPercentage)
+    public ExchangeAmountDetails(string fromCurrencyCode,
+        decimal sourceAmount, string toCurrencyCode,
+        decimal rate, decimal bankDiscountInPercentage)
     {
         FromCurrencyCode = fromCurrencyCode;
         SourceAmount = sourceAmount;
