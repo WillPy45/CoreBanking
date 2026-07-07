@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CoreBankingWebApplication.Services;
 
-using CreateValidContextResult = Result<BilateraExchangeReserveContext, BilateraExchangeReserveContextError>;
+using CreateValidContextResult = Result<BilateralExchangeReserveContext, BilateraExchangeReserveContextError>;
 
-public record BilateraExchangeReserveContext(CurrencyExchangeReserve AccreditedReserve, CurrencyExchangeReserve DebitedReserve, decimal DebitedAmount)
+public record BilateralExchangeReserveContext(CurrencyExchangeReserve AccreditedReserve, CurrencyExchangeReserve DebitedReserve, decimal DebitedAmount)
 {
-    public static CreateValidContextResult CreateValidContext(CurrencyExchangeReserve accreditedReserve, CurrencyExchangeReserve debitedReserve, decimal debitedAmount)
+    public static CreateValidContextResult CreateValidContext(CurrencyExchangeReserve? accreditedReserve, CurrencyExchangeReserve? debitedReserve, decimal debitedAmount)
     {
         if (debitedAmount < 0.0m)
         {
@@ -34,7 +34,7 @@ public record BilateraExchangeReserveContext(CurrencyExchangeReserve AccreditedR
             return CreateValidContextResult.Fail(BilateraExchangeReserveContextError.HasNotEnoughBalanceInCurrencyReserve, "Bank reserve has not enough balance to deposit in receiver account");
         }
 
-        return CreateValidContextResult.Success(new BilateraExchangeReserveContext(accreditedReserve, debitedReserve, debitedAmount));
+        return CreateValidContextResult.Success(new BilateralExchangeReserveContext(accreditedReserve, debitedReserve, debitedAmount));
     }
 
 

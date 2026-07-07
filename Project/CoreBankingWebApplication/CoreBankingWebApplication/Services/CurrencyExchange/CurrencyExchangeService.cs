@@ -60,8 +60,6 @@ public class CurrencyExchangeService
 
         try
         {
-
-
             // Retrieves bank accounts for future validation
             int senderId = requestDto.SenderBankAccountId;
             int receiverId = requestDto.ReceiverBankAccountId;
@@ -75,7 +73,7 @@ public class CurrencyExchangeService
             var receiverBankAccount = bankAccountsRecords.Find(e => e.BankAccountId == receiverId);
 
             // Ensures to follow intrisict transactions rules (Not same account, accounts exists, enough founds
-            var bankTransactionContextResult = Models.Domain.AccountBilateralTransactionContext.CreateValidContext(senderBankAccount, receiverBankAccount, requestDto.Amount);
+            var bankTransactionContextResult = AccountBilateralTransactionContext.CreateValidContext(senderBankAccount, receiverBankAccount, requestDto.Amount);
 
             if (bankTransactionContextResult.IsFailure) return MapToExchangeServiceResultError(bankTransactionContextResult.Error);
             var banksTransactionContext = bankTransactionContextResult.Value;
@@ -86,49 +84,11 @@ public class CurrencyExchangeService
                 return CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.SameCurrencyType, "Currency type must be different");
             }
 
-            // Ensures that currency exchange reserve exists in the database
-            /*  
-                Bank reserve must to have both currency reserves, for example,
-                if the bank buy PYG 61000 for 1 USD, the banks must to debited (-) from USD reserve
-                and acredited (+) to PYG reserve 
-            */
-            // From bank perspective
-            int currencyDebitedId = banksTransactionContext.Receiver.CurrencyId;
-            int currencyAcreditedId = banksTransactionContext.Sender.CurrencyId;
-
-            var bankReservesRecords = await _dbContext.CurrencyExchangeReserves
-                .Include(e => e.Currency) // Charge the navigation property for more later
-                .Where(e => e.CurrencyId == currencyAcreditedId || e.CurrencyId == currencyDebitedId)
-                .ToListAsync();
-
-            var debitedReserve = bankReservesRecords.FirstOrDefault(e => e.CurrencyId == currencyDebitedId);
-            var accreditedReserve = bankReservesRecords.FirstOrDefault(e => e.CurrencyId == currencyAcreditedId);
-
-            if (accreditedReserve is null)
-            {
-
-                return CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotReserveForAcceptTheCurrencies,
-                     $"Bank reserves cannot accept {banksTransactionContext.Sender.Currency.Code}");
-            }
-
-            if (debitedReserve is null)
-            {
-                return CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotReserveForDepositTheCurrencies,
-                    $"Bank reserves cannot deposit {banksTransactionContext.Receiver.Currency.Code}");
-            }
-
-
-            // Ensures that rate convertion service has rate conversion for defined currency
-
-            if (accreditedReserve.Currency is null) throw new Exception("navigation property is null, implementation error");
-            if (debitedReserve.Currency is null) throw new Exception("navigation property is null, implementation error");
-
-            string fromCurrencyCode = accreditedReserve.Currency.Code;
-            string toCurrencyCode = debitedReserve.Currency.Code;
-
+            // Get rate
+          
             var currencyRateServiceResult = await _currencyRateService.GetConversionRateAsync(
-                fromCurrencyCode: fromCurrencyCode,
-                toCurrencyCode: toCurrencyCode
+                fromCurrencyCode: banksTransactionContext.Sender.Currency.Code,
+                toCurrencyCode: banksTransactionContext.Receiver.Currency.Code
             );
 
             if (currencyRateServiceResult.IsFailure)
@@ -137,51 +97,50 @@ public class CurrencyExchangeService
                     Fail(CurrencyExchangeServiceError.ConversionFailed, "Internal implementation for conversion failed");
             }
 
+            // Calculates the exchange amount details
             var amountDetails = new ExchangeAmountDetails(
-                fromCurrencyCode,
+                banksTransactionContext.Sender.Currency.Code,
                 requestDto.Amount,
-                toCurrencyCode,
+                banksTransactionContext.Receiver.Currency.Code,
                 currencyRateServiceResult.Value,
                 0.0m
             );
 
+            var bankReservesRecords = await _dbContext.CurrencyExchangeReserves
+                .Include(e => e.Currency) // Charge the navigation property for more later
+                .Where(e => e.CurrencyId == banksTransactionContext.Sender.Currency.CurrencyId || e.CurrencyId == banksTransactionContext.Receiver.Currency.CurrencyId)
+                .ToDictionaryAsync(k => k.CurrencyId);
+
+            var debitedReserve = bankReservesRecords.GetValueOrDefault(banksTransactionContext.Sender.Currency.CurrencyId);
+            var accreditedReserve = bankReservesRecords.GetValueOrDefault(banksTransactionContext.Receiver.Currency.CurrencyId);;
+            
+            // Ensures that rate convertion service has rate conversion for defined currency
             // Ensures that debited currency exchange reserve has enough balance for the operation
 
-            if (debitedReserve.Balance < amountDetails.SourceAmount)
+            var bilateralExchangeReserveCtxResult = BilateralExchangeReserveContext.CreateValidContext(accreditedReserve, debitedReserve, amountDetails.NetAmount);
+            if (bilateralExchangeReserveCtxResult.IsFailure)
             {
-                return CurrencyExchangeResult
-                    .Fail(CurrencyExchangeServiceError.HasNotEnoughBalanceInCurrencyReserve,
-                    $"Bank reserve has not enough balance to deposit in receiver account");
+                return MapToExchangeServiceResultError(bilateralExchangeReserveCtxResult.Error);
             }
-
-
+            
+            var bilateralExchangeReserveCtx = bilateralExchangeReserveCtxResult.Value;
             // Transactions operations occurs 
-
-            // Acredites to reserve and debited from bank account
-            accreditedReserve.Balance += amountDetails.SourceAmount;
-            banksTransactionContext.Sender.Balance -= amountDetails.SourceAmount;
-
-            // Debites from receiver account and acredites to reserve
-
-            debitedReserve.Balance -= amountDetails.NetAmount;
-            banksTransactionContext.Receiver.Balance += amountDetails.NetAmount;
-
-
+          
+            StartBalanceTransactions(banksTransactionContext, bilateralExchangeReserveCtx);
 
             // Generates audit table for exchange transactions
-            var auditTable = CreateAuditRecord(banksTransactionContext, debitedReserve, accreditedReserve, amountDetails);
+            var auditTable = CreateAuditRecord(banksTransactionContext, bilateralExchangeReserveCtx, amountDetails);
 
 
             await _dbContext.CurrencyExchanges.AddAsync(auditTable);
 
             await _dbContext.SaveChangesAsync();
 
-            // Prepares te response dto
+            // Prepares response dto
             responseDto = MapToResponseDto(auditTable);
 
 
             await transaction.CommitAsync();
-
 
         }
         catch (Exception)
@@ -191,9 +150,20 @@ public class CurrencyExchangeService
         }
 
         return CurrencyExchangeResult.Success(responseDto);
-    } // 194
+    } // 192
 
 
+
+    private void StartBalanceTransactions(AccountBilateralTransactionContext accountsContext, BilateralExchangeReserveContext reservesContext)
+    {
+        // Acredites to reserve and debited from bank account
+        accountsContext.Sender.Balance -= accountsContext.DebitedAmount;
+        reservesContext.AccreditedReserve.Balance += accountsContext.DebitedAmount;
+
+        // Debites from reserve and acredites to receiver bank account
+        accountsContext.Receiver.Balance += reservesContext.DebitedAmount;
+        reservesContext.DebitedReserve.Balance -= reservesContext.DebitedAmount;
+    }
 
     private CurrencyExchangeDetailsResponseDto MapToResponseDto(CurrencyExchange entity)
     {
@@ -230,7 +200,7 @@ public class CurrencyExchangeService
     /// <returns>CurrencyExchange</returns>
     private CurrencyExchange CreateAuditRecord(
         AccountBilateralTransactionContext banksTransactionContext,
-        CurrencyExchangeReserve debitedReserve, CurrencyExchangeReserve accreditedReserve,
+        BilateralExchangeReserveContext reserveExchangeContext,
         ExchangeAmountDetails exchangeAmounts)
     {
         return new CurrencyExchange()
@@ -239,8 +209,8 @@ public class CurrencyExchangeService
             SenderBankAccount = banksTransactionContext.Sender,
             ReceiverBankAccountId = banksTransactionContext.Receiver.BankAccountId,
             ReceiverBankAccount = banksTransactionContext.Receiver,
-            DebitedExchangeReserveId = debitedReserve.CurrencyExchangeReserveId,
-            AccreditedExchangeReserveId = accreditedReserve.CurrencyExchangeReserveId,
+            DebitedExchangeReserveId = reserveExchangeContext.DebitedReserve.CurrencyExchangeReserveId,
+            AccreditedExchangeReserveId = reserveExchangeContext.AccreditedReserve.CurrencyExchangeReserveId,
             SourceAmount = exchangeAmounts.SourceAmount,
             BankUnitPrice = exchangeAmounts.BankUnitPrice,
             GrossAmount = exchangeAmounts.GrossAmount,
