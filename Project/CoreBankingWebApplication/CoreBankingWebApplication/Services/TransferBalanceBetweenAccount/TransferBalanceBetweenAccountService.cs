@@ -2,6 +2,7 @@ using CoreBankingWebApplication.Database;
 using CoreBankingWebApplication.Models;
 using CoreBankingWebApplication.Models.Entities;
 using CoreBankingWebApplication.Models.DTOs;
+using CoreBankingWebApplication.Models.Domain;
 using CoreBankingWebApplication.Common;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,22 +44,25 @@ public class TransferBalanceBetweenAccountService
         int receiverAccountId = transferDto.ReceiverBankAccountId;
         decimal transferAmount = transferDto.Amount;
 
+        // Fast validations
+        // Prevent self-transfers
+        if (senderAccountId == receiverAccountId)
+        {
+            return TransferBetweenAccountsResult
+                .Fail(TransferBalanceBetweenAccountError.SameBankAccount, "Accounts cannot be transferred to yourself");
+        }
+
+        // Validate that ammount balance is positive
+        if (transferAmount < 0.0m)
+        {
+            return TransferBetweenAccountsResult
+                .Fail(TransferBalanceBetweenAccountError.NegativeOrZeroAmount, "Amount must be positive number");
+        }
+
+
         using var transaction = await _dbContext.Database.BeginTransactionAsync();
         try
         {
-            // Prevent self-transfers
-            if (senderAccountId == receiverAccountId)
-            {
-                return TransferBetweenAccountsResult
-                    .Fail(TransferBalanceBetweenAccountError.SameBankAccount, "Accounts cannot be transferred to yourself");
-            }
-
-            // Validate that ammount balance is positive
-            if (transferAmount < 0.0m)
-            {
-                return TransferBetweenAccountsResult
-                    .Fail(TransferBalanceBetweenAccountError.NegativeOrZeroAmount, "Amount must be positive number");
-            }
 
             // Fetch both accounts tracked by EF in a single roundtrip to optimize database performance
             var recordsRetrieved = await _dbContext.BankAccounts
@@ -68,31 +72,18 @@ public class TransferBalanceBetweenAccountService
             var senderAccount = recordsRetrieved.Find(account => account.BankAccountId == senderAccountId);
             var receiverAccount = recordsRetrieved.Find(account => account.BankAccountId == receiverAccountId);
 
-            //Ensures that accounts exists
-            if (senderAccount is null)
-            {
-                return TransferBetweenAccountsResult.Fail(
-                    TransferBalanceBetweenAccountError.SenderBankAccountNotFound, "Sender bank account not found");
-            }
+            //Ensures that accounts exists, both are same currency type, and has enough balance
 
-            if (receiverAccount is null)
-            {
-                return TransferBetweenAccountsResult.Fail(
-                    TransferBalanceBetweenAccountError.ReceiverBankccountNotFound, "Receiver bank account not found");
-            }
+            var transferContextResult = AccountBilateralTransactionContext.CreateValidContext(senderAccount, receiverAccount, transferAmount);
+            if (transferContextResult.IsFailure) return MapToTransferResponse(transferContextResult.Error);
+            senderAccount = transferContextResult.Value.Sender;
+            receiverAccount = transferContextResult.Value.Receiver;
 
             // Ensures that both are same currency type (USD to USD, PYG to PYG, NOT USD to PYG)
             if (senderAccount.CurrencyId != receiverAccount.CurrencyId)
             {
                 return TransferBetweenAccountsResult.Fail(
                     TransferBalanceBetweenAccountError.CurrencyDiffers, "Sender and receiver differs in currency type");
-            }
-
-            // Ensures that sender has enough balance
-            if (senderAccount.Balance < transferAmount)
-            {
-                return TransferBetweenAccountsResult.Fail(
-                    TransferBalanceBetweenAccountError.NotEnoughBalance, "Sender balance is not enough for this transaction");
             }
 
             // Balance transaction
@@ -120,6 +111,30 @@ public class TransferBalanceBetweenAccountService
         }
 
         return TransferBetweenAccountsResult.Success("Transaction completed successfully");
+    }
+
+    private TransferBetweenAccountsResult MapToTransferResponse(Error<AccountBilateralTransactionContextError> error)
+    {
+        return error.Code switch
+        {
+            AccountBilateralTransactionContextError.NegativeOrZeroAmount =>
+                TransferBetweenAccountsResult.Fail(TransferBalanceBetweenAccountError.NegativeOrZeroAmount, error.Message),
+
+            AccountBilateralTransactionContextError.NotEnoughBalance =>
+                TransferBetweenAccountsResult.Fail(TransferBalanceBetweenAccountError.NotEnoughBalance, error.Message),
+
+            AccountBilateralTransactionContextError.ReceiverBankAccountNotFound => 
+                TransferBetweenAccountsResult.Fail(TransferBalanceBetweenAccountError.ReceiverBankccountNotFound, error.Message),
+
+            AccountBilateralTransactionContextError.SameBankAccounts =>
+                TransferBetweenAccountsResult.Fail(TransferBalanceBetweenAccountError.SameBankAccount, error.Message),
+
+            AccountBilateralTransactionContextError.SenderBankAccountNotFound =>
+                TransferBetweenAccountsResult.Fail(TransferBalanceBetweenAccountError.SenderBankAccountNotFound, error.Message),
+
+            _ => throw new InvalidOperationException("Unmapped exception")
+            
+        };
     }
 
     public async Task<GetAllTransactionsResult> GetAllTransactionAsync()

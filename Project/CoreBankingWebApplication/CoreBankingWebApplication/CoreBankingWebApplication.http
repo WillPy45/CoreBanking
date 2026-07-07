@@ -274,14 +274,17 @@ Content-Type: application/json
     "Balance": 10000
 }
 
-### Failure - ErrorCode: Transfer.CurrencyMustBeEqual
+###
+GET {{CoreBankingWebApplication_HostAddress}}/api/BankAccount
+
+###
 POST {{CoreBankingWebApplication_HostAddress}}/api/BalanceTransaction
 Content-Type: application/json
 
 {
-    "SenderBankAccountId": 6,
-    "ReceiverBankAccountId": 7,
-    "Amount": 1000
+    "SenderBankAccountId": 3,
+    "ReceiverBankAccountId": 5,
+    "Amount": 5000000000000
 }
 
 ###
