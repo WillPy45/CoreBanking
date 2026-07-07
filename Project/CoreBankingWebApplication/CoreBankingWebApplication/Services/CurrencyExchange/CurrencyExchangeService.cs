@@ -10,10 +10,21 @@ using Microsoft.EntityFrameworkCore;
 namespace CoreBankingWebApplication.Services;
 
 using CurrencyExchangeResult = Result<CurrencyExchangeDetailsResponseDto, CurrencyExchangeServiceError>;
+
+/// <summary>
+/// Service dedicated for exchange currency operation between two bank accounts and two reserves
+/// from a relational database.
+/// </summary>
 public class CurrencyExchangeService
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly ICurrencyRateService _currencyRateService;
+
+    /// <summary>
+    /// The constructor for the service
+    /// </summary>
+    /// <param name="dbContext">The database context</param>
+    /// <param name="currencyRateService">A specific implementation for calculates the rate of each currency conversion</param>
     public CurrencyExchangeService(ApplicationDbContext dbContext, ICurrencyRateService currencyRateService)
     {
         _dbContext = dbContext;
@@ -21,15 +32,17 @@ public class CurrencyExchangeService
      
     }
 
-  
+
 
 
     /// <summary>
-    /// Service dedicated for exchange currency operation between two bank accounts and two reserves
-    /// Validates the following rules:
-    /// 1. Intrinsic domain rules:
-    ///     - <see cref="Models.Domain.AccountBilateralTransactionContext"/> for transaction rules
-    ///     - <see cref="Models.Domain.BilateralExchangeReserveContext"/>
+    /// Executes asynchronously the exchange service. This services is processed if all steps are
+    /// completed without errors. In error scenarios the database is reverted in the previous state.
+    /// 1. Context rules:
+    ///     - Transaction between account context <see cref="Models.Domain.AccountBalanceTransactionContext"/>
+    ///     - Bank reserves in exchange context <see cref="Models.Domain.ExchangeReserveOperationContext"/>
+    /// 2. Bank currencies must be different
+    /// 3. 
     /// </summary>
     /// <param name="requestDto"></param>
     /// <returns></returns>
@@ -37,8 +50,8 @@ public class CurrencyExchangeService
     {
         CurrencyExchangeDetailsResponseDto responseDto;
 
-        // Fast validations
-        // Ensures that are different accounts (fast validation)
+        // Fast validations (without database)
+        // Ensures that are different accounts 
         if (requestDto.ReceiverBankAccountId == requestDto.SenderBankAccountId)
         {
             return CurrencyExchangeResult
@@ -70,7 +83,7 @@ public class CurrencyExchangeService
             var receiverBankAccount = bankAccountsRecords.Find(e => e.BankAccountId == receiverId);
 
             // Ensures to follow intrisict transactions rules (Not same account, accounts exists, enough founds
-            var bankTransactionContextResult = AccountBilateralTransactionContext.CreateValidContext(senderBankAccount, receiverBankAccount, requestDto.Amount);
+            var bankTransactionContextResult = AccountBalanceTransactionContext.CreateValidContext(senderBankAccount, receiverBankAccount, requestDto.Amount);
 
             if (bankTransactionContextResult.IsFailure) return MapToExchangeServiceResultError(bankTransactionContextResult.Error);
             var banksTransactionContext = bankTransactionContextResult.Value;
@@ -114,15 +127,15 @@ public class CurrencyExchangeService
             // Ensures that rate convertion service has rate conversion for defined currency
             // Ensures that debited currency exchange reserve has enough balance for the operation
 
-            var bilateralExchangeReserveCtxResult = BilateralExchangeReserveContext.CreateValidContext(accreditedReserve, debitedReserve, amountDetails.NetAmount);
+            var bilateralExchangeReserveCtxResult = ExchangeReserveOperationContext.CreateValidContext(accreditedReserve, debitedReserve, amountDetails.NetAmount);
             if (bilateralExchangeReserveCtxResult.IsFailure)
             {
                 return MapToExchangeServiceResultError(bilateralExchangeReserveCtxResult.Error);
             }
             
             var bilateralExchangeReserveCtx = bilateralExchangeReserveCtxResult.Value;
-            // Transactions operations occurs 
-          
+
+            // Transactions operations occurs
             StartBalanceTransactions(banksTransactionContext, bilateralExchangeReserveCtx);
 
             // Generates audit table for exchange transactions
@@ -151,7 +164,7 @@ public class CurrencyExchangeService
 
 
 
-    private void StartBalanceTransactions(AccountBilateralTransactionContext accountsContext, BilateralExchangeReserveContext reservesContext)
+    private void StartBalanceTransactions(AccountBalanceTransactionContext accountsContext, ExchangeReserveOperationContext reservesContext)
     {
         // Acredites to reserve and debited from bank account
         accountsContext.Sender.Balance -= accountsContext.DebitedAmount;
@@ -189,8 +202,8 @@ public class CurrencyExchangeService
     /// <param name="exchangeAAAmounts">Exchange amount details</param>
     /// <returns>A CurrencyExchange object that represents the details of the exchange operation</returns>
     private CurrencyExchange CreateAuditRecord(
-        AccountBilateralTransactionContext banksTransactionContext,
-        BilateralExchangeReserveContext reserveExchangeContext,
+        AccountBalanceTransactionContext banksTransactionContext,
+        ExchangeReserveOperationContext reserveExchangeContext,
         ExchangeAmountDetails exchangeAmounts)
     {
         return new CurrencyExchange()
@@ -211,23 +224,23 @@ public class CurrencyExchangeService
         };
     }
     // For BankTransactionContextError
-    private CurrencyExchangeResult MapToExchangeServiceResultError(Error<AccountBilateralTransactionContextError> error)
+    private CurrencyExchangeResult MapToExchangeServiceResultError(Error<AccountBalanceTransactionContextError> error)
     {
         return error.Code switch
         {
-            AccountBilateralTransactionContextError.ReceiverBankAccountNotFound =>
+            AccountBalanceTransactionContextError.ReceiverBankAccountNotFound =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.ReceiverBankAccountNotFound, error.Message),
 
-            AccountBilateralTransactionContextError.SenderBankAccountNotFound =>
+            AccountBalanceTransactionContextError.SenderBankAccountNotFound =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.SenderBankAccountNotFound, error.Message),
 
-            AccountBilateralTransactionContextError.SameBankAccounts =>
+            AccountBalanceTransactionContextError.SameBankAccounts =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.SameBankAccounts, error.Message),
 
-            AccountBilateralTransactionContextError.NegativeOrZeroAmount =>
+            AccountBalanceTransactionContextError.NegativeOrZeroAmount =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.NegativeOrZeroAmount, error.Message),
 
-            AccountBilateralTransactionContextError.NotEnoughBalance =>
+            AccountBalanceTransactionContextError.NotEnoughBalance =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.NotEnoughBalance, error.Message),
 
             _ => throw new InvalidOperationException($"Unmapped error code: {error.Code}")
@@ -235,20 +248,20 @@ public class CurrencyExchangeService
     }
 
     // For BilateraExchangeReserveContextError
-    private CurrencyExchangeResult MapToExchangeServiceResultError(Error<BilateraExchangeReserveContextError> error)
+    private CurrencyExchangeResult MapToExchangeServiceResultError(Error<ExchangeReserveOperationContextError> error)
     {
         return error.Code switch
         {
-            BilateraExchangeReserveContextError.AccreditedReserveDoesntExist =>
+            ExchangeReserveOperationContextError.AccreditedReserveDoesntExist =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotReserveForAcceptTheCurrencies, "Has not reserve for accept the currencies"),
             
-            BilateraExchangeReserveContextError.DebitedReserveDoesntExist =>
+            ExchangeReserveOperationContextError.DebitedReserveDoesntExist =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotReserveForDepositTheCurrencies, "Has not reserve for accept the currencies"),
             
-            BilateraExchangeReserveContextError.HasNotEnoughBalanceInCurrencyReserve =>
+            ExchangeReserveOperationContextError.HasNotEnoughBalanceInCurrencyReserve =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotEnoughBalanceInCurrencyReserve, error.Message),
             
-            BilateraExchangeReserveContextError.NegativeOrZeroAmount =>
+            ExchangeReserveOperationContextError.NegativeOrZeroAmount =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.NegativeOrZeroAmount, error.Message),
 
             _ => throw new InvalidOperationException($"Unmapped error code: {error.Code}")

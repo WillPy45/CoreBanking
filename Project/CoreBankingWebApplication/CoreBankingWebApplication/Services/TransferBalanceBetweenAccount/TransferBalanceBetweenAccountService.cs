@@ -74,7 +74,7 @@ public class TransferBalanceBetweenAccountService
 
             //Ensures that accounts exists, both are same currency type, and has enough balance
 
-            var transferContextResult = AccountBilateralTransactionContext.CreateValidContext(senderAccount, receiverAccount, transferAmount);
+            var transferContextResult = AccountBalanceTransactionContext.CreateValidContext(senderAccount, receiverAccount, transferAmount);
             if (transferContextResult.IsFailure) return MapToTransferResponse(transferContextResult.Error);
             senderAccount = transferContextResult.Value.Sender;
             receiverAccount = transferContextResult.Value.Receiver;
@@ -113,23 +113,23 @@ public class TransferBalanceBetweenAccountService
         return TransferBetweenAccountsResult.Success("Transaction completed successfully");
     }
 
-    private TransferBetweenAccountsResult MapToTransferResponse(Error<AccountBilateralTransactionContextError> error)
+    private TransferBetweenAccountsResult MapToTransferResponse(Error<AccountBalanceTransactionContextError> error)
     {
         return error.Code switch
         {
-            AccountBilateralTransactionContextError.NegativeOrZeroAmount =>
+            AccountBalanceTransactionContextError.NegativeOrZeroAmount =>
                 TransferBetweenAccountsResult.Fail(TransferBalanceBetweenAccountError.NegativeOrZeroAmount, error.Message),
 
-            AccountBilateralTransactionContextError.NotEnoughBalance =>
+            AccountBalanceTransactionContextError.NotEnoughBalance =>
                 TransferBetweenAccountsResult.Fail(TransferBalanceBetweenAccountError.NotEnoughBalance, error.Message),
 
-            AccountBilateralTransactionContextError.ReceiverBankAccountNotFound => 
+            AccountBalanceTransactionContextError.ReceiverBankAccountNotFound => 
                 TransferBetweenAccountsResult.Fail(TransferBalanceBetweenAccountError.ReceiverBankccountNotFound, error.Message),
 
-            AccountBilateralTransactionContextError.SameBankAccounts =>
+            AccountBalanceTransactionContextError.SameBankAccounts =>
                 TransferBetweenAccountsResult.Fail(TransferBalanceBetweenAccountError.SameBankAccount, error.Message),
 
-            AccountBilateralTransactionContextError.SenderBankAccountNotFound =>
+            AccountBalanceTransactionContextError.SenderBankAccountNotFound =>
                 TransferBetweenAccountsResult.Fail(TransferBalanceBetweenAccountError.SenderBankAccountNotFound, error.Message),
 
             _ => throw new InvalidOperationException("Unmapped exception")
