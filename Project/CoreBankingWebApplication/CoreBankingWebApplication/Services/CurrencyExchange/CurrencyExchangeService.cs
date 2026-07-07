@@ -33,20 +33,30 @@ public class CurrencyExchangeService
     }
 
 
-
-
     /// <summary>
     /// Executes asynchronously the exchange service. This services is processed if all steps are
-    /// completed without errors. In error scenarios the database is reverted in the previous state.
-    /// 1. Context rules:
-    ///     - Transaction between account context <see cref="Models.Domain.AccountBalanceTransactionContext"/>
-    ///     - Bank reserves in exchange context <see cref="Models.Domain.ExchangeReserveOperationContext"/>
-    /// 2. Bank currencies must be different
-    /// 3. 
+    /// completed without errors. In error scenarios the database is reverted to the previous state.
+    /// 
+    /// Validation steps:<br>
+    /// 1. Transaction between account context rules (<see cref="Models.Domain.AccountBalanceTransactionContext"/>)
+    /// 2. Bank reserves in exchange context rules (<see cref="Models.Domain.ExchangeReserveOperationContext"/>)
+    /// 3. Bank currencies must be different
+    /// 
+    /// Possible errors:
+    /// - Same bank accounts
+    /// - Negative or zero amount
+    /// - Not enough balance
+    /// - Same currency type
+    /// - Conversion rate service failure
+    /// - Missing or insufficient reserves
     /// </summary>
-    /// <param name="requestDto"></param>
-    /// <returns></returns>
-    public async Task<CurrencyExchangeResult> ExchangeAsync(CurrencyExchangeRequestDto requestDto) // 39
+    /// <param name="requestDto">A DTO object for essential parameters</param>
+    /// <returns>Return a Task Result object with:
+    ///     - Success case: <see cref="CurrencyExchangeDetailsResponseDto"/> object that has a brief summary
+    /// of the operation
+    ///     - Failure case: <see cref="CurrencyExchangeServiceError"/> that contains the reason
+    /// </returns>
+    public async Task<CurrencyExchangeResult> ExchangeAsync(CurrencyExchangeRequestDto requestDto)
     {
         CurrencyExchangeDetailsResponseDto responseDto;
 
@@ -70,7 +80,7 @@ public class CurrencyExchangeService
 
         try
         {
-            // Retrieves bank accounts for future validation
+            // Retrieves bank accounts with Currency navigation property for future validation
             int senderId = requestDto.SenderBankAccountId;
             int receiverId = requestDto.ReceiverBankAccountId;
 
@@ -82,7 +92,7 @@ public class CurrencyExchangeService
             var senderBankAccount = bankAccountsRecords.Find(e => e.BankAccountId == senderId);
             var receiverBankAccount = bankAccountsRecords.Find(e => e.BankAccountId == receiverId);
 
-            // Ensures to follow intrisict transactions rules (Not same account, accounts exists, enough founds
+            // Ensures that follows intrisict transactions rules
             var bankTransactionContextResult = AccountBalanceTransactionContext.CreateValidContext(senderBankAccount, receiverBankAccount, requestDto.Amount);
 
             if (bankTransactionContextResult.IsFailure) return MapToExchangeServiceResultError(bankTransactionContextResult.Error);
@@ -94,8 +104,7 @@ public class CurrencyExchangeService
                 return CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.SameCurrencyType, "Currency type must be different");
             }
 
-            // Get rate
-          
+            // Get change rate
             var currencyRateServiceResult = await _currencyRateService.GetConversionRateAsync(
                 fromCurrencyCode: banksTransactionContext.Sender.Currency.Code,
                 toCurrencyCode: banksTransactionContext.Receiver.Currency.Code
@@ -116,6 +125,7 @@ public class CurrencyExchangeService
                 0.0m
             );
 
+            //Retrieves bank exchange reserves
             var bankReservesRecords = await _dbContext.CurrencyExchangeReserves
                 .Include(e => e.Currency) // Charge the navigation property for more later
                 .Where(e => e.CurrencyId == banksTransactionContext.Sender.Currency.CurrencyId || e.CurrencyId == banksTransactionContext.Receiver.Currency.CurrencyId)
@@ -124,10 +134,9 @@ public class CurrencyExchangeService
             var debitedReserve = bankReservesRecords.GetValueOrDefault(banksTransactionContext.Sender.Currency.CurrencyId);
             var accreditedReserve = bankReservesRecords.GetValueOrDefault(banksTransactionContext.Receiver.Currency.CurrencyId);;
             
-            // Ensures that rate convertion service has rate conversion for defined currency
-            // Ensures that debited currency exchange reserve has enough balance for the operation
-
+            // Validates following the ExchangeReserveOperationContext that involves two bank reserves
             var bilateralExchangeReserveCtxResult = ExchangeReserveOperationContext.CreateValidContext(accreditedReserve, debitedReserve, amountDetails.NetAmount);
+            
             if (bilateralExchangeReserveCtxResult.IsFailure)
             {
                 return MapToExchangeServiceResultError(bilateralExchangeReserveCtxResult.Error);
@@ -135,7 +144,7 @@ public class CurrencyExchangeService
             
             var bilateralExchangeReserveCtx = bilateralExchangeReserveCtxResult.Value;
 
-            // Transactions operations occurs
+            // Transfer balances
             StartBalanceTransactions(banksTransactionContext, bilateralExchangeReserveCtx);
 
             // Generates audit table for exchange transactions
@@ -146,7 +155,7 @@ public class CurrencyExchangeService
 
             await _dbContext.SaveChangesAsync();
 
-            // Prepares response dto
+            // Prepares the response dto
             responseDto = MapToResponseDto(auditTable);
 
 
@@ -160,7 +169,7 @@ public class CurrencyExchangeService
         }
 
         return CurrencyExchangeResult.Success(responseDto);
-    } // 192
+    } 
 
 
 
