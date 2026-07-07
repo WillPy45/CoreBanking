@@ -37,12 +37,12 @@ public class CurrencyExchangeService
     /// Executes asynchronously the exchange service. This services is processed if all steps are
     /// completed without errors. In error scenarios the database is reverted to the previous state.
     /// 
-    /// Validation steps:<br>
+    /// Validation steps:
     /// 1. Transaction between account context rules (<see cref="Models.Domain.AccountBalanceTransactionContext"/>)
     /// 2. Bank reserves in exchange context rules (<see cref="Models.Domain.ExchangeReserveOperationContext"/>)
     /// 3. Bank currencies must be different
     /// 
-    /// Possible errors:
+    /// Possible errors (<see cref="CurrencyExchangeServiceError"/>):
     /// - Same bank accounts
     /// - Negative or zero amount
     /// - Not enough balance
