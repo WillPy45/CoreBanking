@@ -1,16 +1,13 @@
 namespace CoreBankingWebApplication.Models.Entities;
 
-// Entity
-// This entity represents an audit table for Currency Exchange operations
+/// <summary>
+/// This entity represents an audit table for Currency Exchange operations
+/// </summary>
 
 public class CurrencyExchange
 {
     public int CurrencyExchangeId { get; set; }
 
-
-    // Changes rates is automatically managed by others services,
-    // so is unnecesary to specific the currency
-    // I want to sell some USD from my bank account (SenderAccount) ...
     public int SenderBankAccountId { get; set; }
     public BankAccount SenderBankAccount { get; set; } = null!; // nav. prop.
 
@@ -37,10 +34,9 @@ public class CurrencyExchange
 
     // Spread for using the service
     public decimal BankDiscountInPercentage { get; set; }
-    // Bank discount
+
     public decimal BankDiscount { get; set; }
 
-    // Net amount
     public decimal NetAmount { get; set; }
 
     public DateTime CreateAt { get; set; }

@@ -1,6 +1,8 @@
 namespace CoreBankingWebApplication.Models.Entities;
 
-// This entity represents a reserve of an specific currency, f.e 1,000,000 Dollars for exchange purposes
+/// <summary>
+/// This entity represents a reserve of an specific currency, f.e 1,000,000 Dollars for exchange purposes
+/// </summary>
 
 public class CurrencyExchangeReserve
 {

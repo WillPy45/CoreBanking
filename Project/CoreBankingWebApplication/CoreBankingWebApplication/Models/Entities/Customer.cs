@@ -1,5 +1,8 @@
 ﻿namespace CoreBankingWebApplication.Models.Entities;
 
+/// <summary>
+/// Represents a customer
+/// </summary>
 public class Customer
 {
     public int CustomerId { get; set; }

@@ -261,9 +261,12 @@ public class CurrencyExchangeService
     {
         return error.Code switch
         {
+            ExchangeReserveOperationContextError.SameReserves =>
+                CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.SameBankAccounts, error.Message),
+
             ExchangeReserveOperationContextError.AccreditedReserveDoesntExist =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotReserveForAcceptTheCurrencies, "Has not reserve for accept the currencies"),
-            
+         
             ExchangeReserveOperationContextError.DebitedReserveDoesntExist =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotReserveForDepositTheCurrencies, "Has not reserve for accept the currencies"),
             
@@ -273,6 +276,9 @@ public class CurrencyExchangeService
             ExchangeReserveOperationContextError.NegativeOrZeroAmount =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.NegativeOrZeroAmount, error.Message),
 
+            ExchangeReserveOperationContextError.SameCurrencyType =>
+                CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.SameCurrencyType, error.Message),
+ 
             _ => throw new InvalidOperationException($"Unmapped error code: {error.Code}")
         };
     }

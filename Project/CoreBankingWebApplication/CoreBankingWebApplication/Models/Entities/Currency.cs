@@ -1,5 +1,8 @@
 namespace CoreBankingWebApplication.Models.Entities;
 
+/// <summary>
+/// Represents a currency
+/// </summary>
 public class Currency
 {
     public int CurrencyId { get; set; }

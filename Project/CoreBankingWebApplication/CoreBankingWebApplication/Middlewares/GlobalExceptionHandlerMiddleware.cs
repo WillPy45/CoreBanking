@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 namespace CoreBankingWebApplication.Middlewares;
 
-// You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
 public class GlobalExceptionHandlerMiddleware
 {
     private readonly RequestDelegate _next;

@@ -1,13 +1,9 @@
 namespace CoreBankingWebApplication.Models.Entities;
 
 
-/*
-    This model represents a balance transaction between two BankAccount,
-    this describe ammount transaction, who is debited and who is acredited,
-    with a DateTime to remember the moment os the operation. 
-
-    A balance transaction record represents just for an pair of BankAccountA (sender) and BankAccountB (receiver)
-*/
+/// <summary>
+/// This entity represents an balance transaction audit table
+/// </summary>
 public class BalanceTransaction
 {
     public int BalanceTransactionId { get; set; }

@@ -1,11 +1,14 @@
 ﻿namespace CoreBankingWebApplication.Models.Entities;
 
+/// <summary>
+/// Represents an bank account
+/// </summary>
 public class BankAccount
 {
     public int BankAccountId { get; set; }
 
-    public int CustomerId { get; set; } //references to a CustomerID
-    public Customer Customer { get; set; } = null!; // Navigation property
+    public int CustomerId { get; set; } 
+    public Customer Customer { get; set; } = null!; 
 
 
     public int CurrencyId { get; set; }
