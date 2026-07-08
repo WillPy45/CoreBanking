@@ -5,6 +5,7 @@ using CoreBankingWebApplication.Models.DTOs;
 using CoreBankingWebApplication.Models.Domain;
 using CoreBankingWebApplication.Common;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 //using CoreBankingWebApplication.Migrations;
 
 namespace CoreBankingWebApplication.Services;
@@ -76,7 +77,7 @@ public class CurrencyExchangeService
         }
 
         //Database context operations
-        using var transaction = await _dbContext.Database.BeginTransactionAsync();
+        using var transaction = await _dbContext.Database.BeginTransactionAsync(IsolationLevel.Serializable);
 
         try
         {

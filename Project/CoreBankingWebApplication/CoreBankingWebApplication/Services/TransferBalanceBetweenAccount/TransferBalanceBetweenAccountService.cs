@@ -5,6 +5,7 @@ using CoreBankingWebApplication.Models.DTOs;
 using CoreBankingWebApplication.Models.Domain;
 using CoreBankingWebApplication.Common;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace CoreBankingWebApplication.Services;
 
@@ -60,7 +61,7 @@ public class TransferBalanceBetweenAccountService
         }
 
 
-        using var transaction = await _dbContext.Database.BeginTransactionAsync();
+        using var transaction = await _dbContext.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         try
         {
 

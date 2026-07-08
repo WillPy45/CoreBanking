@@ -4,6 +4,7 @@ using CoreBankingWebApplication.Models.DTOs;
 
 using CoreBankingWebApplication.Common;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace CoreBankingWebApplication.Services;
 
@@ -19,7 +20,7 @@ public class CostumerAccountServices
 
     public async Task CreateAsync(CustomerDTO dto)
     {
-        using var transaction = await _dbContext.Database.BeginTransactionAsync();
+        using var transaction = await _dbContext.Database.BeginTransactionAsync(IsolationLevel.Serializable);
         try
         {
 
