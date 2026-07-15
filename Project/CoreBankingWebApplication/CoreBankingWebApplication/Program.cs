@@ -54,7 +54,6 @@ public class Program
         builder.Services.AddScoped<IProfileSessionManager, ProfileSessionManager>();
         builder.Services.AddScoped<IPasswordHasher, Sha256PasswordHasher>();
         builder.Services.AddScoped<ISessionLifeTime, BasicSessionLifeTime>();
-        builder.Services.AddScoped<ITokenGenerationStrategy>
 
         // Services
 
