@@ -9,21 +9,31 @@ using CreatePairResult = Result<AccountBalanceTransactionContext, AccountBalance
 
 /// <summary>
 /// Represents a bilateral transaction context between two bank accounts.
-/// Applies intrinsic validation rules to ensure accounts exist, are distinct,
-/// have sufficient balance, and the amount is positive.
+/// </summary>
+/// <param name="Sender">The bank account that sends the balance</param>
+/// <param name="Receiver">The bank account that receives the balance</param>
+/// <param name="DebitedAmount">The amount to be debited from the sender</param>
+/// <remarks>
 /// Note: The <paramref name="DebitedAmount"/> refers only to the amount 
 /// debited from the sender account. The receiver may obtain a diferent amount calculated by
 /// other services, helpers, etc
-/// </summary>
+/// </remarks>
 public record AccountBalanceTransactionContext(BankAccount Sender, BankAccount Receiver, decimal DebitedAmount)
 {
 
     /// <summary>
-    /// Creates a bilateral transaction context, if all intrinsic rules are satisfied
+    /// Creates a valid bilateral transaction context, if all intrinsic rules are satisfied
     /// </summary>
     /// <param name="sender">The bank account that sends the balance</param>
     /// <param name="receiver">The bank account that receives the balance</param>
     /// <param name="debitedAmount">The amount to be debited from the sender</param>
+    /// <remarks>
+    /// To create a valid context, these rules must be followed:
+    /// - Ensure accounts exist
+    /// - Accounts are distinct
+    /// - Sender account has sufficient balance
+    /// - The amount is positive.
+    /// </remarks>
     /// <returns>A result object indicating success with a valid <see cref="AccountBalanceTransactionContext"/>
     /// or failure with <see cref="AccountBalanceTransactionContextError"/> that indicates the reason</returns>
     public static Result<AccountBalanceTransactionContext, AccountBalanceTransactionContextError> CreateValidContext(BankAccount? sender, BankAccount? receiver, decimal debitedAmount)
@@ -51,6 +61,7 @@ public record AccountBalanceTransactionContext(BankAccount Sender, BankAccount R
 
         return CreatePairResult.Success(new AccountBalanceTransactionContext(sender, receiver, debitedAmount));
     }
+
 }
 
 /// <summary>

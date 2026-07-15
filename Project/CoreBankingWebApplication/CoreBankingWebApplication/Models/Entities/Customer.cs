@@ -16,7 +16,7 @@ public class Customer
     //Bank accounts (A customer can have 0, 1, N bank accounts, a bank account is just for a customer
     public ICollection<BankAccount>? BankAccounts { get; set; } // Reverse navigation property
 
-
+    public Profile? Profile { get; set; }
 
 }
 

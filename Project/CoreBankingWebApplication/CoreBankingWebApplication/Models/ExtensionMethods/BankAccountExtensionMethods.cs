@@ -1,4 +1,3 @@
-using CoreBankingWebApplication.Database;
 using CoreBankingWebApplication.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 

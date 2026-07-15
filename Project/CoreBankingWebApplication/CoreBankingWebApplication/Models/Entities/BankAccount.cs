@@ -7,8 +7,8 @@ public class BankAccount
 {
     public int BankAccountId { get; set; }
 
-    public int CustomerId { get; set; } 
-    public Customer Customer { get; set; } = null!; 
+    public int CustomerId { get; set; }
+    public Customer Customer { get; set; } = null!;
 
 
     public int CurrencyId { get; set; }

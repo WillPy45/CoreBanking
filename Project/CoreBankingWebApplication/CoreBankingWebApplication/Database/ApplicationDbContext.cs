@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using CoreBankingWebApplication.Models.Entities;
+﻿using CoreBankingWebApplication.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoreBankingWebApplication.Database;
 
@@ -12,7 +12,7 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<CurrencyExchangeReserve> CurrencyExchangeReserves { get; set; }
     public DbSet<CurrencyExchange> CurrencyExchanges { get; set; }
-
+    public DbSet<Profile> Profiles { get; set; }
 
     // Pass the configuration directly from the constructor instead overriding OnConfiguring method
     public ApplicationDbContext(DbContextOptions options) : base(options) { }
@@ -96,7 +96,15 @@ public class ApplicationDbContext : DbContext
            .WithMany(referredEntity => referredEntity.DebitedExchangeCurrencies)
            .HasForeignKey(entity => entity.DebitedExchangeReserveId);
 
+        // Profile
+        modelBuilder.Entity<Profile>()
+            .HasOne(e => e.Customer)
+            .WithOne(o => o.Profile)
+            .HasForeignKey<Profile>(e => e.CustomerId);
 
+        modelBuilder.Entity<Profile>()
+            .HasIndex(e => e.CustomerId)
+            .IsUnique();
 
     }
 

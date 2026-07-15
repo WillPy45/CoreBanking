@@ -1,6 +1,3 @@
-using CoreBankingWebApplication.Models.Entities;
-
-
 namespace CoreBankingWebApplication.Models.DTOs;
 
 

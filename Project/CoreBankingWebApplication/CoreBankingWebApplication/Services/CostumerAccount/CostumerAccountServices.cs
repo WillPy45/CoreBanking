@@ -1,8 +1,6 @@
 using CoreBankingWebApplication.Database;
-using CoreBankingWebApplication.Models.Entities;
 using CoreBankingWebApplication.Models.DTOs;
-
-using CoreBankingWebApplication.Common;
+using CoreBankingWebApplication.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 

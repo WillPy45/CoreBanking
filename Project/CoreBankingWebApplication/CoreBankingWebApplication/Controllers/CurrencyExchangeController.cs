@@ -1,17 +1,6 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-using CoreBankingWebApplication.Database;
-using CoreBankingWebApplication.Models;
-using CoreBankingWebApplication.Models.Entities;
 using CoreBankingWebApplication.Models.DTOs;
-
 using CoreBankingWebApplication.Services;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
-using Microsoft.AspNetCore.Http.HttpResults;
-using CoreBankingWebApplication.Common;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace CoreBankingWebApplication.Controllers;

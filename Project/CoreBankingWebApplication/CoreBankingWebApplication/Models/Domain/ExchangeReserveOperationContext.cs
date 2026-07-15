@@ -1,5 +1,5 @@
-using CoreBankingWebApplication.Models.Entities;
 using CoreBankingWebApplication.Common;
+using CoreBankingWebApplication.Models.Entities;
 
 namespace CoreBankingWebApplication.Models.Domain;
 
@@ -7,12 +7,13 @@ using CreateValidContextResult = Result<ExchangeReserveOperationContext, Exchang
 
 /// <summary>
 /// Represents a implication between two reserves in an exchange context.
-/// Applies intrinsic validation rules to ensure reserves exist, are distinct, currency type are differents,
-/// have sufficient balance for sends, and the DebitedAmount is positive.
+/// </summary>
+/// <remarks>
+/// Instance can only be created through <see cref="ExchangeReserveOperationContext.CreateValidContext"/> that creates a valid instance
 /// Note: The <paramref name="DebitedAmount"/> refers only to the amount 
 /// debited from the DebitedReserve, the destination of that DebitedAmount is managed by others systems.
 /// 
-/// </summary>
+/// </remarks>
 public record ExchangeReserveOperationContext(CurrencyExchangeReserve AccreditedReserve, CurrencyExchangeReserve DebitedReserve, decimal DebitedAmount)
 {
 
@@ -22,6 +23,13 @@ public record ExchangeReserveOperationContext(CurrencyExchangeReserve Accredited
     /// <param name="accreditedReserve">The bank reserve that receives an increase of balance from any source products of the exchange</param>
     /// <param name="debitedReserve">The bank reserve that balance is debited"/></param>
     /// <param name="debitedAmount">The amount to be debited from the debited reserve</param>
+    /// <remarks>
+    /// These rules must be followed to instance a valid context:
+    /// - <paramref name="debitedAmount"/> must be positive
+    /// - <paramref name="debitedReserve"/> and <paramref name="accreditedReserve"/> must exists
+    /// - Reserves must be different
+    /// - <paramref name="debitedReserve"/> must have the enough balance for debiting by <paramref name="debitedAmount"/>
+    /// </remarks>
     /// <returns>A result object indicating success with a valid <see cref="ExchangeReserveOperationContext"/>
     /// or failure with <see cref="ExchangeReserveOperationContextError"/> that indicates the reason</returns>
     public static CreateValidContextResult CreateValidContext(CurrencyExchangeReserve? accreditedReserve, CurrencyExchangeReserve? debitedReserve, decimal debitedAmount)
@@ -31,7 +39,7 @@ public record ExchangeReserveOperationContext(CurrencyExchangeReserve Accredited
         {
             return CreateValidContextResult.Fail(ExchangeReserveOperationContextError.NegativeOrZeroAmount, "Amount must be positive number");
         }
-      
+
         // Ensures that both reserves exists
         if (accreditedReserve is null)
         {

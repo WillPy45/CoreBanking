@@ -1,19 +1,18 @@
 
 using CoreBankingWebApplication.Database;
+using CoreBankingWebApplication.Infraestructure.PasswordHashers;
+using CoreBankingWebApplication.Infraestructure.Authentication;
 using CoreBankingWebApplication.Middlewares;
-using CoreBankingWebApplication.Migrations;
 using CoreBankingWebApplication.Services;
+
 using Serilog;
-using Serilog.Sinks.File;
-using Serilog.Sinks.SystemConsole;
 
 namespace CoreBankingWebApplication;
 
 public class Program
 {
-    public static async Task Main(string[] args)
+    public static async Task Main(string[] args) 
     {
-        Console.WriteLine($"{AppDomain.CurrentDomain.FriendlyName} started ");
 
         var builder = WebApplication.CreateBuilder(args);
 
@@ -46,12 +45,26 @@ public class Program
 
         builder.Services.AddControllers();
 
+         /* private readonly ApplicationDbContext _dbContext;
+    private readonly IPasswordHasher _passwordHasher;
+    private readonly ISessionLifeTime _sessionLifeTime;
+    private readonly ITokenGenerationStrategy _tokenGenerationStrategy;
+    private readonly IProfileSessionRiskManager _profileSessionRiskManager;*/
+    // Auth system
+        builder.Services.AddScoped<IProfileSessionManager, ProfileSessionManager>();
+        builder.Services.AddScoped<IPasswordHasher, Sha256PasswordHasher>();
+        builder.Services.AddScoped<ISessionLifeTime, BasicSessionLifeTime>();
+        builder.Services.AddScoped<ITokenGenerationStrategy>
+
+        // Services
+
         builder.Services.AddScoped<TransferBalanceBetweenAccountService>();
         builder.Services.AddScoped<CurrencyCrudService>();
         builder.Services.AddScoped<CurrencyExchangeReserveCrudService>();
         builder.Services.AddScoped<ICurrencyRateService, CurrencyRateService>();
         builder.Services.AddScoped<CurrencyExchangeService>();
-
+        
+       
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

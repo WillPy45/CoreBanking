@@ -1,9 +1,8 @@
-using CoreBankingWebApplication.Database;
-using CoreBankingWebApplication.Models;
-using CoreBankingWebApplication.Models.Entities;
-using CoreBankingWebApplication.Models.DTOs;
-using CoreBankingWebApplication.Models.Domain;
 using CoreBankingWebApplication.Common;
+using CoreBankingWebApplication.Database;
+using CoreBankingWebApplication.Models.Domain;
+using CoreBankingWebApplication.Models.DTOs;
+using CoreBankingWebApplication.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
@@ -124,7 +123,7 @@ public class TransferBalanceBetweenAccountService
             AccountBalanceTransactionContextError.NotEnoughBalance =>
                 TransferBetweenAccountsResult.Fail(TransferBalanceBetweenAccountError.NotEnoughBalance, error.Message),
 
-            AccountBalanceTransactionContextError.ReceiverBankAccountNotFound => 
+            AccountBalanceTransactionContextError.ReceiverBankAccountNotFound =>
                 TransferBetweenAccountsResult.Fail(TransferBalanceBetweenAccountError.ReceiverBankccountNotFound, error.Message),
 
             AccountBalanceTransactionContextError.SameBankAccounts =>
@@ -134,7 +133,7 @@ public class TransferBalanceBetweenAccountService
                 TransferBetweenAccountsResult.Fail(TransferBalanceBetweenAccountError.SenderBankAccountNotFound, error.Message),
 
             _ => throw new InvalidOperationException("Unmapped exception")
-            
+
         };
     }
 

@@ -1,9 +1,8 @@
-using CoreBankingWebApplication.Database;
-using CoreBankingWebApplication.Models;
-using CoreBankingWebApplication.Models.Entities;
-using CoreBankingWebApplication.Models.DTOs;
-using CoreBankingWebApplication.Models.Domain;
 using CoreBankingWebApplication.Common;
+using CoreBankingWebApplication.Database;
+using CoreBankingWebApplication.Models.Domain;
+using CoreBankingWebApplication.Models.DTOs;
+using CoreBankingWebApplication.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 //using CoreBankingWebApplication.Migrations;
@@ -30,17 +29,20 @@ public class CurrencyExchangeService
     {
         _dbContext = dbContext;
         _currencyRateService = currencyRateService;
-     
+
     }
 
 
     /// <summary>
-    /// Executes asynchronously the exchange service. This services is processed if all steps are
+    /// Executes asynchronously the exchange service.
+    /// </summary>
+    /// <param name="requestDto">A DTO object for essential parameters</param>
+    /// <remarks>This services is processed if all steps are
     /// completed without errors. In error scenarios the database is reverted to the previous state.
     /// 
     /// Validation steps:
-    /// 1. Transaction between account context rules (<see cref="Models.Domain.AccountBalanceTransactionContext"/>)
-    /// 2. Bank reserves in exchange context rules (<see cref="Models.Domain.ExchangeReserveOperationContext"/>)
+    /// 1. Transaction between account context rules (<see cref="Models.Domain.AccountBalanceTransactionContext.CreateValidContext"/>)
+    /// 2. Bank reserves in exchange context rules (<see cref="Models.Domain.ExchangeReserveOperationContext.CreateValidContext"/>)
     /// 3. Bank currencies must be different
     /// 
     /// Possible errors (<see cref="CurrencyExchangeServiceError"/>):
@@ -50,12 +52,12 @@ public class CurrencyExchangeService
     /// - Same currency type
     /// - Conversion rate service failure
     /// - Missing or insufficient reserves
-    /// </summary>
-    /// <param name="requestDto">A DTO object for essential parameters</param>
-    /// <returns>Return a Task Result object with:
-    ///     - Success case: <see cref="CurrencyExchangeDetailsResponseDto"/> object that has a brief summary
-    /// of the operation
-    ///     - Failure case: <see cref="CurrencyExchangeServiceError"/> that contains the reason
+    /// </remarks>
+    /// 
+    /// <returns>
+    /// Return a Task Result object with:
+    /// - Success case: <see cref="CurrencyExchangeDetailsResponseDto"/> object that has a brief summary of the operation
+    /// - Failure case: <see cref="CurrencyExchangeServiceError"/> that contains the reason
     /// </returns>
     public async Task<CurrencyExchangeResult> ExchangeAsync(CurrencyExchangeRequestDto requestDto)
     {
@@ -133,16 +135,16 @@ public class CurrencyExchangeService
                 .ToDictionaryAsync(k => k.CurrencyId);
 
             var debitedReserve = bankReservesRecords.GetValueOrDefault(banksTransactionContext.Sender.Currency.CurrencyId);
-            var accreditedReserve = bankReservesRecords.GetValueOrDefault(banksTransactionContext.Receiver.Currency.CurrencyId);;
-            
+            var accreditedReserve = bankReservesRecords.GetValueOrDefault(banksTransactionContext.Receiver.Currency.CurrencyId); ;
+
             // Validates following the ExchangeReserveOperationContext that involves two bank reserves
             var bilateralExchangeReserveCtxResult = ExchangeReserveOperationContext.CreateValidContext(accreditedReserve, debitedReserve, amountDetails.NetAmount);
-            
+
             if (bilateralExchangeReserveCtxResult.IsFailure)
             {
                 return MapToExchangeServiceResultError(bilateralExchangeReserveCtxResult.Error);
             }
-            
+
             var bilateralExchangeReserveCtx = bilateralExchangeReserveCtxResult.Value;
 
             // Transfer balances
@@ -170,7 +172,7 @@ public class CurrencyExchangeService
         }
 
         return CurrencyExchangeResult.Success(responseDto);
-    } 
+    }
 
 
 
@@ -267,19 +269,19 @@ public class CurrencyExchangeService
 
             ExchangeReserveOperationContextError.AccreditedReserveDoesntExist =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotReserveForAcceptTheCurrencies, "Has not reserve for accept the currencies"),
-         
+
             ExchangeReserveOperationContextError.DebitedReserveDoesntExist =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotReserveForDepositTheCurrencies, "Has not reserve for accept the currencies"),
-            
+
             ExchangeReserveOperationContextError.HasNotEnoughBalanceInCurrencyReserve =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.HasNotEnoughBalanceInCurrencyReserve, error.Message),
-            
+
             ExchangeReserveOperationContextError.NegativeOrZeroAmount =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.NegativeOrZeroAmount, error.Message),
 
             ExchangeReserveOperationContextError.SameCurrencyType =>
                 CurrencyExchangeResult.Fail(CurrencyExchangeServiceError.SameCurrencyType, error.Message),
- 
+
             _ => throw new InvalidOperationException($"Unmapped error code: {error.Code}")
         };
     }

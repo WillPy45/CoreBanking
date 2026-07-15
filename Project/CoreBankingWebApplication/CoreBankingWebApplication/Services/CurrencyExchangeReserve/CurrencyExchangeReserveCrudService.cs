@@ -1,14 +1,13 @@
-using CoreBankingWebApplication.Database;
-using CoreBankingWebApplication.Models;
-using CoreBankingWebApplication.Models.Entities;
-using CoreBankingWebApplication.Models.DTOs;
 using CoreBankingWebApplication.Common;
+using CoreBankingWebApplication.Database;
+using CoreBankingWebApplication.Models.DTOs;
+using CoreBankingWebApplication.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoreBankingWebApplication.Services;
 
-using CurrencyExchangeReserveResult = Result<CurrencyExchangeReserveCreateResponseDto, CurrencyExchangeReserveCrudCreateServiceError>;
 using CurrencyExchangeReserveGetAllResult = Result<ICollection<CurrencyExchangeReserveGetResponseDto>, CurrencyExchangeReserveCrudGetAllServiceError>;
+using CurrencyExchangeReserveResult = Result<CurrencyExchangeReserveCreateResponseDto, CurrencyExchangeReserveCrudCreateServiceError>;
 public class CurrencyExchangeReserveCrudService
 {
     private readonly ApplicationDbContext _dbContext;
